@@ -5,6 +5,8 @@ import com.esgi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.CREATED;
 
 /**
@@ -17,7 +19,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/data", method = RequestMethod.GET)
+    public User getUser(@RequestParam Long iduser) {
+        return (userService.getDataUser(iduser));
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public List<User> getUsersByCategory(@RequestParam Long idcategory) {
+        return (userService.getUsersByCategory(idcategory));
+    }
+
+    @RequestMapping(value="/login", method = RequestMethod.GET)
     public User login(@RequestParam String login, @RequestParam String password) {
         return (userService.login(login, password));
     }

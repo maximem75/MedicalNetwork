@@ -16,6 +16,14 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User getDataUser(Long iduser) {
+        return(userRepository.getOne(iduser));
+    }
+
+    public List<User> getUsersByCategory(Long idcategory) {
+        return(userRepository.findUsersByCategory(idcategory));
+    }
+
     public User login(String login, String password) {
         return (userRepository.findByLoginAndPassword(login, password));
     }

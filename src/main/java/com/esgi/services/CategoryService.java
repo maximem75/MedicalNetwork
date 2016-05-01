@@ -16,15 +16,15 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    public Category getCategory(Long idcategory) {
+        return(categoryRepository.getOne(idcategory));
+    }
+
+    public List<Category> getCategoriesByResearch(String research) {
+        return(categoryRepository.getCategoriesByResearch(research));
+    }
+
     public List<Category> getCategoriesList() {
-        return (categoryRepository.findAll());
-    }
-
-    public Category updateCategory(Category category) {
-        return(categoryRepository.save(category));
-    }
-
-    public void removeCategory(Category category) {
-        categoryRepository.delete(category);
+        return(categoryRepository.findAll());
     }
 }
