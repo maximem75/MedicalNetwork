@@ -1,41 +1,28 @@
 package com.esgi.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by Arnaud on 30/04/2016.
+ * Created by Arnaud Flaesch on 02/05/2016.
  */
 @Entity
 @Table(name = "message")
 public class Message {
-/*
-    private Long sender;
-    private Long receiver;
+
+    private Long idmessage;
     private Date date;
     private String content;
 
     @Id
-    @Column(name = "sender")
-    public Long getSender() {
-        return(sender);
+    @GeneratedValue
+    @Column(name = "idmessage")
+    public Long getIdmessage() {
+        return(idmessage);
     }
 
-    public void setSender(Long sender) {
-        this.sender = sender;
-    }
-
-    @Id
-    @Column(name = "receiver")
-    public Long getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(Long receiver) {
-        this.receiver = receiver;
+    public void setIdmessage(Long idmessage) {
+        this.idmessage = idmessage;
     }
 
     @Column(name = "date")
@@ -55,5 +42,28 @@ public class Message {
     public void setContent(String content) {
         this.content = content;
     }
-    */
+
+    private User sender;
+
+    @OneToOne
+    @JoinColumn(name = "sender")
+    public User getSender() {
+        return(sender);
+    }
+
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
+    private User receiver;
+
+    @OneToOne
+    @JoinColumn(name = "receiver")
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
 }

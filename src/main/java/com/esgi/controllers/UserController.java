@@ -40,6 +40,16 @@ public class UserController {
         userService.register(user);
     }
 
+    @RequestMapping(value = "/pending", method = RequestMethod.GET)
+    public List<User> getInvitations(@RequestParam Long iduser) {
+        return(userService.getPendingInvitations(iduser));
+    }
+
+    @RequestMapping(value = "/contact", method = RequestMethod.GET)
+    public List<User> getContacts(@RequestParam Long iduser) {
+        return(userService.getContacts(iduser));
+    }
+
     /**
      * Vérifie si les paramètres saisis lors de l'inscription sont bien valides (mot de passe assez long, champs obligatoires renseignés, etc.)
      * @param user

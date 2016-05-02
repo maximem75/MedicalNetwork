@@ -24,12 +24,20 @@ public class UserService {
         return(userRepository.findUsersByCategory(idcategory));
     }
 
-    public User login(String login, String password) {
-        return (userRepository.findByLoginAndPassword(login, password));
-    }
-
     public List<User> getAllUsers() {
         return(userRepository.findAll());
+    }
+
+    public List<User> getPendingInvitations(Long iduser) {
+        return(userRepository.findPendingInvitations(iduser, false));
+    }
+
+    public List<User> getContacts(Long iduser) {
+        return(userRepository.findContacts(iduser, true));
+    }
+
+    public User login(String login, String password) {
+        return (userRepository.findByLoginAndPassword(login, password));
     }
 
     public void register(User user) {
