@@ -9,4 +9,17 @@
 			mail	: $('#mail').val()
 		})
 	})
+
+	socket.on('logged', function(){
+		$('#login').fadeOut();
+	})
+
+	socket.on('newusr',function(user){
+		$('#users').append('<img src="' + user.avatar + '" id="' + user.id + '">');
+	})
+
+	socket.on('disusr',function(user){
+		$('#'+user.id).remove();
+	})
+
 })(jQuery);
