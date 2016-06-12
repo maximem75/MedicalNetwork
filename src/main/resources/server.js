@@ -34,6 +34,7 @@ io.sockets.on('connection', function(socket){
 		date = new Date();
 		message.h = date.getHours();
 		message.m = date.getMinutes();
+		//zmessage.upload = "test";
 		messages.push(message); // A faire fonctionner avec bdd
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
@@ -85,6 +86,7 @@ io.sockets.on('connection', function(socket){
         console.log('File could not be saved.');
       }else{
         console.log('File saved.');
+
       };
     });
   });

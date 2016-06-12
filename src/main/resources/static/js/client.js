@@ -25,7 +25,7 @@
 
 	$('#form').submit(function(event){
 		event.preventDefault();
-		socket.emit('newmsg', {message: $('#message').val()});
+		//socket.emit('newmsg', {message: $('#message').val()});
 		$('#message').val('');
 		$('#message').focus();
 	});
@@ -69,11 +69,13 @@ socket.on('connect', function(){
 			delivery.send(file,extraParams);
 			console.log("Delivery send done");
 			evt.preventDefault;
+			socket.emit('newmsg', {message: 'http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name, upload:'test'});
 		});
 	});
 
 	delivery.on('send.success',function(fileUID){
 		console.log("Le fichier à bien été envoyé au serveur");
+
 	})
 });
 
