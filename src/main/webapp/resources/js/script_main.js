@@ -2,11 +2,19 @@ $(document).ready(function(){
     manageSession();
 });
 
+var userToken = "null";
+var tokenName = "token";
+
 function manageSession(){
-    if(readCookie("idUser") != null){
-        console.log("Session iduser : " + readCookie("idUser"));
+    if(readCookie("token") != null){
+        userToken = readCookie("token");
+    }
+
+    if(userToken != "null"){
+        userToken = readCookie("token");
+        userConnected(userToken);
     } else {
-        console.log("Utilisateur déconnecté");
+        userDisconnected();
     }
 
 }
@@ -20,4 +28,40 @@ function readCookie(name) {
         if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
     return null;
+}
+
+function userConnected(){
+   $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
+
+}
+
+function userDisconnected(){
+    $('#menu_main').append('<li><a href="http://localhost:8080/connexion" data-title="Connexion">Connexion</a></li>');
+}
+
+function logoutSession(){
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/user/logout?token='+ userToken,
+
+        success:function(){
+            eraseCookie();
+            window.location.href = "http://localhost:8080/accueil";
+        }
+    });
+}
+
+function eraseCookie() {
+    createCookie(tokenName,"",-1);
+    userToken = "null";
+}
+
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
 }

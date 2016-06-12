@@ -5,7 +5,7 @@
     <tiles:putAttribute name="body">
 
         <div id="middle">
-            <form id="login-form" action="http://localhost:8080/user/login" method="GET">
+            <form id="login-form" action="http://localhost:8080/user/login" method="POST">
                 <div class="div-login">
                     <ul class="login-center">
                         <li>

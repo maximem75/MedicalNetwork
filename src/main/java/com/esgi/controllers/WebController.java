@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class WebController {
 
     @RequestMapping(value = "/accueil")
-    public ModelAndView getTest() {
+    public ModelAndView getAccueil() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("index");
         String str = " ";

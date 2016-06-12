@@ -21,14 +21,13 @@ $(document).ready(function(){
             datatype: "jsonp",
 
             success:function(res){
-                var userSession = [];
                 var i = 0;
                 $.each(res, function(index, user) {
-                    if(index === "iduser"){
-                        createCookie("idUser", user, 1);
+                    if(index === "token"){
+                        createCookie("token", user, 1);
                     }
                     i++;
-                    //console.log("User : " + user + " / id : " + index + " / i : " + i);
+                    console.log("User : " + user + " / id : " + index + " / i : " + i);
                 });
 
                 window.location.href = "http://localhost:8080/accueil";
