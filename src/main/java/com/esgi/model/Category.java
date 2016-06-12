@@ -1,6 +1,8 @@
 package com.esgi.model;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Arnaud Flaesch on 28/04/2016.
@@ -8,21 +10,28 @@ import javax.persistence.*;
 @Entity
 @Table(name = "category")
 public class Category {
-    private int idcategory;
+    private Long idcategory;
     private String nameCategory;
+
+    public Category() {}
+
+    public Category(Long idcategory) {
+        this.idcategory = idcategory;
+    }
 
     @Id
     @GeneratedValue
     @Column(name = "idcategory")
-    public int getIdcategory() {
+    public Long getIdcategory() {
         return idcategory;
     }
 
-    public void setIdcategory(int idcategory) {
+    public void setIdcategory(Long idcategory) {
         this.idcategory = idcategory;
     }
 
     @Column(name = "name_category")
+    @NotNull
     public String getNameCategory() {
         return nameCategory;
     }

@@ -19,11 +19,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //Affiche données d'un utilisateur
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     public User getUser(@RequestParam Long iduser) {
         return (userService.getDataUser(iduser));
     }
 
+    //recherche lsite utilisateur par categorie
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<User> getUsersByCategory(@RequestParam Long idcategory) {
         return (userService.getUsersByCategory(idcategory));

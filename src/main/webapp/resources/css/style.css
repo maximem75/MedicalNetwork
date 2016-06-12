@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    padding: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #FBFBFB;
+}
+
+#header{
+    width: 1200px;
+    margin: auto;
+    margin-top: 0;
+}
+
+#middle{
+    margin: auto;
+    margin-top: 0;
+    width: 1200px;
+    height: 100vh;
+    background-color: #ffffff;
+    font-family: Helvetica;
+    color: #3A3434;
+}
+
+#left{
+    float: left;
+    width: 200px;
+    height: 100px;
+}

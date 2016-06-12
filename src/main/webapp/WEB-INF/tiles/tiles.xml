@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+    <!-- Templates -->
+
+    <definition name="layout.default" template="/WEB-INF/tiles/template/default_template.jsp">
+        <put-attribute name="title" value="Medical Network" />
+        <put-attribute name="header" value="/WEB-INF/tiles/menu/header.jsp" />
+        <put-attribute name="body" value="" />
+    </definition>
+
+    <definition name="layout.accueil" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/default_head.jsp" />
+    </definition>
+
+    <definition name="layout.connexion" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/connexion_head.jsp" />
+    </definition>
+
+</tiles-definitions>
