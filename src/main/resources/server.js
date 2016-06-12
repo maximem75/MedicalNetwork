@@ -34,7 +34,6 @@ io.sockets.on('connection', function(socket){
 		date = new Date();
 		message.h = date.getHours();
 		message.m = date.getMinutes();
-		//zmessage.upload = "test";
 		messages.push(message); // A faire fonctionner avec bdd
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
@@ -49,7 +48,6 @@ io.sockets.on('connection', function(socket){
 	socket.on('login', function(user){
 		me = user;
 		me.id = user.mail.replace('@','-').replace('.','_');
-		//me.avatar = 'http//gravatar.com/avatar/'+md5(user.mail)+'?s=50';
 		me.avatar = 'http://forum.canardpc.com/customavatars/thumbs/avatar16737_1.gif';
 		me.room = user.username
 

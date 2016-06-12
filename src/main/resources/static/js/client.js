@@ -78,7 +78,6 @@
 	// ****
 	//Gestion des connctés
 	// ****
-
 	socket.on('newusr',function(user){
 		$('#users').append('<img src="' + user.avatar + '" id="' + user.id + '">');
 	});
@@ -86,12 +85,6 @@
 	socket.on('disusr',function(user){
 		$('#'+user.id).remove();
 	});
-
-	// ****
-	//  Transfert de fichiers
-	// ****
-
-
 
 })(jQuery);
 
