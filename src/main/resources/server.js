@@ -54,7 +54,7 @@ io.sockets.on('connection', function(socket){
 		me.room = user.username
 
 		// création de room, ici pour 2 utilisateurs : il va falloir trouver comment créer le chan.
-		socket.join(me.room);
+		//socket.join(me.room);
 		console.log('room '+me.room );
 
 		socket.emit('logged');

@@ -4,7 +4,7 @@
 	// On sauvegarde le bloc HTML 'msgtpl' et on supprime le spécimen qu'on réinjectera avec des valeurs dans l'event 'newusr'
 	var msgtpl = $('#msgtpl').html();
 	var lastmsg = false;
-
+	var delivery;
 	$('#msgtpl').remove();
 	$('#loginform').submit(function(event){
 		event.preventDefault();
@@ -22,12 +22,43 @@
 	// ****
 	//  Envoi message
 	// ****
+	socket.on('connect', function(){
+		delivery = new Delivery(socket);
+	});
 
 	$('#form').submit(function(event){
 		event.preventDefault();
-		//socket.emit('newmsg', {message: $('#message').val()});
-		$('#message').val('');
+		var file;
+		console.info("CLick submit");
+
+		
+		delivery.on('delivery.connect',function(delivery){
+			console.info("Delivery client connect");
+	     	// $("#upload").click(function(evt){
+	      		file = $("#upload")[0].files[0];
+	      		if(typeof file === 'undefined'){
+	      			//socket.emit('newmsg', {message: $('#message').val()});
+	      			socket.emit('newmsg', {message: $('#message').val()});
+					$('#message').val('');
+					
+	      		}
+	      		else{
+
+					var extraParams = {foo: 'bar'}
+					delivery.send(file,extraParams);
+					console.log("Delivery send done");
+					//evt.preventDefault;
+					socket.emit('newmsg', {message: $('#message').val(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>'});
+
+	      		}
+			//});
+		$('#form').wrap('<form>').closest('form').get(0).reset();
 		$('#message').focus();
+		});
+
+		delivery.on('send.success',function(fileUID){
+			console.log("Le fichier à bien été envoyé au serveur");
+		})
 	});
 
 	// ****
@@ -59,25 +90,7 @@
 	// ****
 	//  Transfert de fichiers
 	// ****
-socket.on('connect', function(){
-	var delivery = new Delivery(socket);
-	delivery.on('delivery.connect',function(delivery){
-		console.log("Delivery client connect");
-     	 $("input[type=submit]").click(function(evt){
-      		var file = $("input[type=file]")[0].files[0];
-			var extraParams = {foo: 'bar'}
-			delivery.send(file,extraParams);
-			console.log("Delivery send done");
-			evt.preventDefault;
-			socket.emit('newmsg', {message: 'http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name, upload:'test'});
-		});
-	});
 
-	delivery.on('send.success',function(fileUID){
-		console.log("Le fichier à bien été envoyé au serveur");
-
-	})
-});
 
 
 })(jQuery);
