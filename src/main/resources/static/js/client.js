@@ -22,9 +22,10 @@
 	// ****
 	//  Envoi message
 	// ****
-socket.on('connect', function(){
- delivery = new Delivery(socket);
-});
+	socket.on('connect', function(){
+		delivery = new Delivery(socket);
+	});
+
 	$('#form').submit(function(event){
 		event.preventDefault();
 		var file;
@@ -39,7 +40,7 @@ socket.on('connect', function(){
 	      			//socket.emit('newmsg', {message: $('#message').val()});
 	      			socket.emit('newmsg', {message: $('#message').val()});
 					$('#message').val('');
-					$('#message').focus();
+					
 	      		}
 	      		else{
 
@@ -51,16 +52,13 @@ socket.on('connect', function(){
 
 	      		}
 			//});
+		$('#form').wrap('<form>').closest('form').get(0).reset();
+		$('#message').focus();
 		});
 
 		delivery.on('send.success',function(fileUID){
 			console.log("Le fichier à bien été envoyé au serveur");
 		})
-
-
-		
-
-
 	});
 
 	// ****
