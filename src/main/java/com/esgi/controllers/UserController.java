@@ -2,11 +2,14 @@ package com.esgi.controllers;
 
 import com.esgi.model.Category;
 import com.esgi.model.User;
-import com.esgi.services.UserService;
+import com.esgi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -18,79 +21,89 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     public User getUser(@RequestParam String token) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (userService.getDataUser(iduser));
+            return (userRepository.findOne(iduser));
         }
         return (null);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<User> getUsersByCategory(@RequestParam String token, @RequestParam Long idcategory) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (userService.getUsersByCategory(new Category(idcategory)));
+            return (userRepository.findUsersByCategory(new Category(idcategory)));
         }
         return (null);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public User login(@RequestParam String login, @RequestParam String password) {
-        return (userService.login(login, password));
+        User user = userRepository.findByLoginAndPassword(login, password);
+        if (user != null) {
+            user.setToken(UUID.randomUUID().toString());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.add(Calendar.DATE, 1);
+            user.setTokenExpirationDate(calendar.getTime());
+            userRepository.save(user);
+            return(user);
+        }
+        return (null);
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public void logout(@RequestParam String token) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            User user = userService.getDataUser(iduser);
+            User user = userRepository.findOne(iduser);
             user.setToken(null);
             user.setTokenExpirationDate(null);
-            userService.updateUser(user);
+            userRepository.save(user);
         }
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(CREATED)
     public void registration(@RequestBody User user) {
-        userService.register(user);
+        userRepository.save(user);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public void updateData(@RequestBody User user, @RequestParam String token) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
             user.setIduser(iduser);
-            userService.updateUser(user);
+            userRepository.save(user);
         }
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public void deleteUser(@RequestParam String token) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            userService.removeUser(iduser);
+            userRepository.delete(iduser);
         }
     }
 
     @RequestMapping(value = "/pending", method = RequestMethod.GET)
     public List<User> getInvitations(@RequestParam String token) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return(userService.getPendingInvitations(iduser));
+            return(userRepository.findPendingInvitations(iduser, false));
         }
         return (null);
     }
 
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
     public List<User> getContacts(@RequestParam String token) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return(userService.getContacts(iduser));
+            return(userRepository.findContacts(iduser, true));
         }
         return (null);
     }

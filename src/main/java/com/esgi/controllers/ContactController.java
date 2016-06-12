@@ -5,36 +5,38 @@ package com.esgi.controllers;
  */
 
 import com.esgi.model.Contact;
-import com.esgi.services.ContactService;
-import com.esgi.services.UserService;
+import com.esgi.repositories.ContactRepository;
+import com.esgi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/contact")
 public class ContactController {
 
     @Autowired
-    private ContactService contactService;
+    private ContactRepository contactRepository;
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void addContact(@RequestParam String token, @RequestBody Contact contact) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
             contact.setIduser(iduser);
             contact.setAccepted(false);
-            contactService.addContact(contact);
+            contactRepository.save(contact);
         }
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public void removeContact(@RequestParam String token, @RequestParam Long idcontact) {
-        Long iduser = userService.getIdFromToken(token);
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            contactService.removeContact(iduser, idcontact);
+            contactRepository.removeContact(iduser, idcontact);
         }
     }
 }
