@@ -5,6 +5,7 @@ import com.esgi.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,9 +21,13 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public Message getLastMessage(Long iduser, Long idcontact) {
-        return(messageRepository.getLastMessageSent(iduser, idcontact).get(0));
+    public List<Message> getLastMessages(Long iduser, Long idcontact) {
+        return(messageRepository.getLastMessages(iduser, idcontact).subList(0, 3));
     }
+
+    /*public List<Message> getLastConversations(Long iduser) {
+        return(messageRepository.getLastConversations(iduser).get(5));
+    }*/
 
     public List<Message> getConversation(Long iduser, Long idcontact) {
         return(messageRepository.getConversation(iduser, idcontact));

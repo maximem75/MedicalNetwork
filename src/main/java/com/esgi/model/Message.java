@@ -1,6 +1,7 @@
 package com.esgi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -26,6 +27,7 @@ public class Message {
     }
 
     @Column(name = "date")
+    @NotNull
     public Date getDate() {
         return date;
     }
@@ -47,6 +49,7 @@ public class Message {
 
     @OneToOne
     @JoinColumn(name = "sender")
+    @NotNull
     public User getSender() {
         return(sender);
     }
@@ -59,6 +62,7 @@ public class Message {
 
     @OneToOne
     @JoinColumn(name = "receiver")
+    @NotNull
     public User getReceiver() {
         return receiver;
     }

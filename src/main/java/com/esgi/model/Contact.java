@@ -1,6 +1,7 @@
 package com.esgi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,6 +17,13 @@ public class Contact {
     private Long idcontact;
     private boolean accepted;
     private String message;
+
+    public Contact() {}
+
+    public Contact(Long idcontact, String message) {
+        this.idcontact = idcontact;
+        this.message = message;
+    }
 
     @Id
     @Column(name = "iduser")
@@ -38,6 +46,7 @@ public class Contact {
     }
 
     @Column(name = "accepted")
+    @NotNull
     public boolean isAccepted() {
         return accepted;
     }

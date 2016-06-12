@@ -17,7 +17,7 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category getCategory(Long idcategory) {
-        return(categoryRepository.getOne(idcategory));
+        return(categoryRepository.findOne(idcategory));
     }
 
     public List<Category> getCategoriesByResearch(String research) {
