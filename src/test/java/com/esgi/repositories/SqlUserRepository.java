@@ -19,16 +19,16 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TE
         "INSERT INTO Category VALUES (3, 'ORL')",
         "INSERT INTO Category VALUES (4, 'Kinésithérapeute')",
         "INSERT INTO Category VALUES (5, 'Cardiologue')",
-        "INSERT INTO User VALUES (1, 'login', 'root1', 'Flaesch', 'Arnaud1', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 1)",
-        "INSERT INTO User VALUES (2, 'login2', 'root2', 'Flaesch', 'Arnaud2', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 2)",
-        "INSERT INTO User VALUES (3, 'login3', 'root3', 'Flaesch', 'Arnaud3', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 3)",
-        "INSERT INTO User VALUES (4, 'login4', 'root4', 'Flaesch', 'Arnaud4', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 4)",
-        "INSERT INTO User VALUES (5, 'login5', 'root5', 'Flaesch', 'Arnaud5', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 5)",
-        "INSERT INTO User VALUES (6, 'login6', 'root6', 'Flaesch', 'Arnaud6', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 1)",
-        "INSERT INTO User VALUES (7, 'login7', 'root7', 'Flaesch', 'Arnaud7', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 2)",
-        "INSERT INTO User VALUES (8, 'login8', 'root8', 'Flaesch', 'Arnaud8', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com',3)",
-        "INSERT INTO User VALUES (9, 'login9', 'root9', 'Flaesch', 'Arnaud9', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 4)",
-        "INSERT INTO User VALUES (10, 'login10', 'root10', 'Flaesch', 'Arnaud10', '1993-06-01', '0645517021', 'arnaudflaeschhotmail.com', 5)"
+        "INSERT INTO User VALUES (1, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud1', 'login', 'Flaesch', 'root1', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (2, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud2', 'login2', 'Flaesch', 'root2', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (3, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud3', 'login3', 'Flaesch', 'root3', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (4, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud4', 'login4', 'Flaesch', 'root4', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (5, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud5', 'login5', 'Flaesch', 'root5', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (6, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud6', 'login5', 'Flaesch', 'root6', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (7, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud7', 'login6', 'Flaesch', 'root7', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (8, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud8', 'login7', 'Flaesch', 'root8', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (9, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud9', 'login8', 'Flaesch', 'root9', '0645517021', 'token', '2016-10-04', 1)",
+        "INSERT INTO User VALUES (10, '1993-06-01', 'arnaudflaeschhotmail.com', 'Arnaud10', 'login9', 'Flaesch', 'root10', '0645517021', 'token', '2016-10-04', 1)"
     },
     executionPhase = BEFORE_TEST_METHOD
 )

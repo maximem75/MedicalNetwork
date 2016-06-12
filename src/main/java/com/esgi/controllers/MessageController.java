@@ -2,10 +2,12 @@ package com.esgi.controllers;
 
 
 import com.esgi.model.Message;
-import com.esgi.services.MessageService;
+import com.esgi.repositories.MessageRepository;
+import com.esgi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -18,22 +20,44 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class MessageController {
 
     @Autowired
-    private MessageService messageService;
+    private MessageRepository messageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Message> getConversation(@RequestParam Long iduser, @RequestParam Long idcontact) {
-        return(messageService.getConversation(iduser, idcontact));
+    public List<Message> getConversation(@RequestParam String token, @RequestParam Long idcontact) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            return (messageRepository.getConversation(iduser, idcontact));
+        }
+        return (null);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(CREATED)
-    public void addMessage(@RequestBody Message message) {
-        messageService.addMessage(message);
+    public void addMessage(@RequestParam String token, @RequestBody Message message) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            messageRepository.save(message);
+        }
     }
 
-    @RequestMapping(value = "/last", method = RequestMethod.GET)
-    public Message getLastMessageSent(@RequestParam Long iduser, @RequestParam Long idcontact) {
-        return(messageService.getLastMessage(iduser, idcontact));
+    @RequestMapping(value = "/lastMessages", method = RequestMethod.GET)
+    public List<Message> getLastMessages(@RequestParam String token, @RequestParam Long idcontact) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            return (messageRepository.getLastMessages(iduser, idcontact));
+        }
+        return (null);
     }
 
+    @RequestMapping(value = "/lastConversations", method = RequestMethod.GET)
+    public Message getLastConversations(@RequestParam String token) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        /*if (iduser != null) {
+            return (messageRepository.getLastConversations(iduser));
+        }*/
+        return (null);
+    }
 }

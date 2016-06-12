@@ -1,6 +1,8 @@
 package com.esgi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Created by Arnaud Flaesch on 28/04/2016.
@@ -8,27 +10,38 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 public class User {
-    private int iduser;
+    private Long iduser;
     private String login;
     private String password;
     private String name;
     private String firstname;
-    private String birthday;
+    private Date birthday;
     private String phone;
     private String email;
+    private String token;
+    private Date tokenExpirationDate;
+
+    private Category category;
+
+    public User() {}
+
+    public User(Long iduser) {
+        this.iduser = iduser;
+    }
 
     @Id
     @GeneratedValue
     @Column(name = "iduser")
-    public int getIduser() {
+    public Long getIduser() {
         return iduser;
     }
 
-    public void setIduser(int iduser) {
+    public void setIduser(Long iduser) {
         this.iduser = iduser;
     }
 
     @Column(name = "login")
+    @NotNull
     public String getLogin() {
         return login;
     }
@@ -38,6 +51,7 @@ public class User {
     }
 
     @Column(name = "password")
+    @NotNull
     public String getPassword() {
         return password;
     }
@@ -47,6 +61,7 @@ public class User {
     }
 
     @Column(name = "name")
+    @NotNull
     public String getName() {
         return name;
     }
@@ -56,6 +71,7 @@ public class User {
     }
 
     @Column(name = "firstname")
+    @NotNull
     public String getFirstname() {
         return firstname;
     }
@@ -65,15 +81,17 @@ public class User {
     }
 
     @Column(name = "birthday")
-    public String getBirthday() {
+    @NotNull
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
     @Column(name = "phone")
+    @NotNull
     public String getPhone() {
         return phone;
     }
@@ -83,6 +101,7 @@ public class User {
     }
 
     @Column(name = "email")
+    @NotNull
     public String getEmail() {
         return email;
     }
@@ -91,10 +110,27 @@ public class User {
         this.email = email;
     }
 
-    private Category category;
+    @Column(name = "token")
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Column(name = "token_expiration_date")
+    public Date getTokenExpirationDate() {
+        return tokenExpirationDate;
+    }
+
+    public void setTokenExpirationDate(Date tokenExpirationDate) {
+        this.tokenExpirationDate = tokenExpirationDate;
+    }
 
     @ManyToOne
     @JoinColumn(name = "idcategory")
+    @NotNull
     public Category getCategory() {
         return category;
     }

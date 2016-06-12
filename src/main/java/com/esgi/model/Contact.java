@@ -1,6 +1,7 @@
 package com.esgi.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,35 +10,33 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "contact")
-@IdClass(ContactPK.class)
 public class Contact {
 
-    private Long iduser;
-    private Long idcontact;
+    private Long idrelation;
     private boolean accepted;
     private String message;
+    private User iduser;
+    private User idcontact;
 
-    @Id
-    @Column(name = "iduser")
-    public Long getIduser() {
-        return iduser;
-    }
+    public Contact() {}
 
-    public void setIduser(Long iduser) {
-        this.iduser = iduser;
-    }
-
-    @Id
-    @Column(name = "idcontact")
-    public Long getIdcontact() {
-        return idcontact;
-    }
-
-    public void setIdcontact(Long idcontact) {
+    public Contact(User idcontact, String message) {
         this.idcontact = idcontact;
+        this.message = message;
+    }
+
+    @Id
+    @Column(name = "idrelation")
+    public Long getIdrelation() {
+        return idrelation;
+    }
+
+    public void setIdrelation(Long idrelation) {
+        this.idrelation = idrelation;
     }
 
     @Column(name = "accepted")
+    @NotNull
     public boolean isAccepted() {
         return accepted;
     }
@@ -53,5 +52,27 @@ public class Contact {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "iduser")
+    @NotNull
+    public User getIduser() {
+        return iduser;
+    }
+
+    public void setIduser(User iduser) {
+        this.iduser = iduser;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "idcontact")
+    @NotNull
+    public User getIdcontact() {
+        return idcontact;
+    }
+
+    public void setIdcontact(User idcontact) {
+        this.idcontact = idcontact;
     }
 }

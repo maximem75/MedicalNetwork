@@ -1,7 +1,7 @@
 package com.esgi.controllers;
 
 import com.esgi.model.User;
-import com.esgi.services.UserService;
+import com.esgi.repositories.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,11 +23,13 @@ public class UserControllerTests {
     private User user;
 
     @Mock
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Test
     public void should_register_user() {
+        user.setName("FlaeschTest");
+        user.setFirstname("ArnaudTest");
         userController.registration(user);
-        verify(userService).register(user);
+        verify(userRepository).save(user);
     }
 }
