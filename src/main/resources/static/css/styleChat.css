@@ -93,6 +93,7 @@ body {
   background: #d2d2d2;
   height: 50px; }
   #form .text {
+    width: 65d%;
     padding: 0 5px;
     border: solid 1px #d2d2d2;
     height: 32px;
@@ -108,7 +109,7 @@ body {
     -webkit-box-shadow: 0px 1px 3px #d2d2d2 inset;
     -moz-box-shadow: 0px 1px 3px #d2d2d2 inset;
     box-shadow: 0px 1px 3px #d2d2d2 inset; }
-  #form .submit {
+  #form .fmit {
     position: fixed;
     height: 32px;
     bottom: 9px;
