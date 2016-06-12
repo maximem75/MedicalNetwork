@@ -8,6 +8,7 @@
 		</div>
 
 		<div id="messages" >
+
 			<div class="message" id="msgtpl" style="display:none">
 				<img src="{{{user.avatar}}}">
 				<div class="info">
@@ -26,18 +27,24 @@
 			<input type="mail" name="mail" id="mail" placehodler="E-Mail">
 			<input type="submit" value="Envoyer">
 			</form>
-		</div>
+		</div>	
 
 		<form action="" id="form">
-			<input type="text" id="message" class="text" />
-			<input type="submit" id="send" value="Envoyer mon message !" class="submit"/> 
+		<!--	<input type="text" id="message" class="text" />
+			<input type="submit" id="send" value="Envoyer mon message !" class="submit"/> -->
+
+      <input type="file">
+      <input type="submit" value="Upload File" id="upload">
+    
 		</form>
+
 
 		<script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
 		<script type="text/javascript" src="../static/js/mustache.js"></script>
 		<script type="text/javascript" src="http://localhost:1337/socket.io/socket.io.js"></script>
 		<!--<script type="text/javascript" src="../node_modules/socket.io/node_modules/socket.io-client/socket.io.js"></script>-->
 		<script type="text/javascript" src="../static/js/client.js"></script>
+		<script src="../node_modules/delivery/lib/client/delivery.js"></script>
 
 	</body>
 </html>

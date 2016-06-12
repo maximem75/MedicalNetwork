@@ -56,4 +56,28 @@
 		$('#'+user.id).remove();
 	});
 
+	// ****
+	//  Transfert de fichiers
+	// ****
+socket.on('connect', function(){
+	var delivery = new Delivery(socket);
+	delivery.on('delivery.connect',function(delivery){
+		console.log("Delivery client connect");
+     	 $("input[type=submit]").click(function(evt){
+      		var file = $("input[type=file]")[0].files[0];
+			var extraParams = {foo: 'bar'}
+			delivery.send(file,extraParams);
+			console.log("Delivery send done");
+			evt.preventDefault;
+		});
+	});
+
+	delivery.on('send.success',function(fileUID){
+		console.log("Le fichier à bien été envoyé au serveur");
+	})
+});
+
+
 })(jQuery);
+
+
