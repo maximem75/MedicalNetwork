@@ -23,6 +23,12 @@ public class User {
 
     private Category category;
 
+    public User() {}
+
+    public User(Long iduser) {
+        this.iduser = iduser;
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "iduser")

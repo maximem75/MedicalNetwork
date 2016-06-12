@@ -14,6 +14,8 @@ public class Message {
     private Long idmessage;
     private Date date;
     private String content;
+    private User sender;
+    private User receiver;
 
     @Id
     @GeneratedValue
@@ -45,8 +47,6 @@ public class Message {
         this.content = content;
     }
 
-    private User sender;
-
     @OneToOne
     @JoinColumn(name = "sender")
     @NotNull
@@ -57,8 +57,6 @@ public class Message {
     public void setSender(User sender) {
         this.sender = sender;
     }
-
-    private User receiver;
 
     @OneToOne
     @JoinColumn(name = "receiver")

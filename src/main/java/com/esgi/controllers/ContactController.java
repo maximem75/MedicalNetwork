@@ -5,6 +5,7 @@ package com.esgi.controllers;
  */
 
 import com.esgi.model.Contact;
+import com.esgi.model.User;
 import com.esgi.repositories.ContactRepository;
 import com.esgi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ContactController {
     public void addContact(@RequestParam String token, @RequestBody Contact contact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            contact.setIduser(iduser);
+            contact.setIduser(new User(iduser));
             contact.setAccepted(false);
             contactRepository.save(contact);
         }
