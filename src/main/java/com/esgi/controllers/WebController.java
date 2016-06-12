@@ -28,4 +28,13 @@ public class WebController {
         mav.addObject("message", str);
         return mav;
     }
+
+    @RequestMapping(value = "/inscription")
+    public ModelAndView getInscription() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("inscription");
+        String str = " ";
+        mav.addObject("message", str);
+        return mav;
+    }
 }

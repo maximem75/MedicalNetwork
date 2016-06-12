@@ -31,12 +31,13 @@ function readCookie(name) {
 }
 
 function userConnected(){
-   $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
-
+    $('#menu_main').append('<li><a href="http://localhost:8080/connexion" data-title="Profil">Profil</a></li>');
+    $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
 }
 
 function userDisconnected(){
     $('#menu_main').append('<li><a href="http://localhost:8080/connexion" data-title="Connexion">Connexion</a></li>');
+    $('#menu_main').append('<li><a href="http://localhost:8080/inscription" data-title="Inscription">Inscription</a></li>');
 }
 
 function logoutSession(){

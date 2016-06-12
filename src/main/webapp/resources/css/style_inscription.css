@@ -1,0 +1,87 @@
+.formulaire{
+    margin: auto;
+    display: inline-block;
+}
+
+ul{
+    list-style: none;
+    font-size: 18px;
+}
+
+.inpt{
+    margin-top: 40px;
+    border-radius: 8px;
+    height: 20px;
+    width: 250px;
+    font-size: 20px;
+}
+
+.btn {
+    background: #4fd934;
+    background-image: -webkit-linear-gradient(top, #4fd934, #2bb83b);
+    background-image: -moz-linear-gradient(top, #4fd934, #2bb83b);
+    background-image: -ms-linear-gradient(top, #4fd934, #2bb83b);
+    background-image: -o-linear-gradient(top, #4fd934, #2bb83b);
+    background-image: linear-gradient(to bottom, #4fd934, #2bb83b);
+    -webkit-border-radius: 28;
+    -moz-border-radius: 28;
+    border-radius: 28px;
+    font-family: Courier New;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    margin-top: 40px;
+    margin-left: 90px;
+}
+
+.btn:hover {
+    background: #3cfc59;
+    background-image: -webkit-linear-gradient(top, #3cfc59, #28db28);
+    background-image: -moz-linear-gradient(top, #3cfc59, #28db28);
+    background-image: -ms-linear-gradient(top, #3cfc59, #28db28);
+    background-image: -o-linear-gradient(top, #3cfc59, #28db28);
+    background-image: linear-gradient(to bottom, #3cfc59, #28db28);
+    text-decoration: none;
+}
+
+.input-login{
+    margin-left: 105px;
+}
+
+.input-password{
+    margin-left: 125px;
+}
+
+.input-password-2{
+    margin-left: 30px;
+}
+
+.input-name{
+    margin-left: 200px;
+}
+
+.input-firstname{
+    margin-left: 173px;
+}
+
+.input-date{
+    margin-left: 82px;
+}
+
+.input-phone{
+    margin-left: 147px;
+}
+
+.input-email{
+    margin-left: 188px;
+}
+
+.div-inscription{
+    background-color:#FAFAFA;
+    height: 650px;
+    margin: auto;
+    border-radius: 4px;
+    text-align: center;
+
+}
