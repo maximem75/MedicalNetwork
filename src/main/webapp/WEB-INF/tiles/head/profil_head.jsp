@@ -4,8 +4,8 @@
 
 <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 <link rel="stylesheet" type="text/css" href="resources/css/menu_top.css">
-<link rel="stylesheet" type="text/css" href="resources/css/style_inscription.css">
+<link rel="stylesheet" type="text/css" href="resources/css/style_profil.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script src="resources/js/script_inscription.js"></script>
+<script src="resources/js/script_profil.js"></script>
 <script src="resources/js/script_main.js"></script>

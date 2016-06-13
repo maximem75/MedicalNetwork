@@ -31,7 +31,9 @@ function readCookie(name) {
 }
 
 function userConnected(){
-    $('#menu_main').append('<li><a href="http://localhost:8080/connexion" data-title="Profil">Profil</a></li>');
+    $('#menu_main').append('<li><a href="http://localhost:8080/profil" data-title="Profil">Profil</a></li>');
+    $('#menu_main').append('<li><a href="http://localhost:8080/categorie" data-title="Catégories">Catégories</a></li>');
+    $('#menu_main').append('<li><a href="http://localhost:8080/contact" data-title="Contact">Contact</a></li>');
     $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
 }
 

@@ -24,4 +24,20 @@
         <put-attribute name="head" value="/WEB-INF/tiles/head/connexion_head.jsp" />
     </definition>
 
+    <definition name="layout.categorie" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/categorie_head.jsp" />
+    </definition>
+
+    <definition name="layout.medecin" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/medecin_head.jsp" />
+    </definition>
+
+    <definition name="layout.contact" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/contact_head.jsp" />
+    </definition>
+
+    <definition name="layout.profil" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/profil_head.jsp" />
+    </definition>
+
 </tiles-definitions>
