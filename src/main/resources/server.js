@@ -1,7 +1,7 @@
 var http = require('http');
 var dl = require('delivery');
 var fs = require('fs-path');
-
+var rest = require('restler');
 
 httpServer = http.createServer(function(req, res){
 	console.log("Un utilisateur s'est connecté");
@@ -12,6 +12,28 @@ var io = require('socket.io').listen(httpServer);
 var users = {}
 var messages = []
 var history = 2; // nombre de message historique à charger
+
+//*****
+//-------------- REST CALL ------------------
+//*****
+rest.get('http://demo3723079.mockable.io/medicalNetworkAddMessage').on('complete', function(result) {
+  if (result instanceof Error) {
+    console.log('Error:', result.message);
+    this.retry(5000); // try again after 5 sec 
+  } else {
+    console.log(result);
+  }
+});
+
+rest.post(' http://demo3723079.mockable.io/MedicalNetworkPost', {
+  data: { nom: "nom test" },
+}).on('complete', function(data, response) {
+    console.log("Post succed ? "+response.raw);
+  
+}).on('fail',function(data,response){
+	console.log("faiiiiiiiiil");
+});
+//------------------------------------------
 
 io.sockets.on('connection', function(socket){
 	
@@ -48,7 +70,7 @@ io.sockets.on('connection', function(socket){
 		me = user;
 		me.id = user.mail.replace('@','-').replace('.','_');
 		me.avatar = 'http://forum.canardpc.com/customavatars/thumbs/avatar16737_1.gif';
-		me.room = user.username
+		me.room = user.room
 
 		// création de room, ici pour 2 utilisateurs : il va falloir trouver comment créer le chan.
 		//socket.join(me.room);

@@ -12,7 +12,8 @@
 		event.preventDefault();
 		socket.emit('login',{
 			username: $('#username').val(),
-			mail	: $('#mail').val()
+			mail	: $('#mail').val(),
+			room	: $('#room').val()
 		})
 	});
 
@@ -32,38 +33,48 @@
 		event.preventDefault();
 		var file;
 
-		delivery.on('delivery.connect',function(delivery){
-			console.info("Delivery client connect");
 	     	// $("#upload").click(function(evt){
 	      		file = $("#upload")[0].files[0];
 	      		if(typeof file === 'undefined'){
 	      			//socket.emit('newmsg', {message: $('#message').val()});
+	      			//file = $("#upload")[0].files[0];
 	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
 	      			socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString()});
+	      			
 					$('#message').val('');
 					
 	      		}
 	      		else{
+				//evt.preventDefault;
+					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
+					socket.emit('newmsg', {message: $('#message').val(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>'});
+
+	      		}
+			
+		$('#form').wrap('<form>').closest('form').get(0).reset();
+		$('#message').focus();
+		});
+
+
+
+
+	$("input[type=file]").on('change',function(){
+	    	delivery.on('delivery.connect',function(delivery){
+			console.info("Delivery client connect");
+	     	// $("#upload").click(function(evt){
+	      		file = $("#upload")[0].files[0];
 
 					var extraParams = {foo: 'bar'}
 					delivery.send(file,extraParams);
 					console.log("Delivery send done");
 					//evt.preventDefault;
-					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-
-
-					socket.emit('newmsg', {message: $('#message').val(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>'});
-
-	      		}
+	      		})
 			//});
-		$('#form').wrap('<form>').closest('form').get(0).reset();
-		$('#message').focus();
-		});
-
-		delivery.on('send.success',function(fileUID){
+			delivery.on('send.success',function(fileUID){
 			console.log("Le fichier à bien été envoyé au serveur");
-		})
-	});
+			});
+		});
+	
 
 	// ****
 	//  Reception message message
