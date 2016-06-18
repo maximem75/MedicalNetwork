@@ -2,4 +2,4 @@
 .mvn/
 MedicalNetwork.iml
 target/
-src/main/resources/transferts
+src/main/resources/transferts/

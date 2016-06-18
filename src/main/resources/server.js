@@ -59,7 +59,8 @@ io.sockets.on('connection', function(socket){
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
 		}
-		io.sockets.emit('newmsg',message);
+		console.log(message.room);
+		io.to(message.room).emit('newmsg',message);
 	});
 
 
@@ -73,8 +74,9 @@ io.sockets.on('connection', function(socket){
 		me.room = user.room
 
 		// création de room, ici pour 2 utilisateurs : il va falloir trouver comment créer le chan.
-		//socket.join(me.room);
+		socket.join(me.room);
 		console.log('room '+me.room );
+
 
 		socket.emit('logged');
 		users[me.id] = me;

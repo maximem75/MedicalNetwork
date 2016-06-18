@@ -6,6 +6,7 @@
 	var lastmsg = false;
 	var delivery;
 	var key = " Passphrase";
+	var me;
 
 	$('#msgtpl').remove();
 	$('#loginform').submit(function(event){
@@ -39,16 +40,13 @@
 	      			//socket.emit('newmsg', {message: $('#message').val()});
 	      			//file = $("#upload")[0].files[0];
 	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-	      			socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString()});
-	      			
+	      			socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString(),room : me.room});
 					$('#message').val('');
-					
 	      		}
 	      		else{
 				//evt.preventDefault;
 					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-					socket.emit('newmsg', {message: $('#message').val(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>'});
-
+					socket.emit('newmsg', {message: $('#message').val(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',room : me.room});
 	      		}
 			
 		$('#form').wrap('<form>').closest('form').get(0).reset();
@@ -57,7 +55,7 @@
 
 
 
-
+// Upload sur le bouton type=file
 	$("input[type=file]").on('change',function(){
 	    	delivery.on('delivery.connect',function(delivery){
 			console.info("Delivery client connect");
@@ -102,6 +100,7 @@
 	// ****
 	socket.on('newusr',function(user){
 		$('#users').append('<img src="' + user.avatar + '" id="' + user.id + '">');
+		me = user;
 	});
 
 	socket.on('disusr',function(user){
