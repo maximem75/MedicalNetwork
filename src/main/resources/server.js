@@ -1,5 +1,4 @@
 var http = require('http');
-var md5 = require('MD5');
 var dl = require('delivery');
 var fs = require('fs-path');
 
@@ -83,8 +82,7 @@ io.sockets.on('connection', function(socket){
       if(err){
         console.log('File could not be saved.');
       }else{
-        console.log('File saved.');
-
+        console.log("File saved."+"transferts/"+file.name);
       };
     });
   });
