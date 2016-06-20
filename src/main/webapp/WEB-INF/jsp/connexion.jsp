@@ -6,21 +6,18 @@
 
         <div id="middle">
             <form id="login-form" action="http://localhost:8080/user/login" method="POST">
-                <div class="div-login">
-                    <ul class="login-center">
-                        <li>
-                            <span class="formulaire">Identifiant</span><input type="text" class="input-login inpt" id="login_id" />
-                        </li>
-                        <li>
-                            <span class="formulaire">Mot de passe</span><input type="password" class="input-password inpt" id="password_id" />
-                        </li>
-                        <li>
-                            <input type="submit" value="Connexion" class="btn" />
-                        </li>
-                    </ul>
-                </div>
+                  <div class="div-login">
+
+                  <h2 class="form-signin-heading">Identification</h2>
+                  <label for="login_id" class="sr-only">Email address</label>
+                  <input type="text" id="login_id" class="form-control" placeholder="Identifiant" required autofocus>
+                  <label for="password_id" class="sr-only">Mot de passe</label>
+                  <input type="password" id="password_id" class="form-control" placeholder="Mot de passe" required>
+                  <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+                  </div>
             </form>
         </div>
+
 
     </tiles:putAttribute>
 

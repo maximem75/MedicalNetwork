@@ -70,10 +70,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(CREATED)
-    public void registration(@RequestBody User user) {
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public @ResponseBody User registration(@RequestBody User user) {
+        user.setBirthday(new Date());
         userRepository.save(user);
+        return user;
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

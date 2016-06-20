@@ -1,8 +1,11 @@
 package com.esgi.model;
 
 
+import org.springframework.data.repository.query.Param;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by Arnaud Flaesch on 28/04/2016.

@@ -5,38 +5,79 @@
     <tiles:putAttribute name="body">
 
         <div id="middle">
-            <form id="#inscription_form" method="POST" action="http://localhost:8080/user">
+            <form id="inscription_form" method="POST" action="http://localhost:8080/user/register">
                 <div class="div-inscription">
-                    <ul class="login-center">
-                        <li>
-                            <span class="formulaire">Nom de compte</span><input type="text" class="input-login inpt" id="login"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Mot de passe</span><input type="password" class="input-password inpt" id="password"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Ressaisire mot de passe</span><input type="password" class="input-password-2 inpt" id="password2"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Nom</span><input type="text" class="input-name inpt" id="name"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Prénom</span><input type="text" class="input-firstname inpt" id="firstname"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Date de naissance</span><input type="text" class="input-date inpt" id="date"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Téléphone</span><input type="text" class="input-phone inpt" id="phone"/>
-                        </li>
-                        <li>
-                            <span class="formulaire">Email</span><input type="text" class="input-email inpt" id="mail"/>
-                        </li>
-                        <li>
-                            <input type="submit" value="Inscription" class="btn" id="btnid"/>
-                        </li>
 
-                    </ul>
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                    <h1> Inscription <br/> <small> Merci de renseigner vos informations </small></h1>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-3">
+                    <div class="form-group">
+                    <label for="Nom">Nom</label>
+                    <input type="text" class="form-control" id="nom" placeholder="Nom" name="name">
+                    </div>
+                    </div>
+                    <div class="col-md-offset-1 col-md-3">
+                    <div class="form-group">
+                    <label for="Prenom">Pr&eacute;nom</label>
+                    <input type="text" class="form-control" id="prenom" placeholder="Pr&eacute;nom" name="firstname">
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-3">
+                    <div class="form-group">
+                    <label for="login_id">Identifiant</label>
+                    <input type="text" class="form-control" id="login_id" placeholder="Identifiant" name="login">
+                    </div>
+                    </div>
+                    <div class="col-md-offset-1 col-md-3">
+                    <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-3">
+                    <div class="form-group">
+                    <label for="Password">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" placeholder="Mot de passe" name="password">
+                    </div>
+                    </div>
+                    <div class="col-md-offset-1 col-md-3">
+                    <div class="form-group">
+                    <label for="Vpassword">V&eacute;rification mot de passe</label>
+                    <input type="password" class="form-control" id="vpassword" placeholder="V&eacute;rification mot de passe">
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-3">
+                    <div class="input-group">
+                    <span class="input-group-addon glyphicon glyphicon-earphone"></span>
+                    <input type="text" class="form-control" placeholder="T&eacute;l&eacute;phone" aria-describedby="basic-addon1" name="phone">
+                    </div>
+                    <div class="input-group">
+                    <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                    <input type="date" class="form-control" placeholder="Date de Naissance" aria-describedby="basic-addon1" name="date">
+                    </div>
+                    </div>
+                    </div>
+
+                    <br/>
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-1">
+                    <button type="submit" class="btn  btn-primary " id="btnid">Envoyer mes informations</button>
+                    </div>
+                    </div>
                 </div>
             </form>
         </div>

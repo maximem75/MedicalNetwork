@@ -4,19 +4,16 @@ $(document).ready(function(){
 
 var userToken = "null";
 var tokenName = "token";
+var category = "null";
 
 function manageSession(){
-    if(readCookie("token") != null){
-        userToken = readCookie("token");
-    }
 
-    if(userToken != "null"){
+    if(readCookie("token") != null){
         userToken = readCookie("token");
         userConnected(userToken);
     } else {
         userDisconnected();
     }
-
 }
 
 function readCookie(name) {
@@ -67,4 +64,44 @@ function createCookie(name,value,days) {
     }
     else var expires = "";
     document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function getCategoryById(id){
+    console.log(userToken);
+    var resData = "token="+userToken+"&idcategory="+id;
+    $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/category',
+            data: resData,
+            beforeSend: function (xhr) {
+                if (xhr && xhr.overrideMimeType) {
+                    xhr.overrideMimeType('application/json;charset=utf-8');
+                }
+            },
+            datatype: "jsonp",
+
+            success:function(res){
+                var i = 0;
+                $.each(res, function(index, category) {
+                   if(index == "nameCategory"){
+                    console.log(index);
+                    setCategory(category);
+                   }
+                   i++;
+                });
+            },
+
+            error:function(){
+                console.log("error");
+            }
+
+        });
+}
+
+function getCategory(){
+    return category;
+}
+
+function setCategory(val){
+    category = val;
 }

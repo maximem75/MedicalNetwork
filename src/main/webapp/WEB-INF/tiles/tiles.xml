@@ -21,7 +21,7 @@
     </definition>
 
     <definition name="layout.inscription" extends="layout.default">
-        <put-attribute name="head" value="/WEB-INF/tiles/head/connexion_head.jsp" />
+        <put-attribute name="head" value="/WEB-INF/tiles/head/inscription_head.jsp" />
     </definition>
 
     <definition name="layout.categorie" extends="layout.default">

@@ -1,7 +1,11 @@
 package com.esgi.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
     private Long iduser;
     private String login;
     private String password;
@@ -86,6 +90,7 @@ public class User {
         return birthday;
     }
 
+    @JsonSerialize(using=DateSerializer.class)
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
@@ -138,4 +143,5 @@ public class User {
     public void setCategory(Category category) {
         this.category = category;
     }
+
 }
