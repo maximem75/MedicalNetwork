@@ -39,10 +39,6 @@ io.sockets.on('connection', function(socket){
 	
 	var me=false;
 
-	for(var k in users){
-		socket.emit('newusr',users[k]);
-	}
-
 	for(var k in messages){
 		socket.emit('newmsg',messages[k]);
 	}
@@ -73,6 +69,10 @@ io.sockets.on('connection', function(socket){
 		me.avatar = 'http://forum.canardpc.com/customavatars/thumbs/avatar16737_1.gif';
 		me.room = user.room
 
+		for(var k in users){
+			if(users[k].room == me.room)
+				socket.emit('newusr',users[k]);
+		}
 		// création de room, ici pour 2 utilisateurs : il va falloir trouver comment créer le chan.
 		socket.join(me.room);
 		console.log('room '+me.room );
