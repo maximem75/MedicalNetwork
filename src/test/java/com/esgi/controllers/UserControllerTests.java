@@ -97,15 +97,22 @@ public class UserControllerTests {
         Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
         userController.getInvitations("token");
         verify(userRepository).findByToken(eq("token"),any(Date.class));
-        verify(userRepository).findPendingInvitations(1l, false);
+        verify(userRepository).findPendingInvitations(any(User.class), false);
     }
 
     @Test
     public void should_getContacts()
     {
         Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
+        Mockito.when(userRepository.findContacts(any(User.class),true)).thenReturn(null);
         userController.getContacts("token");
         verify(userRepository).findByToken(eq("token"),any(Date.class));
-        verify(userRepository).findContacts(1L,true);
+        verify(userRepository).findContacts(any(User.class),true);
+
+        /*Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            return(userRepository.findContacts(new User(iduser), true));
+        }
+        return (null);*/
     }
 }

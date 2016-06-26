@@ -53,7 +53,8 @@ public class MessageControllerTests {
     public void should_getLastMessages()
     {
         Mockito.when(userRepository.findByToken(eq("tutu") , any(Date.class))).thenReturn(2L);
-        messageController.getLastMessages("tutu" , 1L);
+        Mockito.when(messageRepository.getLastMessages(2L,1L)).thenReturn(new ArrayList<>());
+        messageController.getLastMessages("tutu",1L);
         Mockito.verify(userRepository).findByToken(eq("tutu"),any(Date.class));
         Mockito.verify(messageRepository).getLastMessages(2L,1L);
     }

@@ -1,7 +1,6 @@
 package com.esgi.controllers;
 
 import com.esgi.model.Category;
-import com.esgi.model.Contact;
 import com.esgi.model.Message;
 import com.esgi.model.User;
 import com.esgi.repositories.MessageRepository;
@@ -131,12 +130,12 @@ public class UserController {
      */
     private boolean checkRegistration(User user) {
         if (user.getLogin() == null ||
-            user.getPassword() == null ||
-            user.getName() == null ||
-            user.getFirstname() == null ||
-            user.getBirthday() == null ||
-            user.getPhone() == null ||
-            user.getEmail() == null) {
+                user.getPassword() == null ||
+                user.getName() == null ||
+                user.getFirstname() == null ||
+                user.getBirthday() == null ||
+                user.getPhone() == null ||
+                user.getEmail() == null) {
             return (false);
         }
         return(true);
