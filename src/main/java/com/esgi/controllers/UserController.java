@@ -1,15 +1,15 @@
 package com.esgi.controllers;
 
 import com.esgi.model.Category;
+import com.esgi.model.Contact;
+import com.esgi.model.Message;
 import com.esgi.model.User;
+import com.esgi.repositories.MessageRepository;
 import com.esgi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -22,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @RequestMapping(value = "/data", method = RequestMethod.GET)
     public User getUser(@RequestParam String token) {
@@ -94,7 +97,7 @@ public class UserController {
     public List<User> getInvitations(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return(userRepository.findPendingInvitations(iduser, false));
+            return(userRepository.findPendingInvitations(new User(iduser), false));
         }
         return (null);
     }
@@ -103,7 +106,20 @@ public class UserController {
     public List<User> getContacts(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return(userRepository.findContacts(iduser, true));
+            return(userRepository.findContacts(new User(iduser), true));
+        }
+        return (null);
+    }
+
+    @RequestMapping(value = "/lastConversations", method = RequestMethod.GET)
+    public List<Message> getLastConversations(@RequestParam String token) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            ArrayList<Message> lastConversations = new ArrayList<>();
+            for (User contact : userRepository.findContacts(new User(iduser), true)) {
+                lastConversations.add(messageRepository.getConversation(iduser, contact.getIduser()).get(0));
+            }
+            return (lastConversations);
         }
         return (null);
     }
