@@ -14,13 +14,9 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-
     @Query("SELECT M.date, M.content FROM Message M WHERE sender.iduser = :iduser AND receiver.iduser = :idcontact OR sender.iduser = :idcontact AND receiver.iduser = :iduser ORDER BY date DESC")
     List<Message> getLastMessages(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
 
-    /*@Query("FROM Message M, User U WHERE sender = :iduser OR sender = :iduser ORDER BY date DESC")
-    List<Message> getLastConversations(@Param("iduser") Long iduser);*/
-
-    @Query("SELECT M.date, M.content FROM Message M WHERE receiver.iduser = :iduser AND sender.iduser  = :idcontact OR sender.iduser  = :iduser AND receiver.iduser  = :idcontact ORDER BY date DESC")
+    @Query("FROM Message M WHERE receiver.iduser = :iduser AND sender.iduser = :idcontact OR sender.iduser  = :iduser AND receiver.iduser = :idcontact ORDER BY date DESC")
     List<Message> getConversation(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
 }

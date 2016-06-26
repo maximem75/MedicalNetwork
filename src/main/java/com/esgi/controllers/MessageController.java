@@ -47,17 +47,8 @@ public class MessageController {
     public List<Message> getLastMessages(@RequestParam String token, @RequestParam Long idcontact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (messageRepository.getLastMessages(iduser, idcontact));
+            return (messageRepository.getLastMessages(iduser, idcontact).subList(0,3));
         }
-        return (null);
-    }
-
-    @RequestMapping(value = "/lastConversations", method = RequestMethod.GET)
-    public Message getLastConversations(@RequestParam String token) {
-        Long iduser = userRepository.findByToken(token, new Date());
-        /*if (iduser != null) {
-            return (messageRepository.getLastConversations(iduser));
-        }*/
         return (null);
     }
 }

@@ -24,8 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsersByCategory(@Param("idcategory") Category idcategory);
 
     @Query("SELECT U.iduser, U.name, U.firstname, C.message FROM User U, Contact C WHERE U.iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted) AND C.iduser = U.iduser")
-    List<User> findPendingInvitations(@Param("iduser") Long iduser, @Param("accepted") boolean accepted);
+    List<User> findPendingInvitations(@Param("iduser") User iduser, @Param("accepted") boolean accepted);
 
-    @Query("SELECT U.iduser, U.name, U.firstname FROM User U WHERE iduser IN (SELECT idcontact FROM Contact WHERE iduser = :iduser AND accepted = :accepted) OR iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted)")
-    List<User> findContacts(@Param("iduser") Long iduser, @Param("accepted") boolean accepted);
+    @Query("FROM User U WHERE iduser IN (SELECT idcontact FROM Contact WHERE iduser = :iduser AND accepted = :accepted) OR iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted)")
+    List<User> findContacts(@Param("iduser") User iduser, @Param("accepted") boolean accepted);
 }
