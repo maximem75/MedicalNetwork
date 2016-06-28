@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 var userToken = "null";
 var tokenName = "token";
-var category = "null";
+var userList;
 
 function manageSession(){
 
@@ -98,10 +98,10 @@ function getCategoryById(id){
         });
 }
 
-function getCategory(){
-    return category;
+function getUserList(){
+    return userList;
 }
 
-function setCategory(val){
-    category = val;
+function setUserList(val){
+    userList = val;
 }

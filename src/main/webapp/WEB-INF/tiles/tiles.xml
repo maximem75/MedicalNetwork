@@ -40,4 +40,7 @@
         <put-attribute name="head" value="/WEB-INF/tiles/head/profil_head.jsp" />
     </definition>
 
+    <definition name="layout.userList" extends="layout.default">
+        <put-attribute name="head" value="/WEB-INF/tiles/head/userList_head.jsp" />
+    </definition>
 </tiles-definitions>
