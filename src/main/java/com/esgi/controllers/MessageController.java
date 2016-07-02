@@ -1,6 +1,5 @@
 package com.esgi.controllers;
 
-
 import com.esgi.model.Message;
 import com.esgi.repositories.MessageRepository;
 import com.esgi.repositories.UserRepository;
@@ -47,7 +46,7 @@ public class MessageController {
     public List<Message> getLastMessages(@RequestParam String token, @RequestParam Long idcontact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (messageRepository.getLastMessages(iduser, idcontact).subList(0,3));
+            return (messageRepository.getConversation(iduser, idcontact).subList(0,3));
         }
         return (null);
     }

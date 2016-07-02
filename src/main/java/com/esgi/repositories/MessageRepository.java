@@ -2,9 +2,11 @@ package com.esgi.repositories;
 
 import com.esgi.model.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,9 +16,11 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    @Query("SELECT M.date, M.content FROM Message M WHERE sender.iduser = :iduser AND receiver.iduser = :idcontact OR sender.iduser = :idcontact AND receiver.iduser = :iduser ORDER BY date DESC")
-    List<Message> getLastMessages(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Message WHERE sender.iduser = :iduser OR receiver.iduser = :iduser")
+    void removeMessagesFromUser(@Param("iduser") Long iduser);
 
-    @Query("FROM Message M WHERE receiver.iduser = :iduser AND sender.iduser = :idcontact OR sender.iduser  = :iduser AND receiver.iduser = :idcontact ORDER BY date DESC")
+    @Query("SELECT M.date, M.content FROM Message M WHERE sender.iduser = :iduser AND receiver.iduser = :idcontact OR sender.iduser = :idcontact AND receiver.iduser = :iduser ORDER BY date DESC")
     List<Message> getConversation(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
 }

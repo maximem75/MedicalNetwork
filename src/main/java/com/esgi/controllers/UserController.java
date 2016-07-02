@@ -3,11 +3,12 @@ package com.esgi.controllers;
 import com.esgi.model.Category;
 import com.esgi.model.Message;
 import com.esgi.model.User;
+import com.esgi.repositories.ContactRepository;
 import com.esgi.repositories.MessageRepository;
 import com.esgi.repositories.UserRepository;
+import com.esgi.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -23,13 +24,16 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
     private MessageRepository messageRepository;
 
     @RequestMapping(value = "/data", method = RequestMethod.GET)
-    public User getUser(@RequestParam String token) {
+    public Object getUser(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (userRepository.findOne(iduser));
+            return (userRepository.getDataUser(iduser));
         }
         return (null);
     }
@@ -44,7 +48,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@RequestParam String login, @RequestParam String password) {
+    public String login(@RequestParam String login, @RequestParam String password) {
+        password = UserUtils.encryptPassword(password);
         User user = userRepository.findByLoginAndPassword(login, password);
         if (user != null) {
             user.setToken(UUID.randomUUID().toString());
@@ -53,7 +58,7 @@ public class UserController {
             calendar.add(Calendar.DATE, 1);
             user.setTokenExpirationDate(calendar.getTime());
             userRepository.save(user);
-            return(user);
+            return(user.getToken());
         }
         return (null);
     }
@@ -72,7 +77,10 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(CREATED)
     public void registration(@RequestBody User user) {
-        userRepository.save(user);
+        if (userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).isEmpty()) {
+            user.setPassword(UserUtils.encryptPassword(user.getPassword()));
+            userRepository.save(user);
+        }
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -88,6 +96,8 @@ public class UserController {
     public void deleteUser(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
+            messageRepository.removeMessagesFromUser(iduser);
+            contactRepository.removeUser(iduser);
             userRepository.delete(iduser);
         }
     }
@@ -128,14 +138,14 @@ public class UserController {
      * @param user
      * @return Devrait sans doute renvoyer une Exception
      */
-    private boolean checkRegistration(User user) {
+    private boolean checkDataUser(User user) {
         if (user.getLogin() == null ||
-                user.getPassword() == null ||
-                user.getName() == null ||
-                user.getFirstname() == null ||
-                user.getBirthday() == null ||
-                user.getPhone() == null ||
-                user.getEmail() == null) {
+            user.getPassword() == null ||
+            user.getName() == null ||
+            user.getFirstname() == null ||
+            user.getBirthday() == null ||
+            user.getPhone() == null ||
+            user.getEmail() == null) {
             return (false);
         }
         return(true);
