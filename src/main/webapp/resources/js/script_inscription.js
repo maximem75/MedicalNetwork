@@ -1,148 +1,149 @@
-(function ($) {
-    $.fn.serializeFormJSON = function () {
-
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function () {
-            if (o[this.name]) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
-})(jQuery);
-
 $(document).ready(function(){
-
-   $("#inscription_form").on("submit", function(e){
-
-        var form = $(this);
-        var data = $(this).serializeFormJSON();
-        $.postJSON = function(url, data, callback) {
-        console.log(data);
-            return jQuery.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            'type': 'POST',
-            'url': url,
-            'data': JSON.stringify(data),
-            'dataType': 'json',
-            'success': callback
-            });
-        };
-        $.postJSON(form.attr("action"), data, (data) => {
-            alert("ok" + " " + data);
-        });
-        e.preventDefault();
-    });
-});
-
-/*
+    displayCategs("idcategory");
     $("#inscription_form").on("submit", function(e){
         e.preventDefault();
-
         var $this = $(this);
+        if(checkValues()==true) {
+           var myJson = '{'+
+               '"login": "'+$("#login").val()+'",'+
+               '"password": "'+$("#password").val()+'",'+
+               '"name": "'+$("#name").val()+'",'+
+               '"firstname": "'+$("#firstname").val()+'",'+
+               '"birthday": "'+$("#birthday").val()+'",'+
+               '"phone": "'+$("#phone").val()+'",'+
+               '"email": "'+$("#email").val()+'",'+
+               '"category":{"idcategory": "'+$("#idcategory").find(":selected").val()+'"}'+
+               '}';
 
-       /* var login = $("#login").val();
-        var password = $("#password").val();
-        var name = $("#name").val();
-        var firstname = $("#firstname").val();
-        //var date = $("#date").val();
-        var date = new Date();
-        var phone = $("#phone").val();
-        var mail = $("#mail").val();
+           $.ajax({
+               type: $this.attr("method"),
+               url: $this.attr("action"),
+               data:myJson,
+               contentType: "application/json; charset=utf-8",
 
+               success:function(res){
+                   window.location.href = "http://localhost:8080/accueil";
+               },
 
-        var login = "true";
-        var password = "ta";
-        var name = "mere";
-        var firstname = "gros";
-        var date = new Date();
-        var phone = "FILS";
-        var mail = "DEPUTE";
+               error: function(){
 
-        var resData = "login="+login+"&password="+password+"&name="+name+"&firstname="+firstname+"&birthday="+date+"&phone="+phone+"&email="+mail+"&idcategory=1";
+               }
+           });
+        }
 
-        //checkValues();
-
-         $.ajax({
-         type: $this.attr("method"),
-         url: $this.attr("action"),
-         data:{
-            "login":login,
-            "password":password,
-            "name":name,
-            "firstname":firstname,
-            "birthday":date,
-            "phone":phone,
-            "email":mail,
-            "idcategory":"1"
-
-         },
-         contentType: "application/json; charset=utf-8",
-
-         success:function(res){
-             window.location.href = "http://localhost:8080/accueil";
-         },
-
-         error: function(){
-
-         }
-
-         });
     });
+
 });
+
+function createJSON() {
+    jsonObj = [];
+    $(".register").each(function() {
+
+        var id = $(this).attr("id");
+        var value = $(this).val();
+
+        item = {};
+        if(id == "idcategory"){
+            var selected = $("#"+id).find(":selected").val();
+            item [id] = selected;
+        } else {
+            item [id] = value;
+        }
+
+        console.log(item);
+        jsonObj.push(item);
+    });
+    console.log(JSON.stringify(jsonObj));
+    return JSON.stringify(jsonObj);
+}
+
+
 
 function checkValues(){
     var error = false;
     var login = $("#login").val();
     var password = $("#password").val();
-    var password2 = $("#password2").val();
+    var password2 = $("#vpassword").val();
     var name = $("#name").val();
     var firstname = $("#firstname").val();
-    var date = $("#date").val();
+    var date = $("#birthday").val();
     var phone = $("#phone").val();
-    var mail = $("#mail").val();
-
-    var phoneReg = /^\+33[0-9]{9}$/;
-    var phoneReg = /^(06)[0-9]{9}$/;
+    var mail = $("#email").val();
 
     var message = "";
 
-    if($(login).length < 4){
+    if(login.length < 5){
+        console.log(login + " / " + login.length)
         error = true;
+        $("#login").addClass("error-inscription");
+        $("#login").removeClass("good-inscription");
+    } else {
+        $("#login").removeClass("error-inscription");
+        $("#login").addClass("good-inscription");
+    }
+
+    if(password.length < 6){
+        error = true;
+        $("#password").addClass("error-inscription");
+        $("#password").removeClass("good-inscription");
+    } else {
+        $("#password").removeClass("error-inscription");
+        $("#password").addClass("good-inscription");
     }
 
     if(password != password2){
         error = true;
+        $("#vpassword").addClass("error-inscription");
+        $("#vpassword").removeClass("good-inscription");
+    } else {
+        $("#vpassword").removeClass("error-inscription");
+        $("#vpassword").addClass("good-inscription");
     }
 
-    if($(password).length < 6){
+    if(name === "" ){
         error = true;
+        $("#name").addClass("error-inscription");
+        $("#name").removeClass("good-inscription");
+    } else {
+        $("#name").removeClass("error-inscription");
+        $("#name").addClass("good-inscription");
     }
 
-    if(name === "" || firstname === "" || date === ""){
+    if(firstname === ""){
         error = true;
+        $("#firstname").addClass("error-inscription");
+        $("#firstname").removeClass("good-inscription");
+    } else {
+        $("#firstname").removeClass("error-inscription");
+        $("#firstname").addClass("good-inscription");
     }
 
-    var resPhone1 = phone.match(phoneReg);
 
-    if(resPhone != undefined){
-        console.log(resPhone);
+    var filter_1 = /^(0)[1,2,3,4,5,6,7,9]{1}[0-9]{8}$/;
+    var filter_2 = /^(\+33)[1,2,3,4,5,6,7,9]{1}[0-9]{8}$/;
+
+    if (filter_1.test(phone)==false && filter_2.test(phone)==false) {
+        error = true;
+        $("#phone").addClass("error-inscription");
+        $("#phone").removeClass("good-inscription");
+    } else {
+        $("#phone").removeClass("error-inscription");
+        $("#phone").addClass("good-inscription");
     }
 
-    if(error != "true"){
+    if(mail.length < 1){
+        error = true;
+        $("#email").addClass("error-inscription");
+        $("#email").removeClass("good-inscription");
+    } else {
+        $("#email").addClass("good-inscription");
+        $("#email").removeClass("error-inscription");
+    }
+
+    if(error === false){
         return true;
     } else {
         return false;
     }
 
 }
-*/

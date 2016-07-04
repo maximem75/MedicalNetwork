@@ -35,6 +35,9 @@ function userConnected(){
 }
 
 function userDisconnected(){
+    if(window.location.href != "http://localhost:8080/connexion" && window.location.href != "http://localhost:8080/inscription"){
+        window.location.href = "http://localhost:8080/connexion";
+    }
     $('#menu_main').append('<li><a href="http://localhost:8080/connexion" data-title="Connexion">Connexion</a></li>');
     $('#menu_main').append('<li><a href="http://localhost:8080/inscription" data-title="Inscription">Inscription</a></li>');
 }
@@ -84,7 +87,6 @@ function getCategoryById(id){
                 var i = 0;
                 $.each(res, function(index, category) {
                    if(index == "nameCategory"){
-                    console.log(index);
                     setCategory(category);
                    }
                    i++;
@@ -96,6 +98,31 @@ function getCategoryById(id){
             }
 
         });
+}
+
+
+function displayCategs(id){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/category/all",
+        beforeSend: function (xhr) {
+            if (xhr && xhr.overrideMimeType) {
+                xhr.overrideMimeType('application/json;charset=utf-8');
+            }
+        },
+        datatype: "jsonp",
+
+        success:function(res){
+            $.each(res, function(index, category) {
+                $("#"+id).append("<option class='option-category' value='"+category.idcategory+"'>"+category.nameCategory+"</option>");
+            });
+        },
+        error: function(){
+            alert("error");
+        },
+
+    });
+
 }
 
 function getUserList(){

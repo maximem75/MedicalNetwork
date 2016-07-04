@@ -16,3 +16,7 @@ ul{
     font-size: 20px;
 }
 
+.error-inscription{
+    border: 1px solid #FE2E2E;
+    background-color: #F6CECE;
+}

@@ -44,11 +44,7 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Category> getCategoriesList(@RequestParam String token) {
-        Long iduser = userRepository.findByToken(token, new Date());
-        if (iduser != null) {
-            return(categoryRepository.findAll());
-        }
-        return (null);
+    public List<Category> getCategoriesList() {
+        return(categoryRepository.findAll());
     }
 }

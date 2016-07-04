@@ -32,7 +32,7 @@
     line-height: 1;
 }
 #cssmenu > ul {
-    background: #38BB38;
+    background: #337ab7;
 }
 #cssmenu > ul > li {
     float: left;
@@ -58,7 +58,7 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     text-decoration: none;
-    background: #38BB38;
+    background: #337ab7;
     -webkit-transition: all .3s;
     -moz-transition: all .3s;
     -o-transition: all .3s;
@@ -107,7 +107,7 @@
 }
 #cssmenu > ul > li:hover > a::before,
 #cssmenu > ul > li > a:hover::before {
-    background: #09A409;
+    background: #265a88;
 }
 #cssmenu.small-screen {
     width: 100%;

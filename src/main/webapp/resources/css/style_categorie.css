@@ -69,3 +69,21 @@
     text-align: center;
     cursor: pointer;
 }
+
+.userName{
+    display: inline-block;
+}
+
+.button_user{
+    display: inline-block;
+    float: right;
+}
+
+.list-group-item{
+    width: 400px;
+    margin:auto;
+}
+
+#middle{
+
+}

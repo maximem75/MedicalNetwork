@@ -1,7 +1,11 @@
 $(document).ready(function(){
+    displayListCateg();
+});
+
+function displayListCateg(){
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/category/all?token="+readCookie("token"),
+        url: "http://localhost:8080/category/all",
         beforeSend: function (xhr) {
             if (xhr && xhr.overrideMimeType) {
                 xhr.overrideMimeType('application/json;charset=utf-8');
@@ -10,7 +14,7 @@ $(document).ready(function(){
         datatype: "jsonp",
 
         success:function(res){
-
+            console.log(res);
             var i = 0;
             $.each(res, function(index, category) {
                 if(i === 6){
@@ -25,7 +29,7 @@ $(document).ready(function(){
             alert("error");
         }
     });
-});
+}
 
 function searchCateg(elem){
     var id = $(elem).attr("id");
@@ -61,7 +65,7 @@ function addBox(name, newLine){
 
     if(newLine === true){
         $(table).append(row);
-        var elem = document.getElementById(name)
+        var elem = document.getElementById(name);
         $(".div-row").last().append(box);
 
     } else {
@@ -84,6 +88,14 @@ function getUserListByCateg(datas){
 
         complete:function(result){
             setUserList(result);
+
+            $("#middle").empty();
+            $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
+
+
+           $.each(result.responseJSON, function(index, value){
+                $("#user_li").append(displayUserList(value.name + " " + value.firstname, value.iduser));
+            });
         },
         error:function(){
             console.log("error");
@@ -91,11 +103,52 @@ function getUserListByCateg(datas){
     });
 }
 
-var full_name = "null";
+function displayUserList(full_name, id){
+    var list_dom =''+
+        '<li class="list-group-item">' +
+            '<div class="userName">' +
+                '<label for="userName">'+full_name+'</label>' +
+            '</div>' +
+            '<div class="action-buttons button_user">' +
+                '<a onclick="addContact("'+id+'")">' +
+                    '<span class="glyphicon glyphicon-user"></span>' +
+                '</a>' +
+                '<a onclick="conactUser("'+id+'")">' +
+                    '<span class="glyphicon glyphicon-envelope"></span>' +
+                '</a>' +
+            '</div>' +
+        '</li>';
 
-var list_dom = '<tr>'
-    +'<td><span class="label label-default">'+full_name+'</span></td>'
-    +'<td style="width: 20%;"><a href="#" class="table-link"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-search-plus fa-stack-1x fa-inverse"></i></span>'
-    +'</a><a href="#" class="table-link"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>'
-    +'<a href="#" class="table-link danger"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span>'
-    +'</a></td></tr>';
+
+    return list_dom;
+}
+
+function addContact(id){
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/category/add',
+        data: 'token='+readCookie("token")+'&iduser',
+        beforeSend: function (xhr) {
+            if (xhr && xhr.overrideMimeType) {
+                xhr.overrideMimeType('application/json;charset=utf-8');
+            }
+        },
+        datatype: "jsonp",
+
+        complete:function(result){
+            setUserList(result);
+
+            $("#middle").empty();
+            $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
+
+
+            $.each(result.responseJSON, function(index, value){
+                $("#user_li").append(displayUserList(value.name + " " + value.firstname, value.iduser));
+            });
+        },
+        error:function(){
+            console.log("error");
+        }
+    });
+
+}

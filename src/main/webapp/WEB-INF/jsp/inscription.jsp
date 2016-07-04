@@ -6,7 +6,7 @@
 
         <div id="middle">
             <form id="inscription_form" method="POST" action="http://localhost:8080/user/register">
-                <div class="div-inscription">
+                <br class="div-inscription">
 
                     <div class="row">
                     <div class="col-md-offset-2 col-md-8">
@@ -17,59 +17,74 @@
                     <div class="row">
                     <div class="col-md-offset-2 col-md-3">
                     <div class="form-group">
-                    <label for="Nom">Nom</label>
-                    <input type="text" class="form-control" id="nom" placeholder="Nom" name="name">
+                    <label for="login">Identifiant</label>
+                    <input type="text" class="form-control register" id="login" placeholder="Identifiant" name="login">
+                    </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-3">
+                            <div class="form-group">
+                                <label for="Password">Mot de passe</label>
+                                <input type="password" class="form-control register" id="password" placeholder="Mot de passe" name="password">
+                            </div>
+                        </div>
+                        <div class="col-md-offset-1 col-md-3">
+                            <div class="form-group">
+                                <label for="Vpassword">V&eacute;rification mot de passe</label>
+                                <input type="password" class="form-control" id="vpassword" placeholder="V&eacute;rification mot de passe">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-3">
+                    <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" class="form-control register" id="name" placeholder="Nom" name="name">
                     </div>
                     </div>
                     <div class="col-md-offset-1 col-md-3">
-                    <div class="form-group">
-                    <label for="Prenom">Pr&eacute;nom</label>
-                    <input type="text" class="form-control" id="prenom" placeholder="Pr&eacute;nom" name="firstname">
-                    </div>
+                        <div class="form-group">
+                            <label>Pr&eacute;nom</label>
+                            <input type="text" class="form-control register" id="firstname" placeholder="Pr&eacute;nom" name="firstname">
+                        </div>
                     </div>
                     </div>
 
                     <div class="row">
                     <div class="col-md-offset-2 col-md-3">
-                    <div class="form-group">
-                    <label for="login_id">Identifiant</label>
-                    <input type="text" class="form-control" id="login_id" placeholder="Identifiant" name="login">
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+                        <input type="date" class="form-control register" placeholder="Date de Naissance" aria-describedby="basic-addon1" name="birthday" id="birthday">
                     </div>
                     </div>
                     <div class="col-md-offset-1 col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon glyphicon glyphicon-earphone"></span>
+                            <input type="text" class="form-control register" placeholder="T&eacute;l&eacute;phone" aria-describedby="basic-addon1" name="phone" id="phone">
+                        </div>
+                    </div>
+                    </div>
+                    </br>
+                    <div class="row">
+                    <div class="col-md-offset-2 col-md-3">
                     <div class="form-group">
                     <label for="Email">Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+                    <input type="email" class="form-control register" id="email" placeholder="Enter email" name="email">
                     </div>
                     </div>
-                    </div>
-
-                    <div class="row">
-                    <div class="col-md-offset-2 col-md-3">
-                    <div class="form-group">
-                    <label for="Password">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" placeholder="Mot de passe" name="password">
-                    </div>
-                    </div>
+                        </br>
                     <div class="col-md-offset-1 col-md-3">
-                    <div class="form-group">
-                    <label for="Vpassword">V&eacute;rification mot de passe</label>
-                    <input type="password" class="form-control" id="vpassword" placeholder="V&eacute;rification mot de passe">
+                        <select class="form-control register" id="idcategory">
+                        </select>
                     </div>
                     </div>
-                    </div>
-
                     <div class="row">
-                    <div class="col-md-offset-2 col-md-3">
-                    <div class="input-group">
-                    <span class="input-group-addon glyphicon glyphicon-earphone"></span>
-                    <input type="text" class="form-control" placeholder="T&eacute;l&eacute;phone" aria-describedby="basic-addon1" name="phone">
-                    </div>
-                    <div class="input-group">
-                    <span class="input-group-addon glyphicon glyphicon-calendar"></span>
-                    <input type="date" class="form-control" placeholder="Date de Naissance" aria-describedby="basic-addon1" name="date">
-                    </div>
-                    </div>
+                        <div class="col-md-offset-2 col-md-7">
+                            <div class="form-group">
+                                <small>L'identifiant doit comporter 5 caract&egrave;res minimum, le mot de passe doit en comporter 6.</small>
+                            </div>
+                        </div>
                     </div>
 
                     <br/>
@@ -78,7 +93,7 @@
                     <button type="submit" class="btn  btn-primary " id="btnid">Envoyer mes informations</button>
                     </div>
                     </div>
-                </div>
+
             </form>
         </div>
 
