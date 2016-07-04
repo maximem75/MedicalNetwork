@@ -1,18 +1,15 @@
 package com.esgi.controllers;
 
 import com.esgi.model.Category;
+import com.esgi.model.Message;
 import com.esgi.model.User;
+import com.esgi.repositories.ContactRepository;
+import com.esgi.repositories.MessageRepository;
 import com.esgi.repositories.UserRepository;
+import com.esgi.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.io.Console;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -26,17 +23,21 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    //Affiche données d'un utilisateur
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
+
     @RequestMapping(value = "/data", method = RequestMethod.GET)
-    public User getUser(@RequestParam String token) {
+    public Object getUser(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (userRepository.findOne(iduser));
+            return (userRepository.getDataUser(iduser));
         }
         return (null);
     }
 
-    //recherche lsite utilisateur par categorie
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<User> getUsersByCategory(@RequestParam String token, @RequestParam Long idcategory) {
         Long iduser = userRepository.findByToken(token, new Date());
@@ -47,7 +48,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public User login(@RequestParam String login, @RequestParam String password) {
+    public String login(@RequestParam String login, @RequestParam String password) {
+        //password = UserUtils.encryptPassword(password);
         User user = userRepository.findByLoginAndPassword(login, password);
         if (user != null) {
             user.setToken(UUID.randomUUID().toString());
@@ -56,7 +58,7 @@ public class UserController {
             calendar.add(Calendar.DATE, 1);
             user.setTokenExpirationDate(calendar.getTime());
             userRepository.save(user);
-            return(user);
+            return(user.getToken());
         }
         return (null);
     }
@@ -72,12 +74,14 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public @ResponseBody User registration(@RequestBody User user) {
-
-        user.setBirthday(new Date());
-        userRepository.save(user);
-        return user;
+    @RequestMapping(value="/register", method = RequestMethod.POST)
+    @ResponseStatus(CREATED)
+    public void registration(@RequestBody User user) {
+        if (userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).isEmpty()) {
+           // user.setPassword(UserUtils.encryptPassword(user.getPassword()));
+            user.setPassword(user.getPassword());
+            userRepository.save(user);
+        }
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -93,6 +97,8 @@ public class UserController {
     public void deleteUser(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
+            messageRepository.removeMessagesFromUser(iduser);
+            contactRepository.removeUser(iduser);
             userRepository.delete(iduser);
         }
     }
@@ -101,7 +107,7 @@ public class UserController {
     public List<User> getInvitations(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return(userRepository.findPendingInvitations(iduser, false));
+            return(userRepository.findPendingInvitations(new User(iduser), false));
         }
         return (null);
     }
@@ -110,7 +116,20 @@ public class UserController {
     public List<User> getContacts(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return(userRepository.findContacts(iduser, true));
+            return(userRepository.findContacts(new User(iduser), true));
+        }
+        return (null);
+    }
+
+    @RequestMapping(value = "/lastConversations", method = RequestMethod.GET)
+    public List<Message> getLastConversations(@RequestParam String token) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            ArrayList<Message> lastConversations = new ArrayList<>();
+            for (User contact : userRepository.findContacts(new User(iduser), true)) {
+                lastConversations.add(messageRepository.getConversation(iduser, contact.getIduser()).get(0));
+            }
+            return (lastConversations);
         }
         return (null);
     }
@@ -120,7 +139,7 @@ public class UserController {
      * @param user
      * @return Devrait sans doute renvoyer une Exception
      */
-    private boolean checkRegistration(User user) {
+    private boolean checkDataUser(User user) {
         if (user.getLogin() == null ||
             user.getPassword() == null ||
             user.getName() == null ||

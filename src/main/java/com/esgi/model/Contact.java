@@ -46,6 +46,7 @@ public class Contact {
     }
 
     @Column(name = "message")
+    @NotNull
     public String getMessage() {
         return message;
     }

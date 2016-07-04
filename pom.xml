@@ -6,7 +6,7 @@
 	<groupId>com.esgi</groupId>
 	<artifactId>medicalnetwork</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>MedicalNetwork</name>
 	<description>Projet annuel de 4A AL ESGI</description>
