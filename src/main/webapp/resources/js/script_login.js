@@ -18,35 +18,29 @@ $(document).ready(function(){
                     xhr.overrideMimeType('application/json;charset=utf-8');
                 }
             },
-            datatype: "jsonp",
-
-            success:function(res){
-                var i = 0;
-                $.each(res, function(index, user) {
-                    if(index === "token"){
-                        createCookie("token", user, 1);
-                    }
-                    i++;
-                    console.log("User : " + user + " / id : " + index + " / i : " + i);
-                });
-
-                window.location.href = "http://localhost:8080/accueil";
-            },
+           datatype: "json",
 
             error: function(){
-                alert("Identifiants incorrects");
+        
+            },
+
+            complete:function(res){
+                console.log(res.responseText.length);
+                if(res.responseText.length > 0){
+                    createCookie("token", res.responseText, 1);
+                    window.location.href = "http://localhost:8080/accueil";
+                } else {
+                    $("#span_error").remove();
+                    $("#login-form").append("<span id='span_error'>Mauvais Identifiants</span>");
+                    $("#span_error").css({
+                    "color" : "red"
+                    });
+                }
+                    
+            
             }
 
         });
     });
 });
 
-function createCookie(name,value,days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
-    }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-}

@@ -60,6 +60,7 @@ public class UserController {
             userRepository.save(user);
             return(user.getToken());
         }
+
         return (null);
     }
 
@@ -78,8 +79,7 @@ public class UserController {
     @ResponseStatus(CREATED)
     public void registration(@RequestBody User user) {
         if (userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).isEmpty()) {
-           // user.setPassword(UserUtils.encryptPassword(user.getPassword()));
-            user.setPassword(user.getPassword());
+            //user.setPassword(UserUtils.encryptPassword(user.getPassword()));
             userRepository.save(user);
         }
     }
@@ -97,8 +97,8 @@ public class UserController {
     public void deleteUser(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            messageRepository.removeMessagesFromUser(iduser);
-            contactRepository.removeUser(iduser);
+            //messageRepository.removeMessagesFromUser(iduser);
+            //contactRepository.removeUser(iduser);
             userRepository.delete(iduser);
         }
     }

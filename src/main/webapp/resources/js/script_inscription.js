@@ -14,7 +14,7 @@ $(document).ready(function(){
                '"email": "'+$("#email").val()+'",'+
                '"category":{"idcategory": "'+$("#idcategory").find(":selected").val()+'"}'+
                '}';
-
+               console.log(myJson);
            $.ajax({
                type: $this.attr("method"),
                url: $this.attr("action"),
@@ -22,6 +22,7 @@ $(document).ready(function(){
                contentType: "application/json; charset=utf-8",
 
                success:function(res){
+                    createCookie("token", token, 1);
                    window.location.href = "http://localhost:8080/accueil";
                },
 
@@ -34,29 +35,6 @@ $(document).ready(function(){
     });
 
 });
-
-function createJSON() {
-    jsonObj = [];
-    $(".register").each(function() {
-
-        var id = $(this).attr("id");
-        var value = $(this).val();
-
-        item = {};
-        if(id == "idcategory"){
-            var selected = $("#"+id).find(":selected").val();
-            item [id] = selected;
-        } else {
-            item [id] = value;
-        }
-
-        console.log(item);
-        jsonObj.push(item);
-    });
-    console.log(JSON.stringify(jsonObj));
-    return JSON.stringify(jsonObj);
-}
-
 
 
 function checkValues(){

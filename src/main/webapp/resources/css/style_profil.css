@@ -32,6 +32,11 @@
 {margin-top:20px;
 }
 
+.error-inscription{
+    border: 1px solid #FE2E2E;
+    background-color: #F6CECE;
+}
+
 .panel{
     margin-top: 50px;
 }
