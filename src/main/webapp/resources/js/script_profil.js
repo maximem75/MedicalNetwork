@@ -9,7 +9,7 @@ $(document).ready(function(){
     email = $("#email");
     phone = $("#phone");
     categ = $("#category");
-
+ 
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/user/data",
@@ -18,42 +18,42 @@ $(document).ready(function(){
 
         success:function(res){
             var i = 0;
-       
+            console.log(res);
             $.each(res, function(index, user) {
                
                switch(index){ 
-                case 0:
+                case 1:
                     user_login = user;
                     break;
-                case 1:
+                case 2:
                     user_password = user;
                     break;
-                case 2 :
+                case 3 :
                     prenom = user;
                     user_firstname = user;
                     break;
-                case 3 :
+                case 4 :
                     nom = user;
                     user_name = user;
                     break;
-                case 6 :
+                case 7 :
                     user = new Date(user);
                     user_date = user;
                     birthday = user.toString();
                     birthday = user.getFullYear() + "-" + (user.getMonth() + 1) + '-' + user.getDate();
                     break;
 
-               case 4 :
+               case 5 :
                    phone.text(user);
                    user_phone = user;
                    break;
 
-               case 5 :
+               case 6 :
                    email.text(user);
                    user_email = user;
                    break;
 
-                   case 7 :
+                   case 8 :
                     categ.text(user.nameCategory);
                        category_name = user.nameCategory;
                        category_id = user.idcategory;
@@ -82,7 +82,7 @@ $(document).ready(function(){
             console.log("Erreur : token is missing");
         }
 
-    });
+    }); 
 });
 
 
@@ -97,7 +97,7 @@ function sendUpdate(){
         if(checkValues() === true){
 
 
-            var myJson = '{"login": "'+user_login+'", "password": "'+user_password+'","name": "'+user_name+'","firstname": "'+user_firstname+'","birthday": "'+birthday+'","phone": "'+$("#phone").val()+'","email": "'+$("#email").val()+'","category":{"idcategory": "'+$("#categorieID").val()+'"}}';
+            var myJson = '{"login": "'+user_login+'", "password": "'+user_password+'","name": "'+user_name+'","firstname": "'+user_firstname+'","birthday": "'+birthday+'","phone": "'+$("#phone").val()+'","email": "'+$("#email").val()+'","token": "'+token+'","category":{"idcategory": "'+$("#categorieID").val()+'"}}';
            
             $.ajax({
                type: $this.attr("method"),
@@ -106,7 +106,7 @@ function sendUpdate(){
                contentType: "application/json; charset=utf-8",
 
                 success:function(res){
-                    window.location.href = "http://localhost:8080/profil";
+                    window.location.href = "http://localhost:8080/accueil";
                 },
 
                 error: function(res,status){
@@ -138,8 +138,7 @@ function removeUser(){
 
 function updateUser(){
 
-    //var r = confirm("Voulez vous modifier votre compte ?");
-    var r = true;
+    var r = confirm("Voulez vous modifier votre compte ?");
     if (r == true) {
         update = true;
         buildWindow();
@@ -152,7 +151,8 @@ function buildWindow(){
     $("#middle").empty();
 
     if(update === false){
-        $("#middle").append(content);
+        $("#middle").append(content); 
+        
     } else {
         $("#middle").append(contentUpdate);
         displayCategs("categorieID");

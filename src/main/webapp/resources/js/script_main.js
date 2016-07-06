@@ -120,9 +120,7 @@ function displayCategs(id){
         error: function(){
             alert("error");
         },
-
     });
-
 }
 
 function getUserList(){

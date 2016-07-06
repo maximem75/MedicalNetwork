@@ -14,7 +14,6 @@ $(document).ready(function(){
                '"email": "'+$("#email").val()+'",'+
                '"category":{"idcategory": "'+$("#idcategory").find(":selected").val()+'"}'+
                '}';
-               console.log(myJson);
            $.ajax({
                type: $this.attr("method"),
                url: $this.attr("action"),

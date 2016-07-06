@@ -21,12 +21,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByLoginAndPassword(@Param("login") String login, @Param("password") String password);
 
-    @Query("SELECT U.login, U.password, U.firstname, U.name, U.phone, U.email, U.birthday, U.category FROM User U WHERE iduser = :iduser")
+    @Query("SELECT U.iduser, U.login, U.password, U.firstname, U.name, U.phone, U.email, U.birthday, U.category FROM User U WHERE iduser = :iduser")
     Object getDataUser(@Param("iduser") Long iduser);
 
     List<User> findByEmailOrLogin(@Param("email") String email, @Param("login") String login);
 
-    @Query("SELECT U.name, U.firstname FROM User U WHERE idcategory = :idcategory")
+    @Query("SELECT U.iduser, U.name, U.firstname FROM User U WHERE idcategory = :idcategory")
     List<User> findUsersByCategory(@Param("idcategory") Category idcategory);
 
     @Query("SELECT U.iduser, U.name, U.firstname, C.message FROM User U, Contact C WHERE U.iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted) AND C.iduser = U.iduser")

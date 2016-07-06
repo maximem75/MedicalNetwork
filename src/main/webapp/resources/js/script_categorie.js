@@ -14,7 +14,6 @@ function displayListCateg(){
         datatype: "jsonp",
 
         success:function(res){
-            console.log(res);
             var i = 0;
             $.each(res, function(index, category) {
                 if(i === 6){
@@ -75,6 +74,7 @@ function addBox(name, newLine){
 
 
 function getUserListByCateg(datas){
+    var name, firstname, iduser;
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/user/list',
@@ -88,13 +88,27 @@ function getUserListByCateg(datas){
 
         complete:function(result){
             setUserList(result);
-
             $("#middle").empty();
             $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
 
 
            $.each(result.responseJSON, function(index, value){
-                $("#user_li").append(displayUserList(value.name + " " + value.firstname, value.iduser));
+                $.each(value, function(id, val){
+                    switch(id){
+                        case 1:
+                        name = val;
+                        break;
+                        case 2:
+                        firstname = val;
+                        break;
+
+                        case 0:
+                        iduser = val;
+                        break;
+                    }
+                });
+                $("#user_li").append(displayUserList(name + " " + firstname,iduser));
+     
             });
         },
         error:function(){
@@ -110,10 +124,10 @@ function displayUserList(full_name, id){
                 '<label for="userName">'+full_name+'</label>' +
             '</div>' +
             '<div class="action-buttons button_user">' +
-                '<a onclick="addContact("'+id+'")">' +
+                '<a onclick="sendRequestContact('+id+')">' +
                     '<span class="glyphicon glyphicon-user"></span>' +
                 '</a>' +
-                '<a onclick="conactUser("'+id+'")">' +
+                '<a onclick="contactUser('+id+')">' +
                     '<span class="glyphicon glyphicon-envelope"></span>' +
                 '</a>' +
             '</div>' +
@@ -123,32 +137,22 @@ function displayUserList(full_name, id){
     return list_dom;
 }
 
-function addContact(id){
+function sendRequestContact(id){
+   // var myJSON = '{ "accepted" : "false", "message" : "demande de contact", "user" : [{"iduser" : "1"}, {"idcontact" : "15"}]}';
+    var myJSON = '{"idcontact" : '+id+', "message" : "demande de contact" }';
     $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/category/add',
-        data: 'token='+readCookie("token")+'&iduser',
-        beforeSend: function (xhr) {
-            if (xhr && xhr.overrideMimeType) {
-                xhr.overrideMimeType('application/json;charset=utf-8');
-            }
-        },
-        datatype: "jsonp",
+        type: 'POST',
+        url: 'http://localhost:8080/contact/add?token='+readCookie("token"),
+        data: myJSON,
+        contentType: "application/json; charset=utf-8",
 
         complete:function(result){
-            setUserList(result);
-
-            $("#middle").empty();
-            $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
-
-
-            $.each(result.responseJSON, function(index, value){
-                $("#user_li").append(displayUserList(value.name + " " + value.firstname, value.iduser));
-            });
+           
         },
         error:function(){
             console.log("error");
         }
     });
-
 }
+
+

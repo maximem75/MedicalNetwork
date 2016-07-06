@@ -25,7 +25,7 @@ public class ContactController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public void addContact(@RequestParam String token, @RequestBody Contact contact) {
-        Long iduser = userRepository.findByToken(token, new Date());
+         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
             contact.setIduser(new User(iduser));
             contact.setAccepted(false);

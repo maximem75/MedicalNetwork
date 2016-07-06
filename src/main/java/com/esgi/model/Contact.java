@@ -26,6 +26,7 @@ public class Contact {
     }
 
     @Id
+    @GeneratedValue
     @Column(name = "idrelation")
     public Long getIdrelation() {
         return idrelation;
