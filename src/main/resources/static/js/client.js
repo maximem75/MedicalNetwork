@@ -1,5 +1,6 @@
 (function($){
 
+	console.info( "bdeac".split('').sort().join(''))
 	var socket = io.connect('http://localhost:1337');
 	// On sauvegarde le bloc HTML 'msgtpl' et on supprime le spécimen qu'on réinjectera avec des valeurs dans l'event 'newusr'
 	var msgtpl = $('#msgtpl').html();
@@ -90,6 +91,7 @@
 		// Injection d'un message
 		//var  tmp = CryptoJS.AES.encrypt(, "Secret Passphrase").toString();
 		//console.log("Encry: "+tmp.toString());
+		message.message = CryptoJS.AES.encrypt(message.message, key).toString()
 		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8));
 		message.message = CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8);
 		// outputs hello world

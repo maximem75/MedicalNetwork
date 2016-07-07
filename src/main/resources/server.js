@@ -16,17 +16,17 @@ var history = 2; // nombre de message historique à charger
 //*****
 //-------------- REST CALL ------------------
 //*****
-/*rest.get('http://localhost:8080/message/getConversation?token=6f163583-b904-4d20-943c-ed24c2872e00&idcontact=2').on('complete', function(result) {
+rest.get('http://localhost:8080/message/getConversation?token=6f163583-b904-4d20-943c-ed24c2872e00&idcontact=2').on('complete', function(result) {
   if (result instanceof Error) {
     console.log('Error:', result.message);
     this.retry(5000); // try again after 5 sec 
   } else {
     console.log(result);
   }
-});*/
+});
 
 
-var jsonData =  { 
+/*var jsonData =  { 
 	  	date : "2012-03-02", 
 	  	content : "blabla", 
 	  	sender : {"iduser" : "1"}, 
@@ -36,7 +36,7 @@ rest.postJson('http://localhost:8080/message/addMessage?token=6f163583-b904-4d20
 	    console.log("Post succed ? "+response.raw);
 	}).on('fail',function(data,response){
 		console.log("faiiiiiiiiil");
-	});
+	});*/
 
 	/*rest.post('http://localhost:8080/message/addMessage?token=6f163583-b904-4d20-943c-ed24c2872e00', {
 	  headers: { 
@@ -78,7 +78,7 @@ io.sockets.on('connection', function(socket){
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
 		}
-		console.log(message.room);
+		console.log("user msg: "+message.message);
 		io.to(message.room).emit('newmsg',message);
 	});
 
@@ -97,17 +97,17 @@ io.sockets.on('connection', function(socket){
 		    console.log('Error:', result.message);
 		    this.retry(5000); // try again after 5 sec 
 		  } else {
-		    console.log(result);
-		    var message = [];
+		    console.log("result :" +result);
+		    var messageBack ={message:"test"};
 		    for(var bddMessage in result){
-		    date = new Date();
-			message.h = date.getHours();
-			message.m = date.getMinutes();
-
-		    message.user = me;
-		    message.message = bddMessage[1];
-			socket.emit('newmsg',message);
-		}
+		    	messageBack.user = me;
+			    date = new Date();
+				messageBack.h = date.getHours();
+				messageBack.m = date.getMinutes();
+			    messageBack.message = result[bddMessage][1];
+			    console.log("recup msg: "+messageBack)
+				socket.emit('newmsg',messageBack);
+			}
 		  }
 		});
 
