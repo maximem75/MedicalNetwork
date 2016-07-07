@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 
+    @Query("SELECT idrelation FROM Contact WHERE (iduser.iduser = :iduser AND idcontact.iduser = :idcontact) OR (idcontact.iduser = :iduser AND iduser.iduser = :idcontact)")
+    Long isNewDemand(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Contact WHERE iduser = :iduser OR idcontact = :iduser")

@@ -24,12 +24,21 @@ public class ContactController {
     private UserRepository userRepository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void addContact(@RequestParam String token, @RequestBody Contact contact) {
-         Long iduser = userRepository.findByToken(token, new Date());
+    public String addContact(@RequestParam String token, @RequestBody Contact contact) {
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            contact.setIduser(new User(iduser));
-            contact.setAccepted(false);
-            contactRepository.save(contact);
+            if (contactRepository.isNewDemand(iduser, contact.getIdcontact().getIduser()) == null) {
+                contact.setIduser(new User(iduser));
+                contact.setAccepted(false);
+                contactRepository.save(contact);
+                return (null);
+            }
+            else {
+                return("Contact déjà ajouté !");
+            }
+        }
+        else {
+            return (null);
         }
     }
 
