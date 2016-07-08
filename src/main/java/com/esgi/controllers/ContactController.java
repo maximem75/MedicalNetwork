@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/contact")
@@ -57,7 +58,7 @@ public class ContactController {
         if (iduser != null) {
 			contact.setIduser(new User(iduser));
 			contact.setAccepted(true);
-            contactRepository.save(iduser, idcontact);
+            contactRepository.save(contact);
         }
     }
 
