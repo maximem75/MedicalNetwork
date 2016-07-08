@@ -41,6 +41,25 @@ public class ContactController {
             return (null);
         }
     }
+	
+	@RequestMapping(value = "/pending", method = RequestMethod.GET)
+    public List<Contact> getInvitations(@RequestParam String token) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            return(contactRepository.findPendingInvitations(new User(iduser), false));
+        }
+        return (null);
+    }
+	
+	@RequestMapping(value = "/accept", method = RequestMethod.POST)
+    public void acceptRequest(@RequestParam String token, @RequestParam Contact contact) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+			contact.setIduser(new User(iduser);
+			contact.setAccepted(true);
+            contactRepository.save(iduser, idcontact);
+        }
+    }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
     public void removeContact(@RequestParam String token, @RequestParam Long idcontact) {

@@ -17,6 +17,9 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Query("SELECT idrelation FROM Contact WHERE (iduser.iduser = :iduser AND idcontact.iduser = :idcontact) OR (idcontact.iduser = :iduser AND iduser.iduser = :idcontact)")
     Long isNewDemand(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
 
+	@Query("SELECT idrelation, accepted, message, iduser.iduser, idudser.name, iduser.firstname, idcontact.iduser FROM Contact WHERE idcontact.iduser = :iduser")
+	List<Contact> findPendingInvitations(@Param("iduser") Long iduser);
+	
     @Modifying
     @Transactional
     @Query("DELETE FROM Contact WHERE iduser = :iduser OR idcontact = :iduser")
