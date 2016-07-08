@@ -103,15 +103,6 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/pending", method = RequestMethod.GET)
-    public List<User> getInvitations(@RequestParam String token) {
-        Long iduser = userRepository.findByToken(token, new Date());
-        if (iduser != null) {
-            return(userRepository.findPendingInvitations(new User(iduser), false));
-        }
-        return (null);
-    }
-
     @RequestMapping(value = "/contact", method = RequestMethod.GET)
     public List<User> getContacts(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
