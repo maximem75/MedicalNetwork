@@ -57,7 +57,7 @@ public class ContactController {
         if (iduser != null) {
 			contact.setIduser(new User(iduser));
 			contact.setAccepted(true);
-            contactRepository.save(iduser, idcontact);
+            contactRepository.save(contact);
         }
     }
 
