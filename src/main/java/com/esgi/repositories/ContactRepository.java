@@ -22,7 +22,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
 	@Query("SELECT idrelation, accepted, message, iduser.iduser, iduser.name, iduser.firstname, idcontact.iduser FROM Contact WHERE idcontact= :iduser AND accepted = :accepted")
     List<Contact> findPendingInvitations(@Param("iduser") User iduser, @Param("accepted") boolean accepted);
-	
+
     @Modifying
     @Transactional
     @Query("DELETE FROM Contact WHERE iduser = :iduser OR idcontact = :iduser")
