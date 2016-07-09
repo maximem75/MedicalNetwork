@@ -12,7 +12,8 @@ var io = require('socket.io').listen(httpServer);
 var users = {}
 var messages = []
 var history = 2; // nombre de message historique à charger
-var token = "7e2fa51e-5f09-4249-86a0-951787b36371";
+//var token = "7e2fa51e-5f09-4249-86a0-951787b36371";
+var receiver = "";
 
 //*****
 //-------------- REST CALL ------------------
@@ -66,6 +67,20 @@ io.sockets.on('connection', function(socket){
 	/*for(var k in messages){
 		socket.emit('newmsg',messages[k]);
 	}*/
+	socket.on('getRoom',function(message){
+		console.log("GetRoom "+message.token+" "+message.receiver);
+		console.log('http://localhost:8080/message/getEncryptionKey?token='+me.token+'&idcontact='+me.recev+'');
+		rest.get('http://localhost:8080/message/getEncryptionKey?token='+me.token+'&idcontact='+me.recev+'').on('complete', function(result) {
+		  if (result instanceof Error) {
+		    console.log('Error:', result.message);
+		    this.retry(5000); // try again after 5 sec 
+		 	} 
+		  else {
+		    console.log("result room:" +result);
+			socket.emit('tmp',result);
+			}
+		 });
+	});
 
 	// ****
 	//  Reception  message
@@ -79,15 +94,17 @@ io.sockets.on('connection', function(socket){
 		message.h = date.getHours();
 		message.m = date.getMinutes();
 		message.data.date = date;
+		message.data.receiver = me.recev;
+
 		messages.push(message); // A faire fonctionner avec bdd
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
 		}
 		console.log("user msg data: "+message.data.date);
-		rest.postJson('http://localhost:8080/message/addMessage?token='+token+'',message.data).on('complete', function(data, response) {
+		rest.postJson('http://localhost:8080/message/addMessage?token='+me.token+'',message.data).on('complete', function(data, response) {
 			    console.log("Message POST succed ! : "+message.data.date);
 		}).on('fail',function(data,response){
-				console.log("faiiiiiiiiil");
+				console.log("Message POST failed !");
 		});
 		io.to(message.room).emit('newmsg',message);
 	});
@@ -100,22 +117,25 @@ io.sockets.on('connection', function(socket){
 		me = user;
 		me.id = user.mail.replace('@','-').replace('.','_');
 		me.avatar = 'http://forum.canardpc.com/customavatars/thumbs/avatar16737_1.gif';
-		me.room = user.room
+		me.room = user.room;
+		me.token = user.token;
+		me.recev = user.recev;
 
-		rest.get('http://localhost:8080/message/getConversation?token='+token+'&idcontact=2').on('complete', function(result) {
+		rest.get('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact=2').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error:', result.message);
 		    this.retry(5000); // try again after 5 sec 
 		  } else {
-		    console.log("result :" +result);
 		    var messageBack ={message:""};
 		    for(var bddMessage in result){
 		    	messageBack.user = me;
-			    date = new Date();
+			    date = new Date(result[bddMessage][0]);
+				messageBack.A = date.getFullYear();
+				messageBack.M = date.getMonth()+1;
+				messageBack.j = date.getDate();
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    console.log("recup msg: "+messageBack.message)
 				socket.emit('newmsg',messageBack);
 			}
 		  }
