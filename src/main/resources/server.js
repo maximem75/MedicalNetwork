@@ -118,7 +118,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('login', function(user){
 		me = user;
 		me.id = user.mail.replace('@','-').replace('.','_');
-		me.avatar = 'http://forum.canardpc.com/customavatars/thumbs/avatar16737_1.gif';
+		me.avatar = 'https://s32.postimg.org/a097o0fzp/image.jpg';
 		me.room = user.room;
 		me.token = user.token;
 		me.recev = user.recev;

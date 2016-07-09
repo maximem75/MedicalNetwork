@@ -62,21 +62,21 @@ function getUrlVars()
 		var jsonData =  { 
 			"headers": { 'Access-Control-Allow-Origin': '*' },
 			"date" : "", 
-			"content" : CryptoJS.AES.encrypt($('#message').val(), key).toString(), 
+			"content" : CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), 
 			"sender" : {"iduser" : "12"}, 
 			"receiver" :{"iduser" : "2"}  
 		};		
-	     	// $("#upload").click(function(evt){ CryptoJS.AES.encrypt($('#message').val(), key).toString()
+	     	// $("#upload").click(function(evt){ CryptoJS.AES.encrypt($('#message').val(), localRoom).toString()
 	      		file = $("#upload")[0].files[0];
 	      		if(typeof file === 'undefined'){
-	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-	      			socket.emit('newmsg', {message:CryptoJS.AES.encrypt($('#message').val(), key).toString(),room : localRoom, data : jsonData});
+	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), localRoom).toString());
+	      			socket.emit('newmsg', {message:CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(),room : localRoom, data : jsonData});
 					$('#message').val('');
 	      		}
 	      		else{
 				//evt.preventDefault;
-					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-					socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData});
+					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), localRoom).toString());
+					socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData});
 	      		}
 			
 		$('#form').wrap('<form>').closest('form').get(0).reset();
@@ -118,8 +118,8 @@ function getUrlVars()
 		//var  tmp = CryptoJS.AES.encrypt(, "Secret Passphrase").toString();
 		//console.log("Encry: "+tmp.toString());
 		console.log(message.message);
-		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8));
-		message.message = CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8);//;
+		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, localRoom).toString(CryptoJS.enc.Utf8));
+		message.message = CryptoJS.AES.decrypt(message.message, localRoom).toString(CryptoJS.enc.Utf8);//;
 		// outputs hello world
 		//console.log(decrypt(hw).toString('utf8')); 
 
@@ -131,6 +131,7 @@ function getUrlVars()
 	//Gestion des connctés
 	// ****
 	socket.on('newusr',function(user){
+		
 		if(user.room == localRoom){
 			$('#users').append('<img src="' + user.avatar + '" id="' + user.id + '">');
 			me = user;
