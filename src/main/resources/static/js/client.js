@@ -44,7 +44,47 @@
 	      			//socket.emit('newmsg', {message: $('#message').val()});
 	      			//file = $("#upload")[0].files[0];
 	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-	      			socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString(),room : localRoom});
+
+	      		/*	var jsonData =  { 
+					  	date : "2012-03-02", 
+					  	content : "blabla", 
+					  	sender : {"iduser" : "1"}, 
+					  	receiver :{"iduser" : "2"}  
+				};*/
+				/*rest.postJson('http://localhost:8080/message/addMessage?token=6f163583-b904-4d20-943c-ed24c2872e00', { 
+					  	date : new date(), 
+					  	content : CryptoJS.AES.encrypt($('#message').val(), key).toString(), 
+					  	sender : {"iduser" : "1"}, 
+					  	receiver :{"iduser" : "2"}  
+				}).on('complete', function(data, response) {
+					    console.log("Post succed ? "+response.raw);
+					}).on('fail',function(data,response){
+						console.log("faiiiiiiiiil");
+					});*/
+					/*var jsonData=  { 
+					  	date : Date(), 
+					  	content : CryptoJS.AES.encrypt($('#message').val(), key).toString(), 
+					  	sender : {"iduser" : "1"}, 
+					  	receiver :{"iduser" : "2"}  
+					};*/
+
+					//var jsonData = JSON.parse( JSONObject );    
+					var jsonData =  { 
+						"headers": { 'Access-Control-Allow-Origin': '*' },
+					  	"date" : "", 
+					  	"content" : CryptoJS.AES.encrypt($('#message').val(), key).toString(), 
+					  	"sender" : {"iduser" : "1"}, 
+					  	"receiver" :{"iduser" : "2"}  
+				};
+					/*var request = $.ajax({
+					  url: "http://localhost:8080/message/addMessage?token=6f163583-b904-4d20-943c-ed24c2872e00",
+					  type: "POST",
+					  data: jsonData,
+					  dataType: "jsonp",
+					  contentType: "application/json"
+					}); */   
+
+	      			socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString(),room : localRoom, data : jsonData});
 					$('#message').val('');
 	      		}
 	      		else{
@@ -91,6 +131,7 @@
 		// Injection d'un message
 		//var  tmp = CryptoJS.AES.encrypt(, "Secret Passphrase").toString();
 		//console.log("Encry: "+tmp.toString());
+		console.log(message.message);
 		message.message = CryptoJS.AES.encrypt(message.message, key).toString()
 		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8));
 		message.message = CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8);
