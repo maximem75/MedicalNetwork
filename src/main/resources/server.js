@@ -18,14 +18,14 @@ var receiver = "";
 //*****
 //-------------- REST CALL ------------------
 //*****
-rest.get('http://localhost:8080/message/getConversation?token='+token+'&idcontact=2').on('complete', function(result) {
+/*rest.get('http://localhost:8080/message/getConversation?token='+token+'&idcontact=2').on('complete', function(result) {
   if (result instanceof Error) {
     console.log('Error:', result.message);
     this.retry(5000); // try again after 5 sec 
   } else {
     console.log(result);
   }
-});
+});*/
 
 
 /*var jsonData =  { 
@@ -67,17 +67,17 @@ io.sockets.on('connection', function(socket){
 	/*for(var k in messages){
 		socket.emit('newmsg',messages[k]);
 	}*/
-	socket.on('getRoom',function(message){
-		console.log("GetRoom "+message.token+" "+message.receiver);
-		console.log('http://localhost:8080/message/getEncryptionKey?token='+me.token+'&idcontact='+me.recev+'');
-		rest.get('http://localhost:8080/message/getEncryptionKey?token='+me.token+'&idcontact='+me.recev+'').on('complete', function(result) {
+	socket.on('getRoom',function(ids){
+		
+		console.log('http://localhost:8080/message/getEncryptionKey?token='+ids.token+'&idcontact='+ids.recev+'');
+		rest.get('http://localhost:8080/message/getEncryptionKey?token='+ids.token+'&idcontact='+ids.recev+'').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error:', result.message);
 		    this.retry(5000); // try again after 5 sec 
 		 	} 
 		  else {
 		    console.log("result room:" +result);
-			socket.emit('tmp',result);
+			socket.emit('resultRoom',result);
 			}
 		 });
 	});
@@ -94,18 +94,20 @@ io.sockets.on('connection', function(socket){
 		message.h = date.getHours();
 		message.m = date.getMinutes();
 		message.data.date = date;
-		message.data.receiver = me.recev;
+		message.data.receiver = parseInt(me.recev);
 
 		messages.push(message); // A faire fonctionner avec bdd
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
 		}
-		console.log("user msg data: "+message.data.date);
+		console.log("user msg data: "+'http://localhost:8080/message/addMessage?token='+me.token+'');
 		rest.postJson('http://localhost:8080/message/addMessage?token='+me.token+'',message.data).on('complete', function(data, response) {
 			    console.log("Message POST succed ! : "+message.data.date);
 		}).on('fail',function(data,response){
 				console.log("Message POST failed !");
 		});
+
+		console.log("MESSAGE FOR ROOM : "+message.room);
 		io.to(message.room).emit('newmsg',message);
 	});
 
@@ -120,8 +122,8 @@ io.sockets.on('connection', function(socket){
 		me.room = user.room;
 		me.token = user.token;
 		me.recev = user.recev;
-
-		rest.get('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact=2').on('complete', function(result) {
+console.log('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact='+me.recev+'');
+		rest.get('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact='+me.recev+'').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error:', result.message);
 		    this.retry(5000); // try again after 5 sec 
@@ -136,6 +138,7 @@ io.sockets.on('connection', function(socket){
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
+			    console.log(bddMessage);
 				socket.emit('newmsg',messageBack);
 			}
 		  }

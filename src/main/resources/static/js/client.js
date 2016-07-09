@@ -22,20 +22,21 @@ function getUrlVars()
 	var key = " Passphrase";
 	var me;
 	var localRoom;
+	var getParams = getUrlVars();
+	socket.emit('getRoom',{token : getParams["token"], recev:getParams["recev"] });
 
 	$('#msgtpl').remove();
 	$('#loginform').submit(function(event){
-		var getParams = getUrlVars();
+		
 		event.preventDefault();
 		socket.emit('login',{
 			username: $('#username').val(),
 			mail	: $('#mail').val(),
-			room	: $('#room').val(),
+			room	: localRoom,
 			token	: getParams["token"],
 			recev: getParams["recev"]
 		})
-		socket.emit('getRoom',{token : getParams["token"] , receiver:getParams["recev"] });
-		localRoom = $('#room').val();
+		
 	});
 
 	socket.on('logged', function(){
@@ -49,6 +50,11 @@ function getUrlVars()
 	socket.on('connect', function(){
 		delivery = new Delivery(socket);
 	});
+
+	socket.on('resultRoom',function(room){
+		console.info("Got room: "+room);
+		localRoom = room;
+	})
 
 	$('#form').submit(function(event){
 		event.preventDefault();
