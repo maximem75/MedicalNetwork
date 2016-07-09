@@ -62,7 +62,7 @@ function getUrlVars()
 		var jsonData =  { 
 			"headers": { 'Access-Control-Allow-Origin': '*' },
 			"date" : "", 
-			"content" : $('#message').val(), 
+			"content" : CryptoJS.AES.encrypt($('#message').val(), key).toString(), 
 			"sender" : {"iduser" : "12"}, 
 			"receiver" :{"iduser" : "2"}  
 		};		
@@ -70,13 +70,13 @@ function getUrlVars()
 	      		file = $("#upload")[0].files[0];
 	      		if(typeof file === 'undefined'){
 	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-	      			socket.emit('newmsg', {message:$('#message').val(),room : localRoom, data : jsonData});
+	      			socket.emit('newmsg', {message:CryptoJS.AES.encrypt($('#message').val(), key).toString(),room : localRoom, data : jsonData});
 					$('#message').val('');
 	      		}
 	      		else{
 				//evt.preventDefault;
 					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), key).toString());
-					socket.emit('newmsg', {message: $('#message').val(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData});
+					socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), key).toString(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData});
 	      		}
 			
 		$('#form').wrap('<form>').closest('form').get(0).reset();
@@ -119,9 +119,9 @@ function getUrlVars()
 		//console.log("Encry: "+tmp.toString());
 		console.log(message.message);
 		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8));
-		message.message = message.message;//CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8);
+		message.message = CryptoJS.AES.decrypt(message.message, key).toString(CryptoJS.enc.Utf8);//;
 		// outputs hello world
-		//console.log(decrypt(hw).toString('utf8'));
+		//console.log(decrypt(hw).toString('utf8')); 
 
 		$('#messages').append('<div class="message">' + Mustache.render(msgtpl, message) + '</div>');
 		$('#messages').animate({scrollTop : $('#messages').prop('scrollHeight') }, 500); //Permet d'auto scroll a la reception d'un message, BEAUCOUP plus agréable
