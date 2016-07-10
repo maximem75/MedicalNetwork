@@ -21,6 +21,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query("DELETE FROM Message WHERE sender.iduser = :iduser OR receiver.iduser = :iduser")
     void removeMessagesFromUser(@Param("iduser") Long iduser);
 
-    @Query("SELECT M.date, M.content FROM Message M WHERE sender.iduser = :iduser AND receiver.iduser = :idcontact OR sender.iduser = :idcontact AND receiver.iduser = :iduser ORDER BY date DESC")
+    @Query("SELECT M.date, M.content, M.sender.name, M.sender.firstname FROM Message M WHERE sender.iduser = :iduser AND receiver.iduser = :idcontact OR sender.iduser = :idcontact AND receiver.iduser = :iduser ORDER BY date ASC")
     List<Message> getConversation(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
 }
