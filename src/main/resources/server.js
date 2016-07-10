@@ -170,6 +170,31 @@ console.log('http://localhost:8080/message/lastMessages?token='+me.token+'&idcon
 		io.sockets.emit('disusr',me);
 	});
 
+	// ****
+	//  historique
+	// ****
+	socket.on('history', function(){
+		rest.get('http://localhost:8080/message/getConversation?token='+me.token+'&idcontact='+me.recev+'').on('complete', function(result) {
+		  if (result instanceof Error) {
+		    console.log('Error:', result.message);
+		    this.retry(5000); // try again after 5 sec 
+		  } else {
+		    var messageBack ={message:""};
+		    for(var bddMessage in result){
+		    	messageBack.user = me;
+			    date = new Date(result[bddMessage][0]);
+				messageBack.A = date.getFullYear();
+				messageBack.M = date.getMonth()+1;
+				messageBack.j = date.getDate();
+				messageBack.h = date.getHours();
+				messageBack.m = date.getMinutes();
+			    messageBack.message = result[bddMessage][1];
+			    console.log(bddMessage);
+				socket.emit('newmsg',messageBack);
+			}
+		  }
+		});
+	});
 
 	// ****
 	//  Transfert de fichiers

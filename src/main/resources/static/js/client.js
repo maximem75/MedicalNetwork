@@ -26,6 +26,13 @@ function getUrlVars()
 	socket.emit('getRoom',{token : getParams["token"], recev:getParams["recev"] });
 
 	$('#msgtpl').remove();
+
+	$('#history').submit(function(event){
+		event.preventDefault();
+		socket.emit('history');
+		$('.message').remove();
+	});
+
 	$('#loginform').submit(function(event){
 		
 		event.preventDefault();
@@ -131,10 +138,11 @@ function getUrlVars()
 	//Gestion des connctés
 	// ****
 	socket.on('newusr',function(user){
-		
+		var userTmp = $('#mail').val();
 		if(user.room == localRoom){
 			$('#users').append('<img src="' + user.avatar + '" id="' + user.id + '">');
-			me = user;
+			if( userTmp == user.id)
+				me = user;
 		}
 	});
 
