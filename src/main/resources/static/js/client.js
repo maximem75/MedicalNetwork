@@ -13,7 +13,6 @@ function getUrlVars()
 
 (function($){
 
-	console.info( "bdeac".split('').sort().join(''))
 	var socket = io.connect('http://localhost:1337');
 	// On sauvegarde le bloc HTML 'msgtpl' et on supprime le spécimen qu'on réinjectera avec des valeurs dans l'event 'newusr'
 	var msgtpl = $('#msgtpl').html();

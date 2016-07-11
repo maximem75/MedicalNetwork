@@ -100,11 +100,11 @@ io.sockets.on('connection', function(socket){
 		if(messages.length > history){
 			messages.shift() // supprime l'entrée la plus veille
 		}
-		console.log("user msg data: "+'http://localhost:8080/message/addMessage?token='+me.token+'');
+		//console.log("user msg data: "+'http://localhost:8080/message/addMessage?token='+me.token+'');
 		rest.postJson('http://localhost:8080/message/addMessage?token='+me.token+'',message.data).on('complete', function(data, response) {
-			    console.log("Message POST succed ! : "+message.data.date);
+			    console.log("Message POST succed ! : "+response.message);
 		}).on('fail',function(data,response){
-				console.log("Message POST failed !");
+				console.log("Message POST failed !\n" + response);
 		});
 
 		console.log("MESSAGE FOR ROOM : "+message.room);
@@ -122,7 +122,7 @@ io.sockets.on('connection', function(socket){
 		me.room = user.room;
 		me.token = user.token;
 		me.recev = user.recev;
-console.log('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact='+me.recev+'');
+		//console.log('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact='+me.recev+'');
 		rest.get('http://localhost:8080/message/lastMessages?token='+me.token+'&idcontact='+me.recev+'').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error:', result.message);
@@ -138,7 +138,7 @@ console.log('http://localhost:8080/message/lastMessages?token='+me.token+'&idcon
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    console.log(bddMessage);
+			    
 				socket.emit('newmsg',messageBack);
 			}
 		  }
@@ -190,7 +190,7 @@ console.log('http://localhost:8080/message/lastMessages?token='+me.token+'&idcon
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
 			    console.log(bddMessage);
-				socket.emit('newmsg',messageBack);
+				socket.emit('newmsg',messageBack[1]);
 			}
 		  }
 		});
