@@ -7,6 +7,7 @@ $(document).ready(function(){
 
 var userToken = "null";
 var tokenName = "token";
+var arrayContact = [];
 var userList;
 verifyPendings();
 
@@ -271,7 +272,7 @@ function getUserListByCateg(datas){
             $("#middle").empty();
             $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
 
-
+            checkMyContacts();
            $.each(result.responseJSON, function(index, value){
                 $.each(value, function(id, val){
                     switch(id){
@@ -361,22 +362,24 @@ function sendRequestContact(id, elem, idBtn){
     
 }
 
-function checkMyPendings(){
+function checkMyContacts(){
     var pendings;
     if(readCookie("token") != undefined){
         $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/contact/pending',
+        url: 'http://localhost:8080/user/contact',
         data: "token="+readCookie("token"),
         contentType: "application/json; charset=utf-8",
 
         complete:function(result){
-           if(result.responseJSON.length > 0){     
-                $("#new_contact").remove();
-                $("#li_contact").append("<span id='new_contact' class='glyphicon glyphicon-bell' aria-hidden='true'></span>");
-            } else {
-                $("#new_contact").remove();
-            }   
+            $.each(result.responseJSON, function(id, val){
+                $.each(val, function(index, value){
+                    if(index == 0){
+                        arrayContact.push(value);
+                    }
+                });
+            });
+          console.log(arrayContact);
         },
         error:function(){
             console.log("error");
