@@ -127,7 +127,8 @@ public class UserController {
         if (iduser != null) {
             ArrayList<Message> lastConversations = new ArrayList<>();
             for (User contact : userRepository.findContacts(new User(iduser), true)) {
-                lastConversations.add(messageRepository.getConversation(iduser, contact.getIduser()).get(0));
+                List<Message> conversation = messageRepository.getConversation(iduser, contact.getIduser());
+                lastConversations.add(conversation.get(conversation.size()-1));
             }
             return (lastConversations);
         }

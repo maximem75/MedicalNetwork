@@ -46,7 +46,11 @@ public class MessageController {
     public List<Message> getLastMessages(@RequestParam String token, @RequestParam Long idcontact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            return (messageRepository.getConversation(iduser, idcontact).subList(0,3));
+            List<Message> conversation = messageRepository.getConversation(iduser, idcontact);
+            if(conversation.size() > 3) {
+                conversation = conversation.subList(0,3);
+            }
+            return (conversation);
         }
         return (null);
     }
