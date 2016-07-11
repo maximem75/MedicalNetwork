@@ -105,6 +105,7 @@ io.sockets.on('connection', function(socket){
 			    console.log("Message POST succed ! : "+response.message);
 		}).on('fail',function(data,response){
 				console.log("Message POST failed !\n" + response);
+
 		});
 
 		console.log("MESSAGE FOR ROOM : "+message.room);
@@ -189,8 +190,8 @@ io.sockets.on('connection', function(socket){
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    console.log(bddMessage);
-				socket.emit('newmsg',messageBack[1]);
+			    console.log(messageBack.message);
+				socket.emit('newmsg',messageBack);
 			}
 		  }
 		});

@@ -62,6 +62,11 @@ function getUrlVars()
 		localRoom = room;
 	})
 
+
+	socket.on('debug',function(debug){
+		console.info("Got room: ");
+	})
+
 	$('#form').submit(function(event){
 		event.preventDefault();
 		var file;
@@ -69,9 +74,10 @@ function getUrlVars()
 			"headers": { 'Access-Control-Allow-Origin': '*' },
 			"date" : "", 
 			"content" : CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), 
-			"sender" : {"iduser" : "12"}, 
-			"receiver" :{"iduser" : "2"}  
+			"sender" : {"iduser" : "3" }, 
+			"receiver" :{"iduser" : getParams["recev"]}  
 		};		
+		console.info(jsonData.toString());
 	     	// $("#upload").click(function(evt){ CryptoJS.AES.encrypt($('#message').val(), localRoom).toString()
 	      		file = $("#upload")[0].files[0];
 	      		if(typeof file === 'undefined'){
@@ -114,7 +120,7 @@ function getUrlVars()
 	//  Reception message message
 	// ****
 	socket.on('newmsg', function(message){
-		console.info("Message received from room : " + message.room);
+		//console.info("Message received from room : " + message.room);
 		// if permettant d'intercaler un séparateurs entre les blocks de messages n'appartenants pas au même user : gros gain de lisibilité
 		if(lastmsg != message.user.id){
 			$('#messages').append('<div class="sep"></div>');
