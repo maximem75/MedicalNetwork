@@ -5,6 +5,8 @@ $(document).ready(function(){
 var userToken = "null";
 var tokenName = "token";
 var userList;
+verifyPendings();
+
 
 function manageSession(){
 
@@ -30,7 +32,7 @@ function readCookie(name) {
 function userConnected(){
     $('#menu_main').append('<li><a href="http://localhost:8080/profil" data-title="Profil">Profil</a></li>');
     $('#menu_main').append('<li><a href="http://localhost:8080/categorie" data-title="Catégories">Catégories</a></li>');
-    $('#menu_main').append('<li><a href="http://localhost:8080/contact" data-title="Contact">Contact</a></li>');
+    $('#menu_main').append('<li><a href="http://localhost:8080/contact" id="li_contact" data-title="Contact">Contact</a></li>');
     $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
 }
 
@@ -130,3 +132,43 @@ function getUserList(){
 function setUserList(val){
     userList = val;
 }
+
+function getMyContacts(){
+     $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/user/contact',
+        data: "token="+readCookie("token"),
+        contentType: "application/json; charset=utf-8",
+
+        complete:function(result){
+           $.each(result.responseJSON, function(index, value){
+            console.log("index -> "+index + " / value -> " +  value);
+           });
+        },
+        error:function(){
+            console.log("error");
+        }
+    });
+}
+
+function verifyPendings(){
+    var pendings;
+     $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/user/pending',
+        data: "token="+readCookie("token"),
+        contentType: "application/json; charset=utf-8",
+
+        complete:function(result){
+           /* if(result.responseText.length > 0){
+                $("#li_contact").append("<img ")
+            }
+           */
+
+        },
+        error:function(){
+            console.log("error");
+        }
+    });
+}
+

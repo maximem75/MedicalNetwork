@@ -22,6 +22,7 @@ $(document).ready(function(){
             $.each(res, function(index, user) {
                
                switch(index){ 
+            
                 case 1:
                     user_login = user;
                     break;

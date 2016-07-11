@@ -1,5 +1,8 @@
 $(document).ready(function(){
     displayListCateg();
+    //getMyContacts();
+   var pendings = getMyPendings();
+    setTimeout(function(){ console.log(getPendings()); }, 200);
 });
 
 function displayListCateg(){
@@ -138,8 +141,7 @@ function displayUserList(full_name, id){
 }
 
 function sendRequestContact(id){
-   // var myJSON = '{ "accepted" : "false", "message" : "demande de contact", "user" : [{"iduser" : "1"}, {"idcontact" : "15"}]}';
-    var myJSON = '{"idcontact" : '+id+', "message" : "demande de contact" }';
+    var myJSON = '{"idcontact" : '+id+', "message" : "Demande de contact" }';
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/contact/add?token='+readCookie("token"),
@@ -154,5 +156,6 @@ function sendRequestContact(id){
         }
     });
 }
+
 
 

@@ -21,8 +21,7 @@ $(document).ready(function(){
                contentType: "application/json; charset=utf-8",
 
                success:function(res){
-                    createCookie("token", token, 1);
-                   window.location.href = "http://localhost:8080/accueil";
+                     window.location.href = "http://localhost:8080/accueil";
                },
 
                error: function(){
