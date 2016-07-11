@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/contact")
@@ -24,11 +25,39 @@ public class ContactController {
     private UserRepository userRepository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public void addContact(@RequestParam String token, @RequestBody Contact contact) {
-         Long iduser = userRepository.findByToken(token, new Date());
+    public String addContact(@RequestParam String token, @RequestBody Contact contact) {
+        Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            contact.setIduser(new User(iduser));
-            contact.setAccepted(false);
+            if (contactRepository.isNewDemand(iduser, contact.getIdcontact().getIduser()) == null) {
+                contact.setIduser(new User(iduser));
+                contact.setAccepted(false);
+                contactRepository.save(contact);
+                return (null);
+            }
+            else {
+                return("Contact déjà ajouté !");
+            }
+        }
+        else {
+            return (null);
+        }
+    }
+	
+	@RequestMapping(value = "/pending", method = RequestMethod.GET)
+    public List<Contact> getInvitations(@RequestParam String token) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            return(contactRepository.findPendingInvitations(new User(iduser), false));
+        }
+        return (null);
+    }
+	
+	@RequestMapping(value = "/accept", method = RequestMethod.POST)
+    public void acceptRequest(@RequestParam String token, @RequestParam Contact contact) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+			contact.setIduser(new User(iduser));
+			contact.setAccepted(true);
             contactRepository.save(contact);
         }
     }

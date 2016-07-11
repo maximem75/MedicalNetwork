@@ -33,6 +33,17 @@ public class MessageController {
         return (null);
     }
 
+    @RequestMapping(value = "/getEncryptionKey",method = RequestMethod.GET)
+    public String getEncryptionKey(@RequestParam String token, @RequestParam Long idcontact) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            List<String> login = userRepository.findLoginByIduser(iduser, idcontact);
+            String logins = login.get(0)+login.get(1);
+            return (scramble(logins));
+        }
+        return (null);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(CREATED)
     public void addMessage(@RequestParam String token, @RequestBody Message message) {
@@ -53,5 +64,14 @@ public class MessageController {
             return (conversation);
         }
         return (null);
+    }
+
+    public String scramble(String logins) {
+        char loginsArray[] = logins.toCharArray();
+        for(int i = 0; i<loginsArray.length-1; i++) {
+            int j = ((i+26)*50)% (loginsArray.length-1);
+            char temp = loginsArray[i]; loginsArray[i] = loginsArray[j];  loginsArray[j] = temp;
+        }
+        return (new String(loginsArray));
     }
 }

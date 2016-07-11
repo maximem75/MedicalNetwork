@@ -95,7 +95,7 @@ public class UserControllerTests {
     public void getInvitations()
     {
         Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
-        userController.getInvitations("token");
+        //userController.getInvitations("token");
         verify(userRepository).findByToken(eq("token"),any(Date.class));
         verify(userRepository).findPendingInvitations(any(User.class), false);
     }
