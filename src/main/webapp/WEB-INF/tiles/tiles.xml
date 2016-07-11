@@ -25,10 +25,6 @@
         <put-attribute name="head" value="/WEB-INF/tiles/head/inscription_head.jsp" />
     </definition>
 
-    <definition name="layout.categorie" extends="layout.default">
-        <put-attribute name="head" value="/WEB-INF/tiles/head/categorie_head.jsp" />
-    </definition>
-
     <definition name="layout.medecin" extends="layout.default">
         <put-attribute name="head" value="/WEB-INF/tiles/head/medecin_head.jsp" />
     </definition>
