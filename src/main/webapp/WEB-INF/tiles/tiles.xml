@@ -10,6 +10,7 @@
         <put-attribute name="title" value="Medical Network" />
         <put-attribute name="header" value="/WEB-INF/tiles/menu/header.jsp" />
         <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/foot/footer.jsp" />
     </definition>
 
     <definition name="layout.accueil" extends="layout.default">

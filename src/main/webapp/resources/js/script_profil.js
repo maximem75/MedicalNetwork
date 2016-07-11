@@ -21,43 +21,58 @@ $(document).ready(function(){
             console.log(res);
             $.each(res, function(index, user) {
                
-               switch(index){ 
-            
-                case 1:
-                    user_login = user;
-                    break;
-                case 2:
-                    user_password = user;
-                    break;
-                case 3 :
-                    prenom = user;
-                    user_firstname = user;
-                    break;
-                case 4 :
+               switch(index){             
+                case 0 :
                     nom = user;
                     user_name = user;
                     break;
-                case 7 :
-                    user = new Date(user);
-                    user_date = user;
-                    birthday = user.toString();
-                    birthday = user.getFullYear() + "-" + (user.getMonth() + 1) + '-' + user.getDate();
+
+                case 1 :
+                    prenom = user;
+                    user_firstname = user;
                     break;
 
-               case 5 :
+                case 2 :
                    phone.text(user);
                    user_phone = user;
                    break;
 
-               case 6 :
+                case 3 :
                    email.text(user);
                    user_email = user;
                    break;
 
-                   case 8 :
+                case 4 :
+                    user = new Date(user);
+                    user_date = user;
+                    birthday = user.toString();
+                    birthday = user.getFullYear() + "-" + (user.getMonth() + 1) + '-' + user.getDate();
+                    date.text(birthday);
+                    break;
+
+                case 5 :
+                    /*user = new Date(user);
+                    var tkn = user     
+                    date_token = user.toString();
+                    date_token = user.getFullYear() + "-" + (user.getMonth() + 1) + '-' + user.getDate()+" "+user.getHours()+":"+user.getMinutes()+":"+user.getSeconds();*/
+                    date_token = new Date(user);
+                    console.log(date_token);
+                    date_token = date_token.toString();
+                    console.log(date_token);
+                    break;               
+               
+                   case 6 :
                     categ.text(user.nameCategory);
                        category_name = user.nameCategory;
                        category_id = user.idcategory;
+                   break;
+
+                   case 7 :                   
+                   user_login = user;
+                   break;
+
+                   case 8 :                   
+                   user_password = user;
                    break;
                }
             });
@@ -89,16 +104,14 @@ $(document).ready(function(){
 
 var token;
 var update = false;
-var identifiant, date, email, phone, nom, prenom, category;
+var identifiant, date, email, phone, nom, prenom, category, date_token, login_user;
 
 function sendUpdate(){
     $("#update_form").on("submit", function(e){
         e.preventDefault();
         var $this = $(this);
         if(checkValues() === true){
-
-
-            var myJson = '{"login": "'+user_login+'", "password": "'+user_password+'","name": "'+user_name+'","firstname": "'+user_firstname+'","birthday": "'+birthday+'","phone": "'+$("#phone").val()+'","email": "'+$("#email").val()+'","token": "'+token+'","category":{"idcategory": "'+$("#categorieID").val()+'"}}';
+            var myJson = '{"login" : "'+user_login+'","password": "'+user_password+'","name": "'+user_name+'","firstname": "'+user_firstname+'","birthday": "'+birthday+'","phone": "'+$("#phone").val()+'","email": "'+$("#email").val()+'","token": "'+token+'","token_expiration_date" : "'+date_token+'","category":{"idcategory": "'+$("#categorieID").val()+'"}}';
            
             $.ajax({
                type: $this.attr("method"),
@@ -111,8 +124,7 @@ function sendUpdate(){
                 },
 
                 error: function(res,status){
-                    console.log(res);
-                    console.log(status);
+
                 }
             });
         }
@@ -149,13 +161,13 @@ function updateUser(){
 
 function buildWindow(){
     var child = document.getElementById("middle").firstChild;
-    $("#middle").empty();
+    $("#middle").find(".content_middle").empty();
 
     if(update === false){
-        $("#middle").append(content); 
+        $("#middle").find(".content_middle").append(content); 
         
     } else {
-        $("#middle").append(contentUpdate);
+        $("#middle").find(".content_middle").append(contentUpdate);
         displayCategs("categorieID");
         setTimeout(function(){ setSelectedIndex("categorieID",category_name); }, 150);      
         

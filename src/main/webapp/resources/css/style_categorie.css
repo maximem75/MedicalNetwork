@@ -7,31 +7,18 @@
 }
 
 .btn {
-    background: #4fd934;
-    background-image: -webkit-linear-gradient(top, #4fd934, #2bb83b);
-    background-image: -moz-linear-gradient(top, #4fd934, #2bb83b);
-    background-image: -ms-linear-gradient(top, #4fd934, #2bb83b);
-    background-image: -o-linear-gradient(top, #4fd934, #2bb83b);
-    background-image: linear-gradient(to bottom, #4fd934, #2bb83b);
-    -webkit-border-radius: 28;
+    background: #337ab7;
+      -webkit-border-radius: 28;
     -moz-border-radius: 28;
     border-radius: 28px;
-    font-family: Courier New;
-    color: #ffffff;
+    font-family: Helvetica;
+    color: white;
     font-size: 20px;
-    padding: 10px 20px 10px 20px;
     text-decoration: none;
-    margin-top: 40px;
-    margin-left: 90px;
 }
 
 .btn:hover {
-    background: #3cfc59;
-    background-image: -webkit-linear-gradient(top, #3cfc59, #28db28);
-    background-image: -moz-linear-gradient(top, #3cfc59, #28db28);
-    background-image: -ms-linear-gradient(top, #3cfc59, #28db28);
-    background-image: -o-linear-gradient(top, #3cfc59, #28db28);
-    background-image: linear-gradient(to bottom, #3cfc59, #28db28);
+    background:  #337ab7;
     text-decoration: none;
 }
 
@@ -84,6 +71,8 @@
     margin:auto;
 }
 
-#middle{
-
+#id_text_message{
+    width: 100%;
+    height: 70%;
+    resize: none;
 }

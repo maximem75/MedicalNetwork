@@ -1,9 +1,10 @@
 $(document).ready(function(){
     displayListCateg();
     //getMyContacts();
-   var pendings = getMyPendings();
-    setTimeout(function(){ console.log(getPendings()); }, 200);
+    //pendings = getMyPendings();
+    //setTimeout(function(){ console.log(getPendings()); }, 200);
 });
+var pendings;
 
 function displayListCateg(){
     $.ajax({
@@ -60,7 +61,7 @@ function searchCateg(elem){
 }
 
 function addBox(name, newLine){
-    var table = $(".div-table");
+    var table = $("#middle").find(".div-table");
 
     var box = "<div class='div-cell'><div class='div-box' id='"+name+"' onClick='searchCateg(this);'><span class='name-categ'>"+name+"</span></div></div>";
     var row = "<div class='div-row'></div>";
@@ -148,7 +149,7 @@ function sendRequestContact(id){
         data: myJSON,
         contentType: "application/json; charset=utf-8",
 
-        complete:function(result){
+        success:function(result){
            
         },
         error:function(){

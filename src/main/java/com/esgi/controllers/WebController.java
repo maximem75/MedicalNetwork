@@ -38,15 +38,6 @@ public class WebController {
         return mav;
     }
 
-    @RequestMapping(value = "/categorie")
-    public ModelAndView getCategorie() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("categorie");
-        String str = " ";
-        mav.addObject("message", str);
-        return mav;
-    }
-
     @RequestMapping(value = "/medecin")
     public ModelAndView getMedecin() {
         ModelAndView mav = new ModelAndView();

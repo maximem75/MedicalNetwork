@@ -5,9 +5,9 @@
     <tiles:putAttribute name="body">
 
         <div id="middle">
+            <div class="content_middle">
 
-
-
+            </div>
         </div>
 
     </tiles:putAttribute>

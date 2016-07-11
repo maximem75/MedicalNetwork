@@ -53,7 +53,7 @@ public class ContactController {
     }
 	
 	@RequestMapping(value = "/accept", method = RequestMethod.POST)
-    public void acceptRequest(@RequestParam String token, @RequestParam Contact contact) {
+    public void acceptRequest(@RequestParam String token, @RequestBody Contact contact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
 			contact.setIduser(new User(iduser));
@@ -66,7 +66,7 @@ public class ContactController {
     public void removeContact(@RequestParam String token, @RequestParam Long idcontact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            contactRepository.removeContact(iduser, idcontact);
+            contactRepository.removeContact(new User(iduser), new User(idcontact));
         }
     }
 }

@@ -1,4 +1,11 @@
 $(document).ready(function(){
+    $("#middle").css({
+        "width" : "1200px"
+    });
+
+    $(".content_middle").css({
+        "width" : "600px"
+    });
     $("#login-form").on("submit", function(e){
         e.preventDefault();
 

@@ -5,8 +5,10 @@
     <tiles:putAttribute name="body">
 
         <div id="middle">
-            <div class="div-table">
-                <div class="div-row"/>
+            <div class="content_middle">
+                <div class="div-table">
+                    <div class="div-row"/>
+                </div>
             </div>
         </div>
 
