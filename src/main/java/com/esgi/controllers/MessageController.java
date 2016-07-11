@@ -24,7 +24,7 @@ public class MessageController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/getConversation",method = RequestMethod.GET)
     public List<Message> getConversation(@RequestParam String token, @RequestParam Long idcontact) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
@@ -44,11 +44,12 @@ public class MessageController {
         return (null);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/addMessage",method = RequestMethod.POST)
     @ResponseStatus(CREATED)
     public void addMessage(@RequestParam String token, @RequestBody Message message) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
+            message.getSender().setIduser(iduser);
             messageRepository.save(message);
         }
     }
@@ -59,7 +60,7 @@ public class MessageController {
         if (iduser != null) {
             List<Message> conversation = messageRepository.getConversation(iduser, idcontact);
             if(conversation.size() > 3) {
-                conversation = conversation.subList(0,3);
+                conversation = conversation.subList(conversation.size()-3,conversation.size());
             }
             return (conversation);
         }
