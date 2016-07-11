@@ -69,11 +69,14 @@ function getUrlVars()
 
 	$('#form').submit(function(event){
 		event.preventDefault();
+				if( $('#message').val()==""){
+			return;
+		}
 		var file;
 		var jsonData =  { 
 			"headers": { 'Access-Control-Allow-Origin': '*' },
 			"date" : "", 
-			"content" : CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), 
+			"content" :  CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), 
 			"sender" : {"iduser" : "3" }, 
 			"receiver" :{"iduser" : getParams["recev"]}  
 		};		
@@ -130,8 +133,13 @@ function getUrlVars()
 		//var  tmp = CryptoJS.AES.encrypt(, "Secret Passphrase").toString();
 		//console.log("Encry: "+tmp.toString());
 		console.log(message.message);
+
+
+
+
 		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, localRoom).toString(CryptoJS.enc.Utf8));
 		message.message = CryptoJS.AES.decrypt(message.message, localRoom).toString(CryptoJS.enc.Utf8);//;
+		//message.message = message.message, localRoom;//;
 		// outputs hello world
 		//console.log(decrypt(hw).toString('utf8')); 
 
