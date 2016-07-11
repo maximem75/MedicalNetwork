@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    checkMyContacts();
+    getCurrentId();
     manageSession();
     manageFooter();
     eventFooter();
@@ -8,6 +10,7 @@ $(document).ready(function(){
 var userToken = "null";
 var tokenName = "token";
 var arrayContact = [];
+var current_ID;
 var userList;
 verifyPendings();
 
@@ -255,7 +258,7 @@ function addBox(name, newLine){
 
 
 function getUserListByCateg(datas){
-    var name, firstname, iduser;
+    var name, firstname, iduser, resultat;
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/user/list',
@@ -272,8 +275,9 @@ function getUserListByCateg(datas){
             $("#middle").empty();
             $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
 
-            checkMyContacts();
+           checkMyContacts();
            $.each(result.responseJSON, function(index, value){
+            console.log(value);
                 $.each(value, function(id, val){
                     switch(id){
                         case 1:
@@ -288,7 +292,18 @@ function getUserListByCateg(datas){
                         break;
                     }
                 });
-                $("#user_li").append(displayUserList(name + " " + firstname,iduser));
+                resultat = true;
+                $.each(arrayContact, function(index, value){
+      
+                    if(iduser == value){
+                        resultat = false;                        
+                    } else if(iduser == current_ID){
+                        resultat = "same";
+                    }
+                    
+                });
+
+                $("#user_li").append(displayUserList(name + " " + firstname, iduser, resultat));
      
             });
         },
@@ -298,8 +313,9 @@ function getUserListByCateg(datas){
     });
 }
 
-function displayUserList(full_name, id, idBtn){
-    var list_dom =''+
+function displayUserList(full_name, id, res){
+    if(res == true){
+        var list_dom =''+
         '<li class="list-group-item">' +
             '<div class="userName">' +
                 '<label for="userName">'+full_name+'</label>' +
@@ -313,13 +329,33 @@ function displayUserList(full_name, id, idBtn){
                 '</a>' +
             '</div>' +
         '</li>';
+    } else if(res == false){
+        var list_dom =''+
+        '<li class="list-group-item">' +
+            '<div class="userName">' +
+                '<label for="userName">'+full_name+'</label>' +
+            '</div>' +
+            '<div class="action-buttons button_user">' +
+                '<a onclick="contactUser('+id+')">' +
+                    '<span class="glyphicon glyphicon-envelope"></span>' +
+                '</a>' +
+            '</div>' +
+        '</li>';
+    } else if(res == "same"){
+        var list_dom =''+
+        '<li class="list-group-item">' +
+            '<div class="userName">' +
+                '<label for="userName">'+full_name+'</label>' +
+            '</div>' +
+        '</li>';
+    }
+    
 
 
     return list_dom;
 }
 
 function sendRequestContact(id, elem, idBtn){
-    console.log(idBtn);
     var $this = $(elem);
     var u_id = id;
     $("#id_wizard_message").remove();
@@ -363,7 +399,6 @@ function sendRequestContact(id, elem, idBtn){
 }
 
 function checkMyContacts(){
-    var pendings;
     if(readCookie("token") != undefined){
         $.ajax({
         type: 'GET',
@@ -372,6 +407,7 @@ function checkMyContacts(){
         contentType: "application/json; charset=utf-8",
 
         complete:function(result){
+            arrayContact= [];
             $.each(result.responseJSON, function(id, val){
                 $.each(val, function(index, value){
                     if(index == 0){
@@ -379,11 +415,33 @@ function checkMyContacts(){
                     }
                 });
             });
-          console.log(arrayContact);
         },
         error:function(){
             console.log("error");
         }
      });
     }
+}
+
+function getCurrentId(){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/user/data",
+        data:"token="+readCookie("token"),
+
+        success:function(res){
+            
+            $.each(res, function(index, user) {
+               
+               if(index == 9){
+                current_ID = user;
+               }
+            });
+        },
+
+        error: function(){
+            console.log("Erreur");
+        }
+
+    }); 
 }
