@@ -177,7 +177,6 @@ function manageFooter(){
    $("#middle").css({
     "height" : res - $(".footer").height() +"px"
    });
-   console.log("resize");
 }
 
 function eventFooter(){

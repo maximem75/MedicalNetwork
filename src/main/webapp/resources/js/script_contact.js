@@ -119,8 +119,9 @@ function getMyPendings(){
 
         complete:function(result){
            pending = result.responseJSON;
-           var json;
+           var json ="";
            var i = 0;
+           arrayContact = new Array();
            $.each(pending, function(index, value){
            		
            		$.each(value, function(id, val){
@@ -197,8 +198,9 @@ function checkDisplayedPendings(id){
 	return res;
 }
 
-function acceptPending(id, id_div){
+function acceptPending(id, id_div){		
 		var contact = arrayContact[id];
+		console.log(arrayContact);
 	    $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/contact/accept?token='+readCookie("token"),
