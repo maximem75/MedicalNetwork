@@ -45,8 +45,11 @@ body{
 }
 
 .content_middle{
-    width: 90%;
     margin: auto;
+    width: 1110px;
+    overflow: auto;
+    vertical-align: top;
+    height: 100%;
 
 }
 .list-group{

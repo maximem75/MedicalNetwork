@@ -1,5 +1,8 @@
 $(document).ready(function(){
     buildWindow();
+    $(".content_middle").css({
+        "color" : "#337ab7"
+    });
     token = readCookie("token");
     var resData = "token="+token;
     var success = false;
@@ -89,7 +92,7 @@ $(document).ready(function(){
                 +'<div class="form-group"><label for="Email">Email</label><input type="text" class="form-control" id="email" value="'+email.text()+'" name="email"></div></div><div class="col-md-offset-1 col-md-3"><label for="category">Cat&eacute;gorie</label><select class="form-control" id="categorieID"></select><div class="form-group">'
                 +'</div></div></div><div class="row"><div class="col-md-offset-2 col-md-3"><div class="form-group"><label for="Password">Mot de passe</label><input type="password" class="form-control" id="password" placeholder="Mot de passe" name="password"></div></div><div class="col-md-offset-1 col-md-3"><div class="form-group"><label for="Vpassword">V&eacute;rification mot de passe</label>'
                 +'<input type="password" class="form-control" id="vpassword" placeholder="V&eacute;rification mot de passe"></div></div></div><div class="row"><div class="col-md-offset-2 col-md-3"><div class="input-group"><span class="input-group-addon glyphicon glyphicon-earphone"></span><input type="text" class="form-control" value="'+phone.text()+'" aria-describedby="basic-addon1" name="phone" id="phone">'
-                +'</div></div></div></br><div class="row"><div class="col-md-offset-2 col-md-1"><button type="submit" class="btn  btn-primary " id="btnid">Envoyer mes informations</button></div><div class="col-md-offset-1 col-md-1"><button type="button" class="btn  btn-primary " onclick="updateFailed();" id="btn_annul">Annuler</button></div>'
+                +'</div></div></div></br><div class="row"><div class="col-md-offset-2 col-md-1"><button type="submit" class="btn  btn-primary " id="btnid">Envoyer mes informations</button></div><div class="col-md-offset-1 col-md-1"><button type="button" class="btn  btn-primary space_left" onclick="updateFailed();" id="btn_annul">Annuler</button></div>'
                 +'</div></div></div></form>';
 
         },
@@ -203,7 +206,7 @@ var content = ' <div class="row"><div class="panel"><div class="panel-heading"><
                  +'<tr><td>Date de naissance</td><td><span id="date" /></td></tr><tr><td>Email</td><td><span id="email" /></td></tr>'
                  +'<tr><td>Catégorie</td><td><span id="category" /></td></tr>'
                  +'<tr><td>T&eacute;l&eacute;phone</td><td><span id="phone" /></td></tr></tbody></table>'
-                 +'<a data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning btn" id="edit" onClick="updateUser();"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger btn" id="remove" onClick="removeUser();"><i class="glyphicon glyphicon-remove"></i></a>'
+                 +'<a data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-default btn" id="edit" onClick="updateUser();"><i class="glyphicon glyphicon-edit"></i></a>&nbsp;&nbsp;<a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-default btn" id="remove" onClick="removeUser();"><i class="glyphicon glyphicon-remove"></i></a>'
                  +'</div></div></div></div></div></div>';
 
 var contentUpdate;

@@ -4,7 +4,10 @@ $(document).ready(function(){
     manageSession();
     manageFooter();
     eventFooter();
-    displayListCateg();
+    if(window.location.href == "http://localhost:8080/accueil"){
+        displayListCateg();       
+    }
+     verifyPendings();
 });
 
 var userToken = "null";
@@ -12,7 +15,7 @@ var tokenName = "token";
 var arrayContact = [];
 var current_ID;
 var userList;
-verifyPendings();
+
 
 
 function manageSession(){
@@ -197,19 +200,20 @@ function displayListCateg(){
         },
         datatype: "jsonp",
 
-        success:function(res){
-            var i = 0;
-            $.each(res, function(index, category) {
-                if(i === 6){
-                    addBox(category.nameCategory,true);
-                } else {
-                    addBox(category.nameCategory,false);
-                }
+        success:function(res){        
+            var i = 0;  
+            var tempalte_number = 0;
+            $.each(res, function(index, category) {  
+                if(i >= 9){
+                    i = 0;
+                    tempalte_number++;
+                }             
+                addBox(category.nameCategory, i, tempalte_number);  
                 i++;
-            });
+            });            
         },
         error: function(){
-            alert("error");
+            console.log("error");
         }
     });
 }
@@ -240,20 +244,45 @@ function searchCateg(elem){
     });
 }
 
-function addBox(name, newLine){
-    var table = $("#middle").find(".div-table");
+function addBox(name, id, id_template){
+    var arrayColors = ["c_1", "c_2", "c_3", "c_4", "c_5"];
+    var rand =  Math.floor((Math.random() * 5) + 0);
+    var margin_top ="";
 
-    var box = "<div class='div-cell'><div class='div-box' id='"+name+"' onClick='searchCateg(this);'><span class='name-categ'>"+name+"</span></div></div>";
-    var row = "<div class='div-row'></div>";
-
-    if(newLine === true){
-        $(table).append(row);
-        var elem = document.getElementById(name);
-        $(".div-row").last().append(box);
-
-    } else {
-        $(".div-row").last().append(box);
+    if(id_template > 0){
+        margin_top = "div_mt";
     }
+    switch (id){
+        case 0:
+            $(".content_middle").append('<div class="template_mosaic '+margin_top+'" id="id_template_'+id_template+'"></div>');
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_l_h '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');            
+        break;
+        case 1:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_md '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 2:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_l_v '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 3:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_smd_mt smd_1 '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 4:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_smd_mt smd_2 '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 5:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_smd div_mt smd_3 '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 6:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_smd div_mt smd_4 '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 7:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_l_v div_mt '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+        case 8:
+            $("#id_template_"+id_template).append('<div id="'+name+'" onClick="searchCateg(this);" class="div_cells div_cell_vl_v '+arrayColors[rand]+'"><span class="text_categ">'+name+'<span></div>');
+        break;
+
+    }       
 }
 
 
@@ -272,12 +301,11 @@ function getUserListByCateg(datas){
 
         complete:function(result){
             setUserList(result);
-            $("#middle").empty();
-            $("#middle").append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
+            $("#middle").find('.content_middle').empty();
+            $("#middle").find('.content_middle').append('<div class="panel-body" id="panelB"><ul class="list-group" id="user_li"></ul></div>');
 
            checkMyContacts();
-           $.each(result.responseJSON, function(index, value){
-            console.log(value);
+           $.each(result.responseJSON, function(index, value){        
                 $.each(value, function(id, val){
                     switch(id){
                         case 1:
@@ -445,3 +473,43 @@ function getCurrentId(){
 
     }); 
 }
+
+/* var template = '<div class="template_mosaic">'+
+                        '<div class="div_cells div_cell_l_h c_1">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_md c_2">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_l_v c_3">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_smd_mt smd_1 c_4">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_smd_mt smd_2 c_5">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_smd div_mt smd_3 c_2">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_smd div_mt smd_4 c_4">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_l_v div_mt c_5">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                        '<div class="div_cells div_cell_vl_v c_1">'+
+                            '<span class="text_categ"><span>'+
+                        '</div>'+
+
+                    '</div>';
+*/
