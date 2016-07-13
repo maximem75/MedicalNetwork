@@ -250,7 +250,7 @@ function addBox(name, id, id_template){
     var margin_top ="";
 
     if(id_template > 0){
-        margin_top = "div_mt";
+        margin_top = "div_mt_container";
     }
     switch (id){
         case 0:
@@ -474,42 +474,3 @@ function getCurrentId(){
     }); 
 }
 
-/* var template = '<div class="template_mosaic">'+
-                        '<div class="div_cells div_cell_l_h c_1">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_md c_2">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_l_v c_3">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_smd_mt smd_1 c_4">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_smd_mt smd_2 c_5">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_smd div_mt smd_3 c_2">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_smd div_mt smd_4 c_4">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_l_v div_mt c_5">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                        '<div class="div_cells div_cell_vl_v c_1">'+
-                            '<span class="text_categ"><span>'+
-                        '</div>'+
-
-                    '</div>';
-*/

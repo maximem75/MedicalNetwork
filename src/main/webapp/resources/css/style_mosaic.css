@@ -16,8 +16,20 @@
 
 .div_cell_l_v{
     width: 320px;
-    height: 302px;
+    height: 297px;
     font-size: 32px;
+}
+.div_mt{
+    margin-top: -15px;
+}
+.div_mt_container{
+    margin-top: -20px;
+}
+.div_cell_vl_v{
+    width: 726px;
+    height: 146px;
+    margin-top: -150px;
+    font-size: 48px;
 }
 
 .div_cell_md{
@@ -38,20 +50,11 @@
 }
 .div_cell_smd_mt{
     width: 358px;
-    height: 146px;
-    margin-top: -153px;
+    height: 145px;
+    margin-top: -150px;
     font-size: 32px;
 }
-.div_mt{
-    margin-top: -20px;
-}
 
-.div_cell_vl_v{
-    width: 726px;
-    height: 146px;
-    margin-top: -153px;
-    font-size: 48px;
-}
 .template_mosaic{
     display: inline-block;
     position: relative;
