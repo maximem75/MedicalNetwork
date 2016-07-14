@@ -114,6 +114,7 @@ public class UserController {
 
     @RequestMapping(value = "/lastConversations", method = RequestMethod.GET)
     public List<Message> getLastConversations(@RequestParam String token) {
+        System.out.println(token);
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
             ArrayList<Message> lastConversations = new ArrayList<>();

@@ -49,7 +49,6 @@ function checkValues(){
     var message = "";
 
     if(login.length < 5){
-        console.log(login + " / " + login.length)
         error = true;
         $("#login").addClass("error-inscription");
         $("#login").removeClass("good-inscription");
@@ -115,7 +114,6 @@ function checkValues(){
         $("#email").addClass("good-inscription");
         $("#email").removeClass("error-inscription");
     }
-
     if(error === false){
         return true;
     } else {

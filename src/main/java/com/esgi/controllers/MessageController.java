@@ -38,6 +38,7 @@ public class MessageController {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
             Object login = userRepository.findNameByIduser(iduser);
+            System.out.println("GET LOGIN " + login.toString());
             return (login);
         }
         return (null);

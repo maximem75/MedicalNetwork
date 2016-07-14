@@ -1,8 +1,9 @@
-#cssmenu,
-#cssmenu ul,
-#cssmenu ul li,
-#cssmenu ul li a,
-#cssmenu #menu-button {
+.cssmenu,
+.cssmenu ul,
+.cssmenu ul li,
+.cssmenu ul li a,
+.cssmenu ul li span,
+.cssmenu #menu-button {
     margin: 0;
     padding: 0;
     border: 0;
@@ -14,8 +15,8 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-#cssmenu:after,
-#cssmenu > ul:after {
+.cssmenu:after,
+.cssmenu > ul:after {
     content: ".";
     display: block;
     clear: both;
@@ -23,35 +24,35 @@
     line-height: 0;
     height: 0;
 }
-#cssmenu #menu-button {
+.cssmenu #menu-button {
     display: none;
 }
-#cssmenu {
+.cssmenu {
     width: auto;
     font-family: Raleway, sans-serif;
     line-height: 1;
 }
-#cssmenu > ul {
+.cssmenu > ul {
     background: #337ab7;
 }
-#cssmenu > ul > li {
+.cssmenu > ul > li {
     float: left;
     -webkit-perspective: 1000px;
     -moz-perspective: 1000px;
     perspective: 1000px;
 }
-#cssmenu.align-center > ul {
+.cssmenu.align-center > ul {
     font-size: 0;
     text-align: center;
 }
-#cssmenu.align-center > ul > li {
+.cssmenu.align-center > ul > li {
     display: inline-block;
     float: none;
 }
-#cssmenu.align-right > ul > li {
+.cssmenu.align-right > ul > li {
     float: right;
 }
-#cssmenu > ul > li > a {
+.cssmenu > ul > li > a {
     padding: 16px 20px;
     font-size: 14px;
     color: white;
@@ -70,18 +71,28 @@
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
-#cssmenu > ul > li.active > a {
+
+.cssmenu > ul > li > span {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: white;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #337ab7;
+}
+.cssmenu > ul > li.active > a {
     color: white;
 }
-#cssmenu > ul > li:hover > a,
-#cssmenu > ul > li > a:hover {
+.cssmenu > ul > li:hover > a,
+.cssmenu > ul > li > a:hover {
     color: #dff2fa;
     -webkit-transform: rotateX(90deg) translateY(-23px);
     -moz-transform: rotateX(90deg) translateY(-23px);
     transform: rotateX(90deg) translateY(-23px);
     -ms-transform: none;
 }
-#cssmenu > ul > li > a::before {
+.cssmenu > ul > li > a::before {
     position: absolute;
     top: 100%;
     left: 0;
@@ -105,36 +116,38 @@
     transform-origin: 50% 0;
     -ms-transform: translateY(-18px);
 }
-#cssmenu > ul > li:hover > a::before,
-#cssmenu > ul > li > a:hover::before {
+
+
+.cssmenu > ul > li:hover > a::before,
+.cssmenu > ul > li > a:hover::before {
     background: #265a88;
 }
-#cssmenu.small-screen {
+.cssmenu.small-screen {
     width: 100%;
 }
-#cssmenu.small-screen > ul,
-#cssmenu.small-screen.align-center > ul {
+.cssmenu.small-screen > ul,
+.cssmenu.small-screen.align-center > ul {
     width: 100%;
     text-align: left;
 }
-#cssmenu.small-screen > ul > li,
-#cssmenu.small-screen.align-center {
+.cssmenu.small-screen > ul > li,
+.cssmenu.small-screen.align-center {
     float: none;
     display: block;
     border-top: 1px solid rgba(100, 100, 100, 0.1);
 }
-#cssmenu.small-screen > ul > li:hover > a,
-#cssmenu.small-screen > ul > li > a:hover {
+.cssmenu.small-screen > ul > li:hover > a,
+.cssmenu.small-screen > ul > li > a:hover {
     color: #dff2fa;
     -webkit-transform: none;
     -moz-transform: none;
     transform: none;
     -ms-transform: none;
 }
-#cssmenu.small-screen > ul > li > a::before {
+.cssmenu.small-screen > ul > li > a::before {
     display: none;
 }
-#cssmenu.small-screen #menu-button {
+.cssmenu.small-screen #menu-button {
     display: block;
     padding: 16px 20px;
     cursor: pointer;
@@ -145,7 +158,7 @@
     letter-spacing: 1px;
     background: #09A409;
 }
-#cssmenu.small-screen #menu-button:after {
+.cssmenu.small-screen #menu-button:after {
     content: "";
     position: absolute;
     right: 20px;
@@ -159,11 +172,11 @@
     width: 22px;
     height: 3px;
 }
-#cssmenu.small-screen #menu-button.menu-opened:after {
+.cssmenu.small-screen #menu-button.menu-opened:after {
     border-top: 2px solid #dff2fa;
     border-bottom: 2px solid #dff2fa;
 }
-#cssmenu.small-screen #menu-button:before {
+.cssmenu.small-screen #menu-button:before {
     content: "";
     position: absolute;
     right: 20px;

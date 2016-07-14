@@ -277,9 +277,11 @@ function displayContactsAccepted(id, name, firstname){
 	$("#contact_content").find(".div_table").append("<div class='div_row' id='contact_"+ id +"'>"+
 			"<div class='div_cell' ><label class='table_component'>"+ name +" " +firstname +"</label></div>"+
 			"<div class='div_cell second_cell'>"+
-			"<button type='button' class='btn btn-default' onclick=''><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button><button type='button' class='btn btn-default' onclick='removePending(contact_"+ id +","+ id +")'><span class='glyphicon glyphicon-trash'  aria-hidden='true'></span></button></div></div>");
+			"<button type='button' class='btn btn-default' onclick='sendMessage("+id+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button><button type='button' class='btn btn-default' onclick='removePending(contact_"+ id +","+ id +")'><span class='glyphicon glyphicon-trash'  aria-hidden='true'></span></button></div></div>");
 
 
 }
 
-//http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token=7e2fa51e-5f09-4249-86a0-951787b36371&recev=2
+function sendMessage(id){
+	window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
+}

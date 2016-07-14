@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../static/css/styleChat.css">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	</head>
+
+	<body>
+		<div id="users">
+		</div>
+
+
+		<div id="messages" >
+
+			<div  id="history" style="display:block">
+			<form action="" id="history">
+				<input type="submit"  style="width:100%" value="Historique des Conversations ">
+			</form>
+				
+			</div>
+
+			<div class="message" id="msgtpl" style="display:none">
+				<img src="{{{user.avatar}}}">
+				<div class="info">
+					<p><strong>{{user.username}}</strong></p>
+					<p>{{message}}</p>
+					<p>{{separateur}}</p>
+					<p>{{{upload}}}</p>
+					<span class="date">{{j}}/{{M}}/{{A}}  {{h}}:{{m}}</span>
+				</div>
+			</div>
+		</div>
+
+		<div id="login">
+			<form action="" id="loginform">
+			<h1>Bienvenue<h1>
+			<p>Les informations échangées à travers ce service de messagerie instantanée sont assujetties au secret profesionnel, tenez en compte lors de vos échanges.</p>
+			<input type="text" value="aze" name="login" id="username" placehodler="Nom d'utilisateur" style="display:none">
+			<input type="mail" value="aze" name="mail" id="mail" placehodler="E-Mail"  style="display:none">
+			<input type="text" value="aza" name="room" id="room" placehodler="Room"  style="display:none">
+
+			<input type="submit" value="Je comprends">
+			</form>
+		</div>	
+
+		<form action="" id="form">
+			<input type="text" id="message" class="text" />
+			<div style="margin-left: 70%;">
+				<input type="file" id="upload">
+      			<input type="submit" value="Envoyer"  style="margin: 2px;height: 94%;width: 25%;">
+			</div>
+		</form>
+
+
+		<script   src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
+		<script type="text/javascript" src="../static/js/aes.js"></script>
+		<script type="text/javascript" src="../static/js/mustache.js"></script>
+		<script type="text/javascript" src="http://localhost:1337/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="../static/js/client.js"></script>
+		<script src="../node_modules/delivery/lib/client/delivery.js"></script>
+
+
+	</body>
+</html>

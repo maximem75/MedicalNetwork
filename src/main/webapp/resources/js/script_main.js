@@ -2,8 +2,11 @@ $(document).ready(function(){
     checkMyContacts();
     getCurrentId();
     manageSession();
+    buildLeft();
     manageFooter();
+    manageLeft();
     eventFooter();
+    eventLeft();
     if(window.location.href == "http://localhost:8080/accueil"){
         displayListCateg();       
     }
@@ -183,7 +186,62 @@ function eventFooter(){
     $(window).on('resize',manageFooter);
 }
 
+function manageLeft(){
+    var $window = $(window),
+    scrollLeft = $window.scrollLeft(),
+    scrollTop = $window.scrollTop(),
+    offset = $("#middle").offset();
+    var res = offset.left - scrollLeft;
+    $("#left").css({   
+    "width" : res - 20 +"px",
+    "margin-left" : "10px"
+    });
+}
 
+function eventLeft(){
+    $(window).on('resize',manageLeft);
+}
+
+function buildLeft(){
+    $left = $("#left");
+    $left.append("<div id='header_left' class='cssmenu'><ul><li ><span>Derniers contacts</span></li></ul></div><div id='content_left'><div class='left_table'></div></div>");
+    getLastConversations();
+}
+
+function getLastConversations(){
+
+     $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/user/lastConversations",
+        data : "token=" + readCookie("token"),
+        beforeSend: function (xhr) {
+            if (xhr && xhr.overrideMimeType) {
+                xhr.overrideMimeType('application/json;charset=utf-8');
+            }
+        },
+        success:function(res){   
+        
+        var name, firstname;  
+           console.log(res);
+           $.each(res, function(index, value){
+            $.each(value, function(id, val){
+                switch(id){
+                    case "name" : 
+                    name = val;
+                    break;
+                    case "firstname" : 
+                    firstname = val;
+                    break;
+                }                
+            });
+            $("#content_left").find(".left_table").append("<div class='left_row'><div class='left_cell'><span>"+name + " " + firstname +"<span></div></div>");   
+           });
+        },
+        error: function(){
+            console.log("error");
+        }
+    });
+}
 
 var pendings;
 
@@ -380,6 +438,10 @@ function displayUserList(full_name, id, res){
 
 
     return list_dom;
+}
+
+function contactUser(id){
+    window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
 }
 
 function sendRequestContact(id, elem, idBtn){
