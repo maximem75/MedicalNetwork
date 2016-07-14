@@ -68,18 +68,31 @@ io.sockets.on('connection', function(socket){
 		socket.emit('newmsg',messages[k]);
 	}*/
 	socket.on('getRoom',function(ids){
+		var userName ="";
+		rest.get('http://localhost:8080/message/getLogin?token='+ids.token+'').on('complete', function(result) {
+		  if (result instanceof Error) {
+		    console.log('Error getting name/firstname:', result.message);
+		    this.retry(5000); // try again after 5 sec 
+		 	} 
+		  else {
+				userName = result[0]+' '+result[1];
+			}
+		 });
 		
-		console.log('http://localhost:8080/message/getEncryptionKey?token='+ids.token+'&idcontact='+ids.recev+'');
 		rest.get('http://localhost:8080/message/getEncryptionKey?token='+ids.token+'&idcontact='+ids.recev+'').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error:', result.message);
 		    this.retry(5000); // try again after 5 sec 
 		 	} 
 		  else {
-		    console.log("result room:" +result);
 			socket.emit('resultRoom',result);
+			socket.emit('getUserName',userName);
 			}
 		 });
+
+
+		
+
 	});
 
 	// ****
@@ -87,6 +100,7 @@ io.sockets.on('connection', function(socket){
 	// ****
 	socket.on('newmsg',function(message){
 		message.user = me;
+		message.user.username  =  message.sender;
 		date = new Date();
 		message.A = date.getFullYear();
 		message.M = date.getMonth()+1;
@@ -132,6 +146,7 @@ io.sockets.on('connection', function(socket){
 		    var messageBack ={message:""};
 		    for(var bddMessage in result){
 		    	messageBack.user = me;
+		    	messageBack.user.username = result[bddMessage][2]+" "+result[bddMessage][3];
 			    date = new Date(result[bddMessage][0]);
 				messageBack.A = date.getFullYear();
 				messageBack.M = date.getMonth()+1;
@@ -139,7 +154,7 @@ io.sockets.on('connection', function(socket){
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    
+			    console.log("Nom sender" +result[bddMessage][2]);
 				socket.emit('newmsg',messageBack);
 			}
 		  }
@@ -152,9 +167,6 @@ io.sockets.on('connection', function(socket){
 		}
 		// création de room, ici pour 2 utilisateurs : il va falloir trouver comment créer le chan.
 		socket.join(me.room);
-		console.log('room '+me.room );
-
-
 		socket.emit('logged');
 		users[me.id] = me;
 		io.sockets.emit('newusr',me);
@@ -183,6 +195,7 @@ io.sockets.on('connection', function(socket){
 		    var messageBack ={message:""};
 		    for(var bddMessage in result){
 		    	messageBack.user = me;
+		    	messageBack.user.username = result[bddMessage][2]+" "+result[bddMessage][3];
 			    date = new Date(result[bddMessage][0]);
 				messageBack.A = date.getFullYear();
 				messageBack.M = date.getMonth()+1;
@@ -190,7 +203,7 @@ io.sockets.on('connection', function(socket){
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    console.log(messageBack.message);
+			    console.log("Nom sender" +result[bddMessage][2]+" "+result[bddMessage][3]);
 				socket.emit('newmsg',messageBack);
 			}
 		  }

@@ -20,6 +20,7 @@ function getUrlVars()
 	var delivery;
 	var key = " Passphrase";
 	var me;
+	var userName ="";
 	var localRoom;
 	var getParams = getUrlVars();
 	socket.emit('getRoom',{token : getParams["token"], recev:getParams["recev"] });
@@ -36,7 +37,7 @@ function getUrlVars()
 		
 		event.preventDefault();
 		socket.emit('login',{
-			username: $('#username').val(),
+			username: userName,
 			mail	: $('#mail').val(),
 			room	: localRoom,
 			token	: getParams["token"],
@@ -58,8 +59,13 @@ function getUrlVars()
 	});
 
 	socket.on('resultRoom',function(room){
-		console.info("Got room: "+room);
+		console.info("Room: "+room);
 		localRoom = room;
+	})
+	socket.on('getUserName',function(username){
+		console.info("Name: "+username);
+		userName = username;
+		
 	})
 
 
@@ -85,13 +91,13 @@ function getUrlVars()
 	      		file = $("#upload")[0].files[0];
 	      		if(typeof file === 'undefined'){
 	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), localRoom).toString());
-	      			socket.emit('newmsg', {message:CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(),room : localRoom, data : jsonData});
+	      			socket.emit('newmsg', {message:CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(),room : localRoom, data : jsonData, sender: userName});
 					$('#message').val('');
 	      		}
 	      		else{
 				//evt.preventDefault;
 					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), localRoom).toString());
-					socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData});
+					socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData, sender: userName});
 	      		}
 			
 		$('#form').wrap('<form>').closest('form').get(0).reset();
@@ -125,9 +131,9 @@ function getUrlVars()
 	socket.on('newmsg', function(message){
 		//console.info("Message received from room : " + message.room);
 		// if permettant d'intercaler un séparateurs entre les blocks de messages n'appartenants pas au même user : gros gain de lisibilité
-		if(lastmsg != message.user.id){
+		if(lastmsg != message.user.username){
 			$('#messages').append('<div class="sep"></div>');
-			lastmsg = message.user.id;
+			lastmsg = message.user.username;
 		}
 		// Injection d'un message
 		//var  tmp = CryptoJS.AES.encrypt(, "Secret Passphrase").toString();
@@ -144,17 +150,17 @@ function getUrlVars()
 		//console.log(decrypt(hw).toString('utf8')); 
 
 		$('#messages').append('<div class="message">' + Mustache.render(msgtpl, message) + '</div>');
-		$('#messages').animate({scrollTop : $('#messages').prop('scrollHeight') }, 500); //Permet d'auto scroll a la reception d'un message, BEAUCOUP plus agréable
+		$('#messages').animate({scrollTop : $('#messages').prop('scrollHeight') }, 100); //Permet d'auto scroll a la reception d'un message, BEAUCOUP plus agréable
 	});
 
 	// ****
 	//Gestion des connctés
 	// ****
 	socket.on('newusr',function(user){
-		var userTmp = $('#mail').val();
+		var userTmp = userName;
 		if(user.room == localRoom){
 			$('#users').append('<img src="' + user.avatar + '" id="' + user.id + '">');
-			if( userTmp == user.id)
+			if( userTmp == user.username)
 				me = user;
 		}
 	});
