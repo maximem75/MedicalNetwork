@@ -33,6 +33,16 @@ public class MessageController {
         return (null);
     }
 
+    @RequestMapping(value = "/getLogin",method = RequestMethod.GET)
+    public Object getLogin(@RequestParam String token) {
+        Long iduser = userRepository.findByToken(token, new Date());
+        if (iduser != null) {
+            Object login = userRepository.findNameByIduser(iduser);
+            return (login);
+        }
+        return (null);
+    }
+
     @RequestMapping(value = "/getEncryptionKey",method = RequestMethod.GET)
     public String getEncryptionKey(@RequestParam String token, @RequestParam Long idcontact) {
         Long iduser = userRepository.findByToken(token, new Date());

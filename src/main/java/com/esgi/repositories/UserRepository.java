@@ -22,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT U.login FROM User U WHERE iduser = :iduser OR iduser = :idcontact ORDER BY login ASC")
     List<String> findLoginByIduser(@Param("iduser") Long iduser, @Param("idcontact") Long idcontact);
 
+    @Query("SELECT U.name, U.firstname FROM User U WHERE iduser = :iduser ORDER BY login ASC")
+    Object findNameByIduser(@Param("iduser") Long iduser);
+
     User findByLoginAndPassword(@Param("login") String login, @Param("password") String password);
 
     @Query("SELECT U.firstname, U.name, U.phone, U.email, U.birthday, U.tokenExpirationDate, U.category, U.login, U.password, U.iduser FROM User U WHERE iduser = :iduser")
