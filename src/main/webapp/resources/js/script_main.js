@@ -59,44 +59,6 @@ function userConnected(){
     $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
 }
 
-function manageInputSearchContact(){
-    $("#inpt_search").on("keyup",function(){
-        researchContacts($("#inpt_search").val());
-    });
-    
-}
-
-function researchContacts(val){
-    //$("#contact_content").find(".div_table").empty();
-    var name, firstname, id;
-      /*$.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/contact/research',
-        data: 'token='+userToken+'&research='+val,
-
-        success:function(res){        
-            
-            $.each(res, function(index, value) {  
-                $.each(res, function(id, val) {  
-                    switch(id){
-                        case "name":
-                            name = val;
-                        break;
-
-                        case "firstname": 
-                            firstname = val;
-                        break;
-
-                        case "iduser":
-                            id = val;
-                        break;
-                    }
-                 }); 
-            });     
-            displayContactsAccepted(id, name, firstname);     
-        },
-    });*/
-}
 
 function manageInputSearchCateg(){
     $("#inpt_search").on("keyup",function(){
@@ -282,18 +244,18 @@ function getLastConversations(){
             }
         },
          success:function(res){   
-            console.log(res);
+           
             var table_res = new Array();
             var table_time = new Array();
              $.each(res, function(index, value){   
                          
                 var res = index.split("|");
                 res.push(value[0]);
-                console.log(res);  
+             
                 table_res.push(res);
              });
              $.each(table_res.sort(4), function(id,val){
-                console.log(new Date(val[3]));
+               
                 $("#content_left").find('.left_table').append("<div class='left_row'><div class='left_cell'><span class='left_nameuser'>" + val[1] + " " + val[2]+"</span><button type='button' class='btn btn-default component_left' onclick='sendQuickMessage("+val[0]+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button></div></div>");
              });
       

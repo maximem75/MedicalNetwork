@@ -119,7 +119,6 @@ function getMyPendings(){
 
         complete:function(result){
            pending = result.responseJSON;
-           console.log(pending);
            var json ="";
            var i = 0;
            arrayContact = new Array();
@@ -262,7 +261,7 @@ function getMyContacts(){
            			}
            		});             		
            		arrayContactAccepted.push(json);
-           		displayContactsAccepted(id_contact, name_contact, firstname_contact)
+           		displayContactsAccepted(id_contact, name_contact, firstname_contact);
            	});     
         },
         error:function(){
@@ -273,7 +272,7 @@ function getMyContacts(){
 
 function displayContactsAccepted(id, name, firstname){
 	$("#contact_content").find(".div_table").append("<div class='div_row' id='contact_"+ id +"'>"+
-			"<div class='div_cell' ><label class='table_component'>"+ name +" " +firstname +"</label></div>"+
+			"<div class='div_cell div_cell_text' ><label class='table_component'>"+ name +" " +firstname +"</label></div>"+
 			"<div class='div_cell second_cell'>"+
 			"<button type='button' class='btn btn-default' onclick='sendMessage("+id+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button><button type='button' class='btn btn-default' onclick='removePending(contact_"+ id +","+ id +")'><span class='glyphicon glyphicon-trash'  aria-hidden='true'></span></button></div></div>");
 
@@ -282,4 +281,36 @@ function displayContactsAccepted(id, name, firstname){
 
 function sendMessage(id){
 	window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
+}
+
+
+function manageInputSearchContact(){
+    $("#inpt_search").on("keyup",function(){
+        researchContacts($("#inpt_search").val());
+    });
+    
+}
+
+function researchContacts(val){
+    var name, firstname, id;
+    var array_cell = $("#contact_content").find(".div_cell_text");
+    array_name = new Array();
+
+    $.each(array_cell, function(id, val){
+    	array_name.push(val);   
+    });
+
+    $.each(array_name, function(id, value){    	
+    	console.log(id);
+    	if($(value).parents(".div_row").text().toLowerCase().indexOf(val.toLowerCase()) == -1 && $(value).parents(".div_row").text().length > 0){
+    		console.log($(array_cell[id]).parents(".div_row"));
+    		console.log("false");
+    		$(array_cell[id]).parents(".div_row").css({"display" : "none"});
+    	} else {
+    		console.log($(array_cell[id]));
+    		console.log("true");
+    		$(array_cell[id]).parents(".div_row").css({"display" : "table-row"});
+    	}
+    });
+    
 }
