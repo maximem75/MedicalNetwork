@@ -112,15 +112,16 @@ function researchCategs(val){
         url: 'http://localhost:8080/category/research',
         data: 'token='+userToken+'&research='+val,
 
-        success:function(res){        
+        success:function(res){      
+            console.log(res);  
             var i = 0;  
-            var tempalte_number = 0;
+            var template_number = 0;
             $.each(res, function(index, category) {  
                 if(i >= 9){
                     i = 0;
-                    tempalte_number++;
+                    template_number++;
                 }             
-                addBox(category.nameCategory, i, tempalte_number);  
+                addBox(category.nameCategory, i, template_number);  
                 i++;
             });            
         },
@@ -280,11 +281,20 @@ function getLastConversations(){
                 xhr.overrideMimeType('application/json;charset=utf-8');
             }
         },
-        success:function(res){   
-             $.each(res, function(index, value){
+         success:function(res){   
+            console.log(res);
+            var table_res = new Array();
+            var table_time = new Array();
+             $.each(res, function(index, value){   
+                         
                 var res = index.split("|");
-                $("#content_left").find('.left_table').append("<div class='left_row'><div class='left_cell'><span class='left_nameuser'>" + res[1] + " " + res[2]+"</span><button type='button' class='btn btn-default component_left' onclick='sendQuickMessage("+res[0]+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button></div></div>");
+                res.push(value[0]);
+                console.log(res);  
+                table_res.push(res);
              });
+             console.log(table_res);
+            //$("#content_left").find('.left_table').append("<div class='left_row'><div class='left_cell'><span class='left_nameuser'>" + res[1] + " " + res[2]+"</span><button type='button' class='btn btn-default component_left' onclick='sendQuickMessage("+res[0]+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button></div></div>");
+             
         },
         error: function(){
             console.log("error");
@@ -313,13 +323,13 @@ function displayListCateg(){
 
         success:function(res){        
             var i = 0;  
-            var tempalte_number = 0;
+            var template_number = 0;
             $.each(res, function(index, category) {  
                 if(i >= 9){
                     i = 0;
-                    tempalte_number++;
+                    template_number++;
                 }             
-                addBox(category.nameCategory, i, tempalte_number);  
+                addBox(category.nameCategory, i, template_number);  
                 i++;
             });            
         },
