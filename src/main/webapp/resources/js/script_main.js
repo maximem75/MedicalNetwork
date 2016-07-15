@@ -292,9 +292,11 @@ function getLastConversations(){
                 console.log(res);  
                 table_res.push(res);
              });
-             console.log(table_res);
-            //$("#content_left").find('.left_table').append("<div class='left_row'><div class='left_cell'><span class='left_nameuser'>" + res[1] + " " + res[2]+"</span><button type='button' class='btn btn-default component_left' onclick='sendQuickMessage("+res[0]+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button></div></div>");
-             
+             $.each(table_res.sort(4), function(id,val){
+                console.log(new Date(val[3]));
+                $("#content_left").find('.left_table').append("<div class='left_row'><div class='left_cell'><span class='left_nameuser'>" + val[1] + " " + val[2]+"</span><button type='button' class='btn btn-default component_left' onclick='sendQuickMessage("+val[0]+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button></div></div>");
+             });
+      
         },
         error: function(){
             console.log("error");
