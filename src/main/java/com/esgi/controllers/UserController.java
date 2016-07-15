@@ -113,14 +113,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/lastConversations", method = RequestMethod.GET)
-    public List<Message> getLastConversations(@RequestParam String token) {
-        System.out.println(token);
+    public HashMap<String, Message> getLastConversations(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            ArrayList<Message> lastConversations = new ArrayList<>();
+            HashMap<String, Message> lastConversations = new HashMap<>();
             for (User contact : userRepository.findContacts(new User(iduser), true)) {
                 List<Message> conversation = messageRepository.getConversation(iduser, contact.getIduser());
-                lastConversations.add(conversation.get(conversation.size()-1));
+                lastConversations.put(contact.getIduser()+"|"+contact.getFirstname()+"|"+contact.getName(), conversation.get(0));
             }
             return (lastConversations);
         }

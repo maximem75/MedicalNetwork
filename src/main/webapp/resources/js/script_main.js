@@ -1,24 +1,20 @@
-$(document).ready(function(){
-    checkMyContacts();
-    getCurrentId();
-    manageSession();
-    buildLeft();
-    manageFooter();
-    manageLeft();
-    eventFooter();
-    eventLeft();
-    if(window.location.href == "http://localhost:8080/accueil"){
-        displayListCateg();       
-    }
-     verifyPendings();
-});
-
 var userToken = "null";
 var tokenName = "token";
 var arrayContact = [];
 var current_ID;
 var userList;
+var pendings;
 
+$(document).ready(function(){
+    checkMyContacts();
+    getCurrentId();
+    manageSession();
+ 
+    if(window.location.href == "http://localhost:8080/accueil"){
+        displayListCateg();       
+    }
+     
+});
 
 
 function manageSession(){
@@ -26,7 +22,14 @@ function manageSession(){
     if(readCookie("token") != null){
         userToken = readCookie("token");
         userConnected(userToken);
-        displayCategs();
+       
+        buildLeft();
+        manageFooter();
+        manageLeft();
+        eventFooter();
+        eventLeft();
+        manageSearch();
+        verifyPendings();
     } else {
         userDisconnected();
     }
@@ -46,7 +49,82 @@ function readCookie(name) {
 function userConnected(){
     $('#menu_main').append('<li><a href="http://localhost:8080/profil" data-title="Profil">Profil</a></li>');
     $('#menu_main').append('<li><a href="http://localhost:8080/contact" id="li_contact" data-title="Contact">Contact</a></li>');
+    if(window.location.href == "http://localhost:8080/accueil"){
+        $('#menu_main').append('<li><span id="span_search" data-title="Rechercher categorie">Rechercher une catégorie</span><span id="span_search_btn" class="glyphicon glyphicon-menu-left"></span><input type="text" class="form-control" id="inpt_search"></li>');
+        manageInputSearchCateg();
+    } else if(window.location.href == "http://localhost:8080/contact") {
+         $('#menu_main').append('<li><span id="span_search" data-title="Rechercher categorie">Rechercher un contact</span><span id="span_search_btn" class="glyphicon glyphicon-menu-left"></span><input type="text" class="form-control" id="inpt_search"></li>');
+        manageInputSearchContact();
+    }
     $('#menu_main').append('<li><a onclick="logoutSession();" data-title="Déconnexion">Déconnexion</a></li>');
+}
+
+function manageInputSearchContact(){
+    $("#inpt_search").on("keyup",function(){
+        researchContacts($("#inpt_search").val());
+    });
+    
+}
+
+function researchContacts(val){
+    //$("#contact_content").find(".div_table").empty();
+    var name, firstname, id;
+      /*$.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/contact/research',
+        data: 'token='+userToken+'&research='+val,
+
+        success:function(res){        
+            
+            $.each(res, function(index, value) {  
+                $.each(res, function(id, val) {  
+                    switch(id){
+                        case "name":
+                            name = val;
+                        break;
+
+                        case "firstname": 
+                            firstname = val;
+                        break;
+
+                        case "iduser":
+                            id = val;
+                        break;
+                    }
+                 }); 
+            });     
+            displayContactsAccepted(id, name, firstname);     
+        },
+    });*/
+}
+
+function manageInputSearchCateg(){
+    $("#inpt_search").on("keyup",function(){
+        researchCategs($("#inpt_search").val());
+    });
+    
+}
+
+function researchCategs(val){
+    $(".content_middle").empty();
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/category/research',
+        data: 'token='+userToken+'&research='+val,
+
+        success:function(res){        
+            var i = 0;  
+            var tempalte_number = 0;
+            $.each(res, function(index, category) {  
+                if(i >= 9){
+                    i = 0;
+                    tempalte_number++;
+                }             
+                addBox(category.nameCategory, i, tempalte_number);  
+                i++;
+            });            
+        },
+    });
 }
 
 function userDisconnected(){
@@ -85,7 +163,6 @@ function createCookie(name,value,days) {
 }
 
 function getCategoryById(id){
-    console.log(userToken);
     var resData = "token="+userToken+"&idcategory="+id;
     $.ajax({
             type: 'GET',
@@ -115,28 +192,6 @@ function getCategoryById(id){
         });
 }
 
-
-function displayCategs(id){
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/category/all",
-        beforeSend: function (xhr) {
-            if (xhr && xhr.overrideMimeType) {
-                xhr.overrideMimeType('application/json;charset=utf-8');
-            }
-        },
-        datatype: "jsonp",
-
-        success:function(res){
-            $.each(res, function(index, category) {
-                $("#"+id).append("<option class='option-category' value='"+category.idcategory+"'>"+category.nameCategory+"</option>");
-            });
-        },
-        error: function(){
-            alert("error");
-        },
-    });
-}
 
 function getUserList(){
     return userList;
@@ -192,9 +247,14 @@ function manageLeft(){
     scrollTop = $window.scrollTop(),
     offset = $("#middle").offset();
     var res = offset.left - scrollLeft;
+    var zIndex = 0;
+    if(res - 20 < 120){
+        zIndex = -1;
+    }
     $("#left").css({   
     "width" : res - 20 +"px",
-    "margin-left" : "10px"
+    "margin-left" : "10px",
+    "z-index" : zIndex
     });
 }
 
@@ -204,8 +264,9 @@ function eventLeft(){
 
 function buildLeft(){
     $left = $("#left");
-    $left.append("<div id='header_left' class='cssmenu'><ul><li ><span>Derniers contacts</span></li></ul></div><div id='content_left'><div class='left_table'></div></div>");
+    $left.append("<div id='header_left' class='cssmenu'><ul><li ><span id='left_head_title'>Derniers contacts</span> <span id='left_head_btn' class='glyphicon glyphicon-menu-down'></span></li> </ul></div><div id='content_left'><div class='left_table'></div></div>");
     getLastConversations();
+    btnLeft();
 }
 
 function getLastConversations(){
@@ -220,33 +281,26 @@ function getLastConversations(){
             }
         },
         success:function(res){   
-        
-        var name, firstname;  
-           console.log(res);
-           $.each(res, function(index, value){
-            $.each(value, function(id, val){
-                switch(id){
-                    case "name" : 
-                    name = val;
-                    break;
-                    case "firstname" : 
-                    firstname = val;
-                    break;
-                }                
-            });
-            $("#content_left").find(".left_table").append("<div class='left_row'><div class='left_cell'><span>"+name + " " + firstname +"<span></div></div>");   
-           });
+             $.each(res, function(index, value){
+                var res = index.split("|");
+                $("#content_left").find('.left_table').append("<div class='left_row'><div class='left_cell'><span class='left_nameuser'>" + res[1] + " " + res[2]+"</span><button type='button' class='btn btn-default component_left' onclick='sendQuickMessage("+res[0]+");'><span class='glyphicon glyphicon-envelope' aria-hidden='true'></span></button></div></div>");
+             });
         },
         error: function(){
             console.log("error");
         }
     });
+
+     
 }
 
-var pendings;
+function sendQuickMessage(id){
+    window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
+}
+
+
 
 function displayListCateg(){
-    console.log("display categs");
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/category/all",
@@ -377,16 +431,16 @@ function getUserListByCateg(datas){
                         break;
                     }
                 });
-                resultat = true;
+                resultat = true;  
                 $.each(arrayContact, function(index, value){
-      
                     if(iduser == value){
                         resultat = false;                        
-                    } else if(iduser == current_ID){
-                        resultat = "same";
-                    }
-                    
+                    }                     
                 });
+
+                if(iduser == current_ID){
+                    resultat = "same";
+                }
 
                 $("#user_li").append(displayUserList(name + " " + firstname, iduser, resultat));
      
@@ -471,7 +525,6 @@ function sendRequestContact(id, elem, idBtn){
             contentType: "application/json; charset=utf-8",
 
             success:function(result){
-               console.log("success");
                $('#id_wizard_message').remove();        
                idBtn.remove();
             },
@@ -535,3 +588,27 @@ function getCurrentId(){
     }); 
 }
 
+function btnLeft(){
+    $("#left_head_btn").on("click", function(){
+        if($("#left_head_btn" ).hasClass("glyphicon-menu-down") == true){
+            $("#content_left" ).slideUp( "slow" );
+            $("#left_head_btn" ).removeClass("glyphicon-menu-down").addClass("glyphicon-menu-up");
+        } else if($("#left_head_btn" ).hasClass("glyphicon-menu-up") == true){
+            $("#content_left" ).slideDown( "slow" );
+            $("#left_head_btn" ).removeClass("glyphicon-menu-up").addClass("glyphicon-menu-down");
+        }          
+    });
+}
+
+function manageSearch(){
+    $("#span_search_btn").on("click",function(){
+        if($("#span_search_btn").hasClass("glyphicon-menu-left") == true){
+            $("#inpt_search").show("slow");
+            $("#span_search_btn").removeClass("glyphicon-menu-left").addClass("glyphicon-menu-right");
+        } else if($("#span_search_btn").hasClass("glyphicon-menu-right") == true){
+            $("#inpt_search").hide("slow");
+            $("#span_search_btn").removeClass("glyphicon-menu-right").addClass("glyphicon-menu-left");
+        }
+
+    });
+}

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	pending = getMyPendings();
+	getMyPendings();
 	getMyContacts();
 	init();	
 });
@@ -79,7 +79,7 @@ function init(){
 		});	
 
 		manageTab("tab_pending_id");
-		pending = getMyPendings();
+		getMyPendings();
 	});
 }
 
@@ -119,11 +119,11 @@ function getMyPendings(){
 
         complete:function(result){
            pending = result.responseJSON;
+           console.log(pending);
            var json ="";
            var i = 0;
            arrayContact = new Array();
-           $.each(pending, function(index, value){
-           		
+           $.each(pending, function(index, value){           		
            		$.each(value, function(id, val){
            			switch(id){
            				case 0:           				
@@ -200,7 +200,6 @@ function checkDisplayedPendings(id){
 
 function acceptPending(id, id_div){		
 		var contact = arrayContact[id];
-		console.log(arrayContact);
 	    $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/contact/accept?token='+readCookie("token"),
@@ -243,20 +242,19 @@ function getMyContacts(){
         data: "token="+readCookie("token"),
 
         complete:function(result){           
-
            $.each(result.responseJSON, function(index, value){
            		$.each(value, function(id, val){
            			switch(id){
-           				case 0:           				
+           				case "iduser":           				
            					json ='{"iduser" : "'+val+'",';
            					id_contact = val;
            				break;
-           				case 1:
+           				case "name":
            					json += '"name" : "'+val+'",';
            					name_contact = val;
            				break;
 
-           				case 2: 
+           				case "firstname": 
            					json += '"firstname" : "'+val+'"}';
            					firstname_contact = val;
            				break;

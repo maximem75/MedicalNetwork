@@ -38,6 +38,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT U.iduser, U.name, U.firstname, C.message FROM User U, Contact C WHERE U.iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted) AND C.iduser = U.iduser")
     List<User> findPendingInvitations(@Param("iduser") User iduser, @Param("accepted") boolean accepted);
 
-    @Query("SELECT U.iduser, U.name, U.firstname FROM User U WHERE U.iduser IN (SELECT idcontact FROM Contact WHERE iduser = :iduser AND accepted = :accepted) OR U.iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted)")
+    @Query("FROM User U WHERE U.iduser IN (SELECT idcontact FROM Contact WHERE iduser = :iduser AND accepted = :accepted) OR U.iduser IN (SELECT iduser FROM Contact WHERE idcontact = :iduser AND accepted = :accepted)")
     List<User> findContacts(@Param("iduser") User iduser, @Param("accepted") boolean accepted);
 }

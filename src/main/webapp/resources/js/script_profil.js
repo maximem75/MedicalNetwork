@@ -1,6 +1,15 @@
+var token;
+var update = false;
+var identifiant, date, email, phone, nom, prenom, category, date_token, login_user;
+
 $(document).ready(function(){
     buildWindow();
-    $(".content_middle").css({
+    buildProfil();
+    
+});
+
+function buildProfil(){
+     $(".content_middle").css({
         "color" : "#337ab7"
     });
     token = readCookie("token");
@@ -102,12 +111,7 @@ $(document).ready(function(){
         }
 
     }); 
-});
-
-
-var token;
-var update = false;
-var identifiant, date, email, phone, nom, prenom, category, date_token, login_user;
+}
 
 function sendUpdate(){
     $("#update_form").on("submit", function(e){
@@ -123,7 +127,7 @@ function sendUpdate(){
                contentType: "application/json; charset=utf-8",
 
                 success:function(res){
-                    window.location.href = "http://localhost:8080/accueil";
+                    logoutSession();
                 },
 
                 error: function(res,status){
@@ -191,9 +195,7 @@ function setSelectedIndex(s, v) {
             return;
 
         }
-
     }
-
 }
 
 
@@ -261,3 +263,24 @@ function checkValues(){
 }
 
 
+function displayCategs(id){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/category/all",
+        beforeSend: function (xhr) {
+            if (xhr && xhr.overrideMimeType) {
+                xhr.overrideMimeType('application/json;charset=utf-8');
+            }
+        },
+        datatype: "jsonp",
+
+        success:function(res){
+            $.each(res, function(index, category) {
+                $("#"+id).append("<option class='option-category' value='"+category.idcategory+"'>"+category.nameCategory+"</option>");
+            });
+        },
+        error: function(){
+            alert("error");
+        },
+    });
+}
