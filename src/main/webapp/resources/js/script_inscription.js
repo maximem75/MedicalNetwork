@@ -34,6 +34,27 @@ $(document).ready(function(){
 
 });
 
+function displayCategs(id){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/category/all",
+        beforeSend: function (xhr) {
+            if (xhr && xhr.overrideMimeType) {
+                xhr.overrideMimeType('application/json;charset=utf-8');
+            }
+        },
+        datatype: "jsonp",
+
+        success:function(res){
+            $.each(res, function(index, category) {
+                $("#"+id).append("<option class='option-category' value='"+category.idcategory+"'>"+category.nameCategory+"</option>");
+            });
+        },
+        error: function(){
+            alert("error");
+        },
+    });
+}
 
 function checkValues(){
     var error = false;
