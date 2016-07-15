@@ -49,7 +49,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam String login, @RequestParam String password) {
-        //password = UserUtils.encryptPassword(password);
+        password = UserUtils.encryptPassword(password);
         User user = userRepository.findByLoginAndPassword(login, password);
         if (user != null) {
             user.setToken(UUID.randomUUID().toString());
@@ -79,7 +79,7 @@ public class UserController {
     @ResponseStatus(CREATED)
     public void registration(@RequestBody User user) {
         if (userRepository.findByEmailOrLogin(user.getEmail(), user.getLogin()).isEmpty()) {
-            //user.setPassword(UserUtils.encryptPassword(user.getPassword()));
+            user.setPassword(UserUtils.encryptPassword(user.getPassword()));
             userRepository.save(user);
         }
     }
@@ -97,8 +97,8 @@ public class UserController {
     public void deleteUser(@RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            //messageRepository.removeMessagesFromUser(iduser);
-            //contactRepository.removeUser(iduser);
+            messageRepository.removeMessagesFromUser(iduser);
+            contactRepository.removeUser(iduser);
             userRepository.delete(iduser);
         }
     }
