@@ -89,6 +89,7 @@ public class UserController {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
             user.setIduser(iduser);
+            user.setPassword(UserUtils.encryptPassword(user.getPassword()));
             userRepository.save(user);
         }
     }
