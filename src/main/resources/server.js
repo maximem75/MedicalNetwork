@@ -69,6 +69,7 @@ io.sockets.on('connection', function(socket){
 	}*/
 	socket.on('getRoom',function(ids){
 		var userName ="";
+		console.log("token : " + ids.token + " / receiv : " + ids.recev);
 		rest.get('http://localhost:8080/message/getLogin?token='+ids.token+'').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error getting name/firstname:', result.message);
@@ -79,17 +80,20 @@ io.sockets.on('connection', function(socket){
 			}
 		 });
 		
-		rest.get('http://localhost:8080/message/getEncryptionKey?token='+ids.token+'&idcontact='+ids.recev+'').on('complete', function(result) {
+		setTimeout(function(){
+			rest.get('http://localhost:8080/message/getEncryptionKey?token='+ids.token+'&idcontact='+ids.recev+'').on('complete', function(result) {
 		  if (result instanceof Error) {
 		    console.log('Error:', result.message);
 		    this.retry(5000); // try again after 5 sec 
 		 	} 
-		  else {
-			socket.emit('resultRoom',result);
-			socket.emit('getUserName',userName);
+		  else {		  	
+		  	socket.emit('getUserName',userName);
+			socket.emit('resultRoom',result);			
 			}
 		 });
 
+		 }, 200);
+		
 
 		
 
@@ -121,8 +125,6 @@ io.sockets.on('connection', function(socket){
 				console.log("Message POST failed !\n" + response);
 
 		});
-
-		console.log("MESSAGE FOR ROOM : "+message.room);
 		io.to(message.room).emit('newmsg',message);
 	});
 
@@ -154,7 +156,7 @@ io.sockets.on('connection', function(socket){
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    console.log("Nom sender" +result[bddMessage][2]);
+
 				socket.emit('newmsg',messageBack);
 			}
 		  }
@@ -203,7 +205,7 @@ io.sockets.on('connection', function(socket){
 				messageBack.h = date.getHours();
 				messageBack.m = date.getMinutes();
 			    messageBack.message = result[bddMessage][1];
-			    console.log("Nom sender" +result[bddMessage][2]+" "+result[bddMessage][3]);
+
 				socket.emit('newmsg',messageBack);
 			}
 		  }

@@ -34,19 +34,22 @@
 			<form action="" id="loginform">
 			<h1>Bienvenue<h1>
 			<p>Les informations échangées à travers ce service de messagerie instantanée sont assujetties au secret profesionnel, tenez en compte lors de vos échanges.</p>
-			<input type="text" value="aze" name="login" id="username" placehodler="Nom d'utilisateur" style="display:none">
-			<input type="mail" value="aze" name="mail" id="mail" placehodler="E-Mail"  style="display:none">
-			<input type="text" value="aza" name="room" id="room" placehodler="Room"  style="display:none">
+			<input type="text" value="" name="login" id="username" placehodler="Nom d'utilisateur" style="display:none">
+			<input type="mail" value="" name="mail" id="mail" placehodler="E-Mail"  style="display:none">
+			<input type="text" value="" name="room" id="room" placehodler="Room"  style="display:none">
 
 			<input type="submit" value="Je comprends">
 			</form>
 		</div>	
 
+	
+
 		<form action="" id="form">
+				<input id="btn_chat" class="btn_chat" type="button" value="Retour"  style="margin: 2px;height: 94%;width: 10%;">
 			<input type="text" id="message" class="text" />
-			<div style="margin-left: 70%;">
-				<input type="file" id="upload">
-      			<input type="submit" value="Envoyer"  style="margin: 2px;height: 94%;width: 25%;">
+			<div id="right_panel">
+				<input class="input_chat" type="file" id="upload"/>
+      			<input class="btn_chat" type="submit" value="Envoyer" />      			
 			</div>
 		</form>
 
@@ -58,6 +61,15 @@
 		<script type="text/javascript" src="../static/js/client.js"></script>
 		<script src="../node_modules/delivery/lib/client/delivery.js"></script>
 
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#btn_chat").on("click", function(){
+					window.location.href = "http://localhost:8080/accueil";
+				})
+
+			});
+
+		</script>
 
 	</body>
 </html>
