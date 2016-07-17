@@ -2,19 +2,23 @@ package com.esgi.controllers;
 
 import com.esgi.model.Category;
 import com.esgi.model.User;
+import com.esgi.repositories.ContactRepository;
+import com.esgi.repositories.MessageRepository;
 import com.esgi.repositories.UserRepository;
+import com.esgi.utils.UserUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Arnaud Flaesch on 28/04/2016.
@@ -22,25 +26,32 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTests {
 
-    @InjectMocks
-    private UserController userController;
 
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private ContactRepository contactRepository;
+
+    @Mock
+    private MessageRepository messageRepository;
+
+    @InjectMocks
+    private UserController userController;
+
     @Test
     public void should_getUser()
     {
-        Mockito.when(userRepository.findByToken(eq("toto") , any(Date.class))).thenReturn(2L);
+        when(userRepository.findByToken(eq("toto") , any(Date.class))).thenReturn(2L);
         userController.getUser("toto");
         verify(userRepository).findByToken(eq("toto"),any(Date.class));
-        verify(userRepository).findOne(2L);
+        verify(userRepository).getDataUser(2L);
     }
 
     @Test
     public void should_getUsersByCategory()
     {
-        Mockito.when(userRepository.findByToken(eq("toto") , any(Date.class))).thenReturn(2L);
+        when(userRepository.findByToken(eq("toto") , any(Date.class))).thenReturn(2L);
         userController.getUsersByCategory("toto",1L);
         verify(userRepository).findByToken(eq("toto"),any(Date.class));
         verify(userRepository).findUsersByCategory(any(Category.class));
@@ -49,17 +60,20 @@ public class UserControllerTests {
     @Test
     public void should_login()
     {
-        Mockito.when(userRepository.findByLoginAndPassword(eq("login"),eq("password"))).thenReturn(new User());
-        userController.login("login","password");
-        verify(userRepository).findByLoginAndPassword(eq("login"),eq("password"));
+        User user = new User();
+        user.setLogin("login");
+        user.setPassword("password");
+        when(userRepository.findByLoginAndPassword(eq("login"),eq(UserUtils.encryptPassword("password")))).thenReturn(user);
+        userController.login(user.getLogin(),user.getPassword());
+        verify(userRepository).findByLoginAndPassword(eq(user.getLogin()),eq(UserUtils.encryptPassword(user.getPassword())));
         verify(userRepository).save(any(User.class));
     }
 
     @Test
     public void should_logout() {
 
-        Mockito.when(userRepository.findByToken(eq("titi"),any(Date.class))).thenReturn(1L);
-        Mockito.when(userRepository.findOne(1L)).thenReturn(new User());
+        when(userRepository.findByToken(eq("titi"),any(Date.class))).thenReturn(1L);
+        when(userRepository.findOne(1L)).thenReturn(new User());
         userController.logout("titi");
         verify(userRepository).findByToken(eq("titi"),any(Date.class));
         verify(userRepository).findOne(1L);
@@ -69,50 +83,43 @@ public class UserControllerTests {
     @Test
     public void should_registration()
     {
-        userController.registration(new User());
-        verify(userRepository).save(any(User.class));
+        User user = new User();
+        user.setEmail("toto@gmail.com");
+        user.setLogin("toto94zou");
+        user.setPassword("proutprout");
+        when(userRepository.findByEmailOrLogin(user.getEmail(),user.getLogin())).thenReturn(new ArrayList<>());
+        userController.registration(user);
+        verify(userRepository).save(user);
     }
 
     @Test
     public void should_updateData()
     {
-        Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
-        userController.updateData(new User(),"token");
+        User user = new User();
+        user.setIduser(1L);
+        user.setPassword(UserUtils.encryptPassword("password"));
+        when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
+        userController.updateData(user,"token");
         verify(userRepository).findByToken(eq("token"),any(Date.class));
-        verify(userRepository).save(any(User.class));
+        verify(userRepository).save(user);
     }
 
     @Test
     public void should_deleteUser()
     {
-        Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
+        when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
         userController.deleteUser("token");
         verify(userRepository).findByToken(eq("token"),any(Date.class));
         verify(userRepository).delete(1L);
     }
 
     @Test
-    public void getInvitations()
-    {
-        Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
-        //userController.getInvitations("token");
-        verify(userRepository).findByToken(eq("token"),any(Date.class));
-        verify(userRepository).findPendingInvitations(any(User.class), false);
-    }
-
-    @Test
     public void should_getContacts()
     {
-        Mockito.when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
-        Mockito.when(userRepository.findContacts(any(User.class),true)).thenReturn(null);
+        when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
         userController.getContacts("token");
         verify(userRepository).findByToken(eq("token"),any(Date.class));
-        verify(userRepository).findContacts(any(User.class),true);
+        verify(userRepository).findContacts(any(User.class),eq(true));
 
-        /*Long iduser = userRepository.findByToken(token, new Date());
-        if (iduser != null) {
-            return(userRepository.findContacts(new User(iduser), true));
-        }
-        return (null);*/
     }
 }
