@@ -67,8 +67,6 @@ function getUrlVars()
 		userName = username;
 		
 	})
-
-
 	socket.on('debug',function(debug){
 		console.info("Got room: ");
 	})
@@ -86,17 +84,17 @@ function getUrlVars()
 			"sender" : {"iduser" : "3" }, 
 			"receiver" :{"iduser" : getParams["recev"]}  
 		};		
-		console.info(jsonData.toString());
+		
 	     	// $("#upload").click(function(evt){ CryptoJS.AES.encrypt($('#message').val(), localRoom).toString()
 	      		file = $("#upload")[0].files[0];
 	      		if(typeof file === 'undefined'){
-	      			console.info("sending 1: "+CryptoJS.AES.encrypt($('#message').val(), localRoom).toString());
+	     
 	      			socket.emit('newmsg', {message:CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(),room : localRoom, data : jsonData, sender: userName});
 					$('#message').val('');
 	      		}
 	      		else{
 				//evt.preventDefault;
-					console.log("sending 2: "+CryptoJS.AES.encrypt($('#message').val(), localRoom).toString());
+				
 					socket.emit('newmsg', {message: CryptoJS.AES.encrypt($('#message').val(), localRoom).toString(), upload:'<a href="http://localhost/medicalnetwork/src/main/resources/transferts/'+file.name+'">'+file.name+'</a>',separateur: '-- Piece Jointe --',room : localRoom, data : jsonData, sender: userName});
 	      		}
 			
@@ -138,19 +136,19 @@ function getUrlVars()
 		// Injection d'un message
 		//var  tmp = CryptoJS.AES.encrypt(, "Secret Passphrase").toString();
 		//console.log("Encry: "+tmp.toString());
-		console.log(message.message);
 
 
 
 
-		console.log("Decry  "+message.message+"   :     "+ CryptoJS.AES.decrypt(message.message, localRoom).toString(CryptoJS.enc.Utf8));
+
+		
 		message.message = CryptoJS.AES.decrypt(message.message, localRoom).toString(CryptoJS.enc.Utf8);//;
 		//message.message = message.message, localRoom;//;
 		// outputs hello world
 		//console.log(decrypt(hw).toString('utf8')); 
 
 		$('#messages').append('<div class="message">' + Mustache.render(msgtpl, message) + '</div>');
-		$('#messages').animate({scrollTop : $('#messages').prop('scrollHeight') }, 100); //Permet d'auto scroll a la reception d'un message, BEAUCOUP plus agréable
+		$('#messages').animate({scrollTop : $('#messages').prop('scrollHeight') }, 10); //Permet d'auto scroll a la reception d'un message, BEAUCOUP plus agréable
 	});
 
 	// ****

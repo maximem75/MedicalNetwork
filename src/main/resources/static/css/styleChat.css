@@ -49,7 +49,8 @@ body {
   font-family: arial, sans-serif;
   font-size: 16px;
   font-style: normal;
-  background: url(wood.jpg) center top repeat;
+  background: url(wood.jpg) center top no-repeat fixed;
+  background-size: 100% 100%;
   color: #4e4e4e; }
 
 #users {
@@ -93,11 +94,11 @@ body {
   background: #d2d2d2;
   height: 50px; }
   #form .text {
-    width: 65%;
+    width: 50%;
     padding: 0 5px;
     border: solid 1px #d2d2d2;
     height: 32px;
-    position: fixed;
+    display: inline-block;
     bottom: 9px;
     left: 74px;
     right: 9px;
@@ -348,3 +349,15 @@ body {
   100% {
     transform: translateX(0);
     opacity: 1; } }
+
+.btn_chat{
+  display: inline-block;
+  margin-left: 50px;
+  padding: 15px 30px;
+}
+.input_chat{
+  display: inline-block;
+}
+#right_panel{
+  display: inline-block;
+}
