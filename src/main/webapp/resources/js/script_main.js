@@ -269,7 +269,7 @@ function getLastConversations(){
 }
 
 function sendQuickMessage(id){
-    window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
+    window.location.href = "http://localhost/MedicalNetwork/chat/templates/chat.html?token="+readCookie("token")+"&recev="+id;
 }
 
 
@@ -462,14 +462,11 @@ function displayUserList(full_name, id, res){
             '</div>' +
         '</li>';
     }
-    
-
-
     return list_dom;
 }
 
 function contactUser(id){
-    window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
+    window.location.href = "http://localhost/MedicalNetwork/chat/templates/chat.html?token="+readCookie("token")+"&recev="+id;
 }
 
 function sendRequestContact(id, elem, idBtn){

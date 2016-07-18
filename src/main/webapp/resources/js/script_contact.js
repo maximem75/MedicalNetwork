@@ -280,7 +280,7 @@ function displayContactsAccepted(id, name, firstname){
 }
 
 function sendMessage(id){
-	window.location.href = "http://localhost/MedicalNetwork/src/main/resources/templates/chat.html?token="+readCookie("token")+"&recev="+id;
+	window.location.href = "http://localhost/MedicalNetwork/chat/templates/chat.html?token="+readCookie("token")+"&recev="+id;
 }
 
 
