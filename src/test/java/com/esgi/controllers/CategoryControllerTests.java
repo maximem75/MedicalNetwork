@@ -1,14 +1,18 @@
 package com.esgi.controllers;
 
+import com.esgi.model.Category;
 import com.esgi.repositories.CategoryRepository;
 import com.esgi.repositories.UserRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -51,9 +55,12 @@ public class CategoryControllerTests {
     @Test
     public void should_getCategoriesList()
     {
-        when(userRepository.findByToken(eq("tutu"), any(Date.class))).thenReturn(2L);
-       // categoryController.getCategoriesList("tutu");
-        verify(userRepository).findByToken(eq("tutu"),any(Date.class));
+        List<Category> categories = new ArrayList<Category>();
+        categories.add(new Category());
+        categories.add(new Category());
+        when(categoryRepository.findAll()).thenReturn(categories);
+        List<Category> array =  categoryController.getCategoriesList();
         verify(categoryRepository).findAll();
+        Assert.assertEquals(2,array.size());
     }
 }
