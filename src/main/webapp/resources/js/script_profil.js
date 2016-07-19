@@ -63,10 +63,6 @@ function buildProfil(){
                     break;
 
                 case 5 :
-                    /*user = new Date(user);
-                    var tkn = user     
-                    date_token = user.toString();
-                    date_token = user.getFullYear() + "-" + (user.getMonth() + 1) + '-' + user.getDate()+" "+user.getHours()+":"+user.getMinutes()+":"+user.getSeconds();*/
                     date_token = new Date(user);
                     console.log(date_token);
                     date_token = date_token.toString();

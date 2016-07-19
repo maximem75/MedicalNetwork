@@ -65,13 +65,4 @@ public class WebController {
         return mav;
     }
 
-    @RequestMapping(value = "/userList")
-    public ModelAndView getUserList() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("userList");
-        String str = " ";
-        mav.addObject("message", str);
-        return mav;
-    }
-
 }

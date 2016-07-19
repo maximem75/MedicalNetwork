@@ -6,7 +6,11 @@ $(document).ready(function(){
     $(".content_middle").css({
         "width" : "600px"
     });
-    $("#login-form").on("submit", function(e){
+   login();
+});
+
+function login(){
+     $("#login-form").on("submit", function(e){
         e.preventDefault();
 
         var $this = $(this);
@@ -49,5 +53,4 @@ $(document).ready(function(){
 
         });
     });
-});
-
+}

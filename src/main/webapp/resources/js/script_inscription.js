@@ -1,6 +1,10 @@
 $(document).ready(function(){
     displayCategs("idcategory");
-    $("#inscription_form").on("submit", function(e){
+    inscription();
+});
+
+function inscription(){
+        $("#inscription_form").on("submit", function(e){
         e.preventDefault();
         var $this = $(this);
         if(checkValues()==true) {
@@ -31,8 +35,7 @@ $(document).ready(function(){
         }
 
     });
-
-});
+}
 
 function displayCategs(id){
     $.ajax({
