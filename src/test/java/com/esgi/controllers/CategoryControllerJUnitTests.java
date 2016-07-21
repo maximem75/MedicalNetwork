@@ -1,9 +1,7 @@
 package com.esgi.controllers;
 
 import com.esgi.MedicalNetworkApplication;
-import com.esgi.exceptions.TokenException;
-import com.esgi.model.Category;
-import com.esgi.repositories.datasets.SqlCategoryRepository;
+;
 import com.esgi.repositories.datasets.SqlUserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;

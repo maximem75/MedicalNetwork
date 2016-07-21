@@ -22,7 +22,6 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 @SpringApplicationConfiguration(classes = MedicalNetworkApplication.class)
 @WebAppConfiguration
 @SqlUserRepository
-@SqlCategoryRepository
 public class UserRepositoryTests {
 
     @Autowired
