@@ -93,18 +93,6 @@ public class UserControllerTests {
     }
 
     @Test
-    public void should_updateData()
-    {
-        User user = new User();
-        user.setIduser(1L);
-        user.setPassword(UserUtils.encryptPassword("password"));
-        when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
-        userController.updateData(user,"token");
-        verify(userRepository).findByToken(eq("token"),any(Date.class));
-        verify(userRepository).save(user);
-    }
-
-    @Test
     public void should_deleteUser()
     {
         when(userRepository.findByToken(eq("token"),any(Date.class))).thenReturn(1L);
