@@ -25,7 +25,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Contact WHERE iduser = :iduser OR idcontact = :iduser")
+    @Query("DELETE FROM Contact WHERE iduser.iduser = :iduser OR idcontact.iduser = :iduser")
     void removeUser(@Param("iduser") Long iduser);
 
     @Modifying
