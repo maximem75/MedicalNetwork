@@ -85,12 +85,26 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public void updateData(@RequestBody User user, @RequestParam String token) {
+    public void updateData(@RequestBody User newUser, @RequestParam String token) {
         Long iduser = userRepository.findByToken(token, new Date());
         if (iduser != null) {
-            user.setIduser(iduser);
-            user.setPassword(UserUtils.encryptPassword(user.getPassword()));
-            userRepository.save(user);
+            User oldUser = userRepository.findOne(iduser);
+            if (newUser.getBirthday() != null) {
+                oldUser.setBirthday(newUser.getBirthday());
+            }
+            if (newUser.getEmail() != null) {
+                oldUser.setEmail(newUser.getEmail());
+            }
+            if (newUser.getCategory() != null) {
+                oldUser.setCategory(newUser.getCategory());
+            }
+            if (newUser.getPassword() != null && !newUser.getPassword().equals(oldUser.getPassword())) {
+                oldUser.setPassword(UserUtils.encryptPassword(newUser.getPassword()));
+            }
+            if (newUser.getPhone() != null) {
+                oldUser.setPhone(newUser.getPhone());
+            }
+            userRepository.save(oldUser);
         }
     }
 
