@@ -16,6 +16,4 @@ public interface CategoryRepository extends JpaRepository <Category, Long>{
 
     @Query("FROM Category WHERE name_category LIKE %:research%")
     List<Category> getCategoriesByResearch(@Param("research") String research);
-
-    //public Category findCategoryById(@Param("idcategory") Category idcategory);
 }

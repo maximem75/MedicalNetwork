@@ -84,11 +84,4 @@ public class WebControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("profil"));
     }
-
-    @Test
-    public void testSayHelloWorld() throws Exception {
-        this.mockMvc.perform(get("/userList"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("userList"));
-    }
 }

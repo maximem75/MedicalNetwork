@@ -1,4 +1,4 @@
-package com.esgi.repositories;
+package com.esgi.repositories.datasets;
 
 import org.springframework.test.context.jdbc.Sql;
 
